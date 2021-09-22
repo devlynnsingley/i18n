@@ -1,4 +1,4 @@
-# Hiérarchie du Code Source
+# Structure du répertoire du Code Source
 
 Le code source d'Electron est séparé en plusieurs parties, principalement suivant les conventions de séparation de Chromium.
 
@@ -79,7 +79,6 @@ Electron
 * **.circleci** - Fichier de configuration pour CI avec CircleCI.
 * **.github** - Les fichiers de configuration spécifiques à GitHub, y compris les modèles de problèmes et CODEOWNERS.
 * **dist** - Dossier temporaire créé par `script/create-dist.py` lors de la création d'une distribution.
-* **external_binaries** - Des binaires téléchargés de frameworks tiers qui ne supportent pas la construction avec `gn`.
 * **node_modules** - Modules de Node tiers utilisés pour les builds.
 * **npm** - Logique pour l'installation d'Electron via npm.
 * **out** - Dossier de sortie temporaire de `ninja`.
@@ -94,7 +93,4 @@ script/ - L'ensemble de tous les scripts que Electron exécute pour une variét�
     <unk> ─ ─ uploaders/ - Envoie divers fichiers liés à la version pendant la sortie.
 ```
 
-* **tools** - Helper scripts used by GN files.
-  * Les scripts mis ici ne devraient jamais être invoqués par les utilisateurs directement, contrairement à ceux de `script`.
 * **typings** - Types TypeScript pour le code interne d'Electron.
-* **vendor** - Source code for some third party dependencies.

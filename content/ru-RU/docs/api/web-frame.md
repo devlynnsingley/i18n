@@ -52,17 +52,19 @@ The factor must be greater than 0.0.
 > **NOTE**: Visual zoom is disabled by default in Electron. To re-enable it, call:
 > 
 > ```js
-webFrame.setVisualZoomLevelLimits(1, 3)
-```
+> webFrame.setVisualZoomLevelLimits(1, 3)
+> ```
+
+> **NOTE**: Visual zoom only applies to pinch-to-zoom behavior. Cmd+/-/0 zoom shortcuts are controlled by the 'zoomIn', 'zoomOut', and 'resetZoom' MenuItem roles in the application Menu. To disable shortcuts, manually [define the Menu](./menu.md#examples) and omit zoom roles from the definition.
 
 ### `webFrame.setSpellCheckProvider(language, provider)`
 
 * `language` String
-* `provider` Object
+* Объект `provider`
   * `spellCheck` Function
-    * `words` String[]
+    * Строка `words`[]
     * `callback` Function
-      * `misspeltWords` String[]
+      * Строка `misspeltWords`[]
 
 Задает поставщика для проверки орфографии в полях ввода и текстовых областях.
 
@@ -146,7 +148,7 @@ Note that when the execution of script fails, the returned promise will not reje
 ### `webFrame.setIsolatedWorldInfo(worldId, info)`
 
 * `worldId` Integer - The ID of the world to run the javascript in, `0` is the default world, `999` is the world used by Electrons `contextIsolation` feature. Chrome extensions reserve the range of IDs in `[1 << 20, 1 << 29)`. You can provide any integer here.
-* `info` Object
+* Объект `info`
   * `securityOrigin` String (optional) - Security origin for the isolated world.
   * `csp` String (optional) - Content Security Policy for the isolated world.
   * `name` String (optional) - Name for isolated world. Useful in devtools.
@@ -225,27 +227,27 @@ Returns `String[]` - A list of suggested words for a given word. If the word is 
 
 ## Свойства
 
-### `webFrame.top` _Readonly_
+### `webFrame.top` _Только чтение_
 
 A `WebFrame | null` representing top frame in frame hierarchy to which `webFrame` belongs, the property would be `null` if top frame is not in the current renderer process.
 
-### `webFrame.opener` _Readonly_
+### `webFrame.opener` _Только чтение_
 
 A `WebFrame | null` representing the frame which opened `webFrame`, the property would be `null` if there's no opener or opener is not in the current renderer process.
 
-### `webFrame.parent` _Readonly_
+### `webFrame.parent` _Только чтение_
 
 A `WebFrame | null` representing parent frame of `webFrame`, the property would be `null` if `webFrame` is top or parent is not in the current renderer process.
 
-### `webFrame.firstChild` _Readonly_
+### `webFrame.firstChild` _Только чтение_
 
 A `WebFrame | null` representing the first child frame of `webFrame`, the property would be `null` if `webFrame` has no children or if first child is not in the current renderer process.
 
-### `webFrame.nextSibling` _Readonly_
+### `webFrame.nextSibling` _Только чтение_
 
 A `WebFrame | null` representing next sibling frame, the property would be `null` if `webFrame` is the last frame in its parent or if the next sibling is not in the current renderer process.
 
-### `webFrame.routingId` _Readonly_
+### `webFrame.routingId` _Только чтение_
 
 An `Integer` representing the unique frame id in the current renderer process. Distinct WebFrame instances that refer to the same underlying frame will have the same `routingId`.
 

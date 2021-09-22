@@ -1,3 +1,5 @@
+# TouchBar
+
 ## クラス: TouchBar
 
 > ネイティブ macOS アプリ向けに、TouchBar レイアウトを作成します
@@ -12,9 +14,9 @@
 
 指定したアイテムの新しい Touch Bar を作成します。 `BrowserWindow.setTouchBar` でウインドウに `TouchBar` を追加することができます。
 
-**注釈:** TouchBar API は現在実験的な機能で、将来の Electron リリースでは変更されたり削除されたりする可能性があります。
+**Note:** TouchBar API は現在実験的な機能です。そのため、将来的には変更されたり削除されたりする可能性があります。
 
-**Tip:** Touch Bar 付きの MacBook をお持ちでない場合は、Touch Bar を使用するアプリの検証に [Touch Bar Simulator](https://github.com/sindresorhus/touch-bar-simulator) をご利用になれます。
+**ヒント:** Touch Bar 付きの MacBook をお持ちでない場合は、Touch Bar を使用するアプリの検証に [Touch Bar シミュレータ](https://github.com/sindresorhus/touch-bar-simulator) をぜひご利用ください。
 
 ### 静的プロパティ
 
@@ -140,8 +142,8 @@ const finishSpin = () => {
     result.label = '😍 やったね!'
     result.textColor = '#FDFF00'
   } else {
-    // No values are the same
-    result.label = '🙁 Spin Again'
+    // 同じ値がない場合
+    result.label = '🙁 もう一度'
     result.textColor = null
   }
   spinning = false

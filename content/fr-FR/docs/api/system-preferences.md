@@ -17,20 +17,20 @@ L'objet `systemPreferences` émet les événements suivants :
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `newColor` String - La nouvelle couleur RGBA que l'utilisateur à assigné à son système.
 
 ### Événement : 'color-changed' _Windows_
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 
 ### Événement : 'inverted-color-scheme-changed' _Windows_ _Deprecated_
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `invertedColorScheme` Boolean - `true` si un schéma de couleur inversé (un schéma de couleur à contraste élevé avec le texte clair et les fonds sombres) est utilisé, `faux` sinon.
 
 **Déprécié :** Doit utiliser le nouvel événement [`mis à jour`](native-theme.md#event-updated) sur le module `nativeTheme`.
@@ -39,14 +39,14 @@ Retourne :
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `highContrastColorScheme` Boolean - `true` si un thème à contraste élevé est utilisé, `false` sinon.
 
 **Déprécié :** Doit utiliser le nouvel événement [`mis à jour`](native-theme.md#event-updated) sur le module `nativeTheme`.
 
 ## Méthodes
 
-### `systemPreferences.isDarkMode()` _macOS_ _Windows_ _obsolète_
+### `systemPreferences.isDarkMode()` _macOS_ _Windows_ _Déprécié_
 
 Retourne `Boolean` - Si le système est en mode sombre.
 
@@ -109,7 +109,7 @@ Sous le capot, cette API s'abonne à `NSDistributedNotificationCenter`, Les vale
 
 Retourne `Nombre` - L'ID de cet abonnement
 
-Same as `subscribeNotification`, but uses `NSNotificationCenter` for local defaults. This is necessary for events such as `NSUserDefaultsDidChangeNotification`.
+Same as `subscribeNotification`, but uses `NSNotificationCenter` for local defaults. Ceci est nécessaire pour des événements tels que `NSUserDefaultsDidChangeNotification`.
 
 ### `systemPreferences.subscribeWorkspaceNotification(event, callback)` _macOS_
 
@@ -118,6 +118,8 @@ Same as `subscribeNotification`, but uses `NSNotificationCenter` for local defau
   * `event` String
   * Enregistrement `userInfo`<String, unknown>
   * Chaîne `objet`
+
+Retourne `Nombre` - L'ID de cet abonnement
 
 Identique à `subscribeNotification`, mais utilise `NSWorkspace.sharedWorkspace.notificationCenter`. Ceci est nécessaire pour des événements tels que `NSWorkspaceDidActivateApplicationNotification`.
 
@@ -145,12 +147,12 @@ Identique à `unsubscribeNotification`, mais supprime l'abonné de `NSWorkspace.
 
 Ajoute les valeurs par défaut à `NSUserDefaults`de votre application.
 
-### `systemPreferences.getUserDefault(key, type)` _macOS_
+### `systemPreferences.getUserDefault<Type extends keyof UserDefaultTypes>(key, type)` _macOS_
 
 * `key` String
-* `type` String - Peut être `chaîne`, `booléen`, `integer`, `float`, `double`, `url`, `array` ou `dictionnaire`.
+* `type` Type - Can be `string`, `boolean`, `integer`, `float`, `double`, `url`, `array` or `dictionary`.
 
-Retourne `any` - La valeur de `clé` dans `NSUserDefaults`.
+Returns [`UserDefaultTypes[Type]`](structures/user-default-types.md) - The value of `key` in `NSUserDefaults`.
 
 Certaines `clé` populaires et `type`s sont:
 
@@ -259,7 +261,7 @@ Cette API n'est disponible que sur macOS 10.14 Mojave ou plus récent.
     * `window-frame` - Cadre de fenêtres.
     * `window-text` - Texte dans windows.
   * On **macOS**
-    * `alternate-selected-control-text` - Le texte sur une surface sélectionnée dans une liste ou un tableau. _deprecated_
+    * `alternate-selected-control-text` - Le texte sur une surface sélectionnée dans une liste ou un tableau. _déprécié_
     * `control-background` - L'arrière-plan d'un élément de grande interface, tel qu'un navigateur ou un tableau.
     * `control` - La surface d'un contrôle.
     * `control-text` -Le texte d'un contrôle qui n'est pas désactivé.
@@ -278,7 +280,7 @@ Cette API n'est disponible que sur macOS 10.14 Mojave ou plus récent.
     * `selected-content-background` - L'arrière-plan du contenu sélectionné dans une fenêtre ou une vue clé.
     * `selected-control` - La surface d'une commande sélectionnée.
     * `selected-control-text` - Le texte d'une commande sélectionnée.
-    * `selected-menu-item-text` - The text of a selected menu.
+    * `selected-menu-item-text` - Le texte d'un menu sélectionné.
     * `selected-text-background` - L'arrière-plan du texte sélectionné.
     * `texte sélectionné` - Texte sélectionné.
     * `Séparateur` - Un séparateur entre différentes sections de contenu.
@@ -307,24 +309,24 @@ The following colors are only available on macOS 10.14: `find-highlight`, `selec
   * `orange`
   * `rose`
   * `violet`
-  * `red`
-  * `yellow`
+  * `rouge`
+  * `jaune`
 
 Returns `String` - The standard system color formatted as `#RRGGBBAA`.
 
 Returns one of several standard system colors that automatically adapt to vibrancy and changes in accessibility settings like 'Increase contrast' and 'Reduce transparency'. See [Apple Documentation](https://developer.apple.com/design/human-interface-guidelines/macos/visual-design/color#system-colors) for  more details.
 
-### `systemPreferences.isInvertedColorScheme()` _Windows_ _Deprecated_
+### `systemPreferences.isInvertedColorScheme()` _Windows_ _Déprécié_
 
 Returns `Boolean` - `true` if an inverted color scheme (a high contrast color scheme with light text and dark backgrounds) is active, `false` otherwise.
 
-**Deprecated:** Should use the new [`nativeTheme.shouldUseInvertedColorScheme`](native-theme.md#nativethemeshoulduseinvertedcolorscheme-macos-windows-readonly) API.
+**Déprécié :** Doit utiliser le nouveau [`nativeTheme.shouldUseInvertedColorScheme`](native-theme.md#nativethemeshoulduseinvertedcolorscheme-macos-windows-readonly) API.
 
-### `systemPreferences.isHighContrastColorScheme()` _macOS_ _Windows_ _Deprecated_
+### `systemPreferences.isHighContrastColorScheme()` _macOS_ _Windows_ _Déprécié_
 
 Returns `Boolean` - `true` if a high contrast theme is active, `false` otherwise.
 
-**Deprecated:** Should use the new [`nativeTheme.shouldUseHighContrastColors`](native-theme.md#nativethemeshouldusehighcontrastcolors-macos-windows-readonly) API.
+**Déprécié :** Doit utiliser le nouveau [`nativeTheme.shouldUseHighContrastColors`](native-theme.md#nativethemeshouldusehighcontrastcolors-macos-windows-readonly) API.
 
 ### `systemPreferences.getEffectiveAppearance()` _macOS_
 
@@ -332,13 +334,13 @@ Returns `String` - Can be `dark`, `light` or `unknown`.
 
 Gets the macOS appearance setting that is currently applied to your application, maps to [NSApplication.effectiveAppearance](https://developer.apple.com/documentation/appkit/nsapplication/2967171-effectiveappearance?language=objc)
 
-### `systemPreferences.getAppLevelAppearance()` _macOS_ _Deprecated_
+### `systemPreferences.getAppLevelAppearance()` _macOS_ _Déprécié_
 
 Returns `String` | `null` - Can be `dark`, `light` or `unknown`.
 
 Gets the macOS appearance setting that you have declared you want for your application, maps to [NSApplication.appearance](https://developer.apple.com/documentation/appkit/nsapplication/2967170-appearance?language=objc). You can use the `setAppLevelAppearance` API to set this value.
 
-### `systemPreferences.setAppLevelAppearance(appearance)` _macOS_ _Deprecated_
+### `systemPreferences.setAppLevelAppearance(appearance)` _macOS_ _Déprécié_
 
 * `appearance` String | null - Can be `dark` or `light`
 
@@ -378,7 +380,7 @@ Returns `Boolean` - `true` if the current process is a trusted accessibility cli
 
 ### `systemPreferences.getMediaAccessStatus(mediaType)` _Windows_ _macOS_
 
-* `mediaType` String - Can be `microphone`, `camera` or `screen`.
+* `mediaType` String -Peut être `microphone`, `camera` ou `screen`.
 
 Returns `String` - Can be `not-determined`, `granted`, `denied`, `restricted` or `unknown`.
 
@@ -392,7 +394,7 @@ Windows 10 has a global setting controlling `microphone` and `camera` access for
 
 Returns `Promise<Boolean>` - A promise that resolves with `true` if consent was granted and `false` if it was denied. If an invalid `mediaType` is passed, the promise will be rejected. If an access request was denied and later is changed through the System Preferences pane, a restart of the app will be required for the new permissions to take effect. If access has already been requested and denied, it _must_ be changed through the preference pane; an alert will not pop up and the promise will resolve with the existing access status.
 
-**Important:** In order to properly leverage this API, you [must set](https://developer.apple.com/documentation/avfoundation/cameras_and_media_capture/requesting_authorization_for_media_capture_on_macos?language=objc) the `NSMicrophoneUsageDescription` and `NSCameraUsageDescription` strings in your app's `Info.plist` file. Les valeurs de ces clés seront utilisées pour remplir les boîtes de dialogue des permissions afin que l'utilisateur soit correctement informé du but de la demande de permission. Voir [Electron Application Distribution](https://electronjs.org/docs/tutorial/application-distribution#macos) pour plus d'informations sur la façon de les définir dans le contexte d'Electron.
+**Important:** In order to properly leverage this API, you [must set](https://developer.apple.com/documentation/avfoundation/cameras_and_media_capture/requesting_authorization_for_media_capture_on_macos?language=objc) the `NSMicrophoneUsageDescription` and `NSCameraUsageDescription` strings in your app's `Info.plist` file. Les valeurs de ces clés seront utilisées pour remplir les boîtes de dialogue des permissions afin que l'utilisateur soit correctement informé du but de la demande de permission. Voir [Electron Application Distribution](../tutorial/application-distribution.md#macos) pour plus d'informations sur la façon de les définir dans le contexte d'Electron.
 
 Ce consentement de l'utilisateur n'était pas requis avant macOS 10. 4 Mojave, donc cette méthode retournera toujours `true` si votre système fonctionne 10.13 Haute Sierra ou moins.
 

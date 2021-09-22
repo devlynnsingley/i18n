@@ -2,7 +2,7 @@
 
 > Create a segmented control (a button group) where one button has a selected state
 
-Процесс: [Основной](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### `new TouchBarSegmentedControl(options)`
 
@@ -28,7 +28,7 @@
 
 ### Свойства экземпляра
 
-The following properties are available on instances of `TouchBarSegmentedControl`:
+Для экземпляров `TouchBarSegmentedControl` доступны следующие свойства:
 
 #### `touchBarSegmentedControl.segmentStyle`
 

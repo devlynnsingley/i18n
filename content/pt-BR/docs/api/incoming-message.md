@@ -2,7 +2,7 @@
 
 > Handle responses to HTTP/HTTPS requests.
 
-Processo: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 `IncomingMessage` implements the [Readable Stream](https://nodejs.org/api/stream.html#stream_readable_streams) interface and is therefore an [EventEmitter][event-emitter].
 
@@ -32,7 +32,7 @@ Retorna:
 
 Emitido quando ocorreu um erro ao transmitir eventos de dados de resposta. For instance, if the server closes the underlying while the response is still streaming, an `error` event will be emitted on the response object and a `close` event will subsequently follow on the request object.
 
-### Propriedades de Instância
+### Propriedades da Instância
 
 An `IncomingMessage` instance has the following readable properties:
 

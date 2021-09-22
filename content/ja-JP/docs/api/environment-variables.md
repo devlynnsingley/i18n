@@ -91,7 +91,7 @@ Linuxのグローバルメニューバーを使用しません。
 
 Linux でゴミの実装を設定します。 既定値は `gio` です。
 
-Options:
+オプション:
 
 * `gvfs-trash`
 * `trash-cli`
@@ -104,7 +104,32 @@ Options:
 
 ### `ELECTRON_ENABLE_LOGGING`
 
-コンソールにChromeの内部ログを出力します。
+コンソールに Chromium の内部ログを出力します。
+
+この変数への設定は、コマンドラインで `--enable-logging` を渡すのと同じです。 詳しくは、[コマンドラインスイッチ](./command-line-switches.md#enable-loggingfile) の `--enable-logging` をご覧ください。
+
+### `ELECTRON_LOG_FILE`
+
+Chromium の内部ログの保存先ファイルを設定します。
+
+この変数への設定は、コマンドラインで `--log-file` を渡すのと同じです。 詳細は、 [コマンドラインスイッチ](./command-line-switches.md#log-filepath) の `--log-file` をご参照ください。
+
+### `ELECTRON_DEBUG_DRAG_REGIONS`
+
+macOS での [`BrowserView`](./browser-view.md) のドラッグ可能な領域に色を付けます。ドラッグ可能な領域は緑、ドラッグ不可能な領域は赤で表示され、デバッグを支援します。
+
+### `ELECTRON_DEBUG_NOTIFICATIONS`
+
+macOS での [`Notification`](./notification.md) ライフサイクルにさらなるログを追加し、デバッグを支援します。 新しい通知の作成や有効化のタイミングで、そのさらなるログが表示されます。 これは、通知が表示されたり、解除されたり、そのボタンがクリックされたり、返信されたりといった一般的なアクションが実行されたときにも表示されます。
+
+以下は出力例です。
+
+```sh
+Notification created (com.github.Electron:notification:EAF7B87C-A113-43D7-8E76-F88EC9D73D44)
+Notification displayed (com.github.Electron:notification:EAF7B87C-A113-43D7-8E76-F88EC9D73D44)
+Notification activated (com.github.Electron:notification:EAF7B87C-A113-43D7-8E76-F88EC9D73D44)
+Notification replied to (com.github.Electron:notification:EAF7B87C-A113-43D7-8E76-F88EC9D73D44)
+```
 
 ### `ELECTRON_LOG_ASAR_READS`
 

@@ -2,19 +2,19 @@
 
 ## 概要
 
-### ネイティブインターフェースの自動更新
+### Automatically update the native interfaces
 
-"ネイティブインターフェース" は、ファイルピッカー、ウィンドウの境界線、ダイアログ、コンテキストメニューなどの、アプリではなく OS 由来の UI のことです。 デフォルトでは OS からこの自動テーマ設定をオプトインする動作です。
+"Native interfaces" include the file picker, window border, dialogs, context menus, and more - anything where the UI comes from your operating system and not from your app. The default behavior is to opt into this automatic theming from the OS.
 
-### 自作インターフェイスの自動更新
+### Automatically update your own interfaces
 
-アプリに独自のダークモードがある場合は、システムのダークモード設定と同期してオンとオフを切り替える必要があります。 これは、[prefer-color-scheme][] CSS メディアクエリを使用するとできます。
+If your app has its own dark mode, you should toggle it on and off in sync with the system's dark mode setting. これは、[prefer-color-scheme] CSS メディアクエリを使用することで可能です。
 
-### 自作インターフェイスの手動更新
+### Manually update your own interfaces
 
-ライト/ダークモードを手動で切り替えたい場合は、`nativeTheme` モジュールの [themeSource](../api/native-theme.md#nativethemethemesource) プロパティで希望するモードを設定するとできます。 このプロパティの値はレンダラープロセスに伝播します。 `prefers-color-scheme` に関連する CSS ルールは、それに応じて更新されます。
+If you want to manually switch between light/dark modes, you can do this by setting the desired mode in the [themeSource](../api/native-theme.md#nativethemethemesource) property of the `nativeTheme` module. This property's value will be propagated to your Renderer process. Any CSS rules related to `prefers-color-scheme` will be updated accordingly.
 
-## macOS での設定
+## macOS settings
 
 macOS 10.14 Mojave にて、Apple は新しい [システム全体のダークモード][system-wide-dark-mode] を全ての macOS コンピュータに導入しました。 あなたの Electron アプリにダークモードがある場合、[`nativeTheme` API](../api/native-theme.md) を使用してシステム全体のダークモード設定に従うようにできます。
 
@@ -24,13 +24,17 @@ Electron &gt; 8.0.0 を使用中でオプトアウトしたい場合は、`Info.
 
 ## サンプル
 
-[クイックスタートガイド](quick-start.md) 内の作業用アプリケーションから始め、徐々に機能を追加してくことにします。
+ここでは、`nativeTheme` から派生したテーマカラーになる Electron アプリケーションの例を示します。 加えて、IPC チャンネルを利用したテーマの切り替えとリセットの制御もできます。
 
-まず、ユーザーがライトモードとダークモードを切り替えられるようにインターフェイスを編集してみましょう。  この基本的な UI には、`nativeTheme.themeSource` の設定を変更するボタンと、選択している `themeSource` の値を示すテキスト要素を含めます。 デフォルトでは Electron はシステムのダークモード設定に従うので、テーマソースを "System"とハードコーディングします。
+```javascript fiddle='docs/fiddles/features/macos-dark-mode'
 
-`index.html` ファイルに以下のコードを追加します。
+```
 
-```html
+### これはどのように動作しているのでしょうか？
+
+`index.html` ファイルから見ていきましょう。
+
+```html title='index.html'
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,45 +56,61 @@ Electron &gt; 8.0.0 を使用中でオプトアウトしたい場合は、`Info.
 </html>
 ```
 
-次に、[イベントリスナー](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener) を追加して切り替えボタンの `click` イベントをリッスンします。 `nativeTheme` モジュールはメインプロセスでのみ公開されているため、IPC を使用してメインプロセスにメッセージを送信したりメインプロセスからの応答をハンドリングしたりするために、各リスナーのコールバックを設定する必要があります。
+そして `styles.css` ファイルです。
 
-* "Toggle Dark Mode" ボタンをクリックすると、`dark-mode:toggle` メッセージ (イベント) を送信してメインプロセスにテーマ変更のトリガーを伝え、メインプロセスからのレスポンスに基づいて UI 内の "Current Theme Source" ラベルを更新します。
-* "Reset to System Theme" ボタンがクリックされると、メインプロセスにシステムの配色を使用するように指示するために `dark-mode:system` メッセージ (イベント) を送信し、"Current Theme Source" ラベルを`System` に更新します。
+```css title='styles.css'
+@media (prefers-color-scheme: dark) {
+  body { background: #333; color: white; }
+}
 
-リスナーとハンドラーを追加するため、`renderer.js` ファイルに以下のコードを追加します。
+@media (prefers-color-scheme: light) {
+  body { background: #ddd; color: black; }
+}
+```
 
-```javascript
-const { ipcRenderer } = require('electron')
+この例では、一対の要素を持つ HTML ページを描画しています。 `<strong id="theme-source">` 要素は現在選択されているテーマを示すもので、2 つの `<button>` 要素は制御用です。 CSS ファイルでは、[`prefers-color-scheme`][prefers-color-scheme] のメディアクエリを使用して `<body>` 要素の背景色とテキスト色を設定しています。
 
+`preload.js` スクリプトで、`window` オブジェクトに `darkMode` という新しい API を追加します。 この API は、`'dark-mode:toggle'` と `'dark-mode:system'` の 2 つの IPC チャンネルをレンダラープロセスへ公開します。 また、レンダラープロセスからのメッセージをメインプロセスに渡すため、`toggle` と `system` の 2 つのメソッドも代入しています。
+
+```js title='preload.js'
+const { contextBridge, ipcRenderer } = require('electron')
+
+contextBridge.exposeInMainWorld('darkMode', {
+  toggle: () => ipcRenderer.invoke('dark-mode:toggle'),
+  system: () => ipcRenderer.invoke('dark-mode:system')
+})
+```
+
+これで、レンダラープロセスはメインプロセスと安全に通信し、`nativeTheme` オブジェクトに必要な変更操作ができます。
+
+`renderer.js` ファイルは、`<button>` の機能を制御する役割を担います。
+
+```js title='renderer.js'
 document.getElementById('toggle-dark-mode').addEventListener('click', async () => {
-  const isDarkMode = await ipcRenderer.invoke('dark-mode:toggle')
+  const isDarkMode = await window.darkMode.toggle()
   document.getElementById('theme-source').innerHTML = isDarkMode ? 'Dark' : 'Light'
 })
 
 document.getElementById('reset-to-system').addEventListener('click', async () => {
-  await ipcRenderer.invoke('dark-mode:system')
+  await window.darkMode.system()
   document.getElementById('theme-source').innerHTML = 'System'
 })
 ```
 
-この時点でコードを実行しても、ボタンがまだ何もしないことがわかるでしょう。さらに、ボタンをクリックするとメインプロセスはこのようなエラーを出力します。`Error occurred in handler for 'dark-mode:toggle': No handler registered for 'dark-mode:toggle'` これは想定内です。実際にはまだ `nativeTheme` のコードに触れていません。
+`addEventListener` を使って、`renderer.js` ファイルで `'click'` [イベントリスナー][event-listeners] を各ボタン要素に追加します。 各イベントリスナーハンドラーには、それぞれの `window.darkMode` API メソッドの呼び出しをさせます。
 
-これでレンダラー側からの IPC への接続は完了したので、次はレンダラープロセスからのイベントを処理するように `main.js` ファイルを更新します。
+最後に、`main.js` ファイルでメインプロセスを記述し、実際の `nativeTheme` の API を入れます。
 
-受信したイベントに応じて [`nativeTheme.themeSource`](../api/native-theme.md#nativethemethemesource) プロパティを更新して、システムのネイティブ UI 要素 (コンテキストメニューなど) に希望のテーマを適用し、設定のカラースキームをレンダラープロセスに伝播します。
-
-* `dark-mode:toggle` を受信したときに、`nativeTheme.shouldUseDarkColors` プロパティを使って、現在ダークテーマが有効かどうかを確認し `themeSource` を逆のテーマに設定します。
-* `dark-mode:system` を受信したときに、`themeSource` を `system` にリセットします。
-
-```javascript
+```js
 const { app, BrowserWindow, ipcMain, nativeTheme } = require('electron')
+const path = require('path')
 
 function createWindow () {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: true
+      preload: path.join(__dirname, 'preload.js')
     }
   })
 
@@ -110,42 +130,36 @@ function createWindow () {
   })
 }
 
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+  createWindow()
+
+  app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow()
+    }
+  })
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
-
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow()
-  }
-})
 ```
 
-最後のステップとして、[`prefers-color-scheme`][prefer-color-scheme] CSS 属性を利用して、UI のウェブ部分でダークモードが有効になるようにスタイルを少し追加します。 `prefers-color-scheme` の値は `nativeTheme.themeSource` の設定に従います。
+`ipcMain.handle` メソッドは、HTML ページ上のボタンからのクリックイベントに対して、メインプロセスが応答する手段となります。
 
-`styles.css` ファイルを作成して以下の行を追加します。
+`'dark-mode:toggle'` IPC チャンネルハンドラーのメソッドは、`shouldUseDarkColors` 真偽値型プロパティを確認して対応する `themeSource` を設定し、現在の `shouldUseDarkColors` プロパティを返します。 この IPC チャンネルに対応するレンダラープロセスのイベントリスナーへと戻って見てみると、このハンドラーの戻り値を利用して `<strong id='theme-source'>` 要素に正しいテキストを代入しています。
 
-```css fiddle='docs/fiddles/features/macos-dark-mode'
-@media (prefers-color-scheme: dark) {
-  body { background:  #333; color: white; }
-}
+`'dark-mode:system'` IPC チャンネルハンドラーのメソッドは、文字列`'system'` を `themeSource` に割り当てるだけで何も返しません。 これは対応するレンダラープロセスのイベントリスナーにも言えることで、このメソッドは戻り値が期待できない状態で待機しています。
 
-@media (prefers-color-scheme: light) {
-  body { background:  #ddd; color: black; }
-}
-```
-
-これで、Electron アプリケーションを起動した後に、対応するボタンをクリックしてモードを変更したり、テーマをシステムデフォルトにリセットしたりできます。
+Electron Fiddle を使ってサンプルを実行してみましょう。"Toggle Dark Mode" ボタンをクリックすると、アプリの背景色が明るくなったり暗くなったりするでしょう。
 
 ![ダークモード](../images/dark_mode.gif)
 
 [system-wide-dark-mode]: https://developer.apple.com/design/human-interface-guidelines/macos/visual-design/dark-mode/
 [electron-forge]: https://www.electronforge.io/
 [electron-packager]: https://github.com/electron/electron-packager
-[packager-darwindarkmode-api]: https://electron.github.io/electron-packager/master/interfaces/electronpackager.options.html#darwindarkmodesupport
-[prefer-color-scheme]: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
-[prefer-color-scheme]: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
+[packager-darwindarkmode-api]: https://electron.github.io/electron-packager/main/interfaces/electronpackager.options.html#darwindarkmodesupport
+[prefers-color-scheme]: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
+[event-listeners]: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener

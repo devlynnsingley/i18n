@@ -2,7 +2,7 @@
 
 > Manipula la ventana secundaria del navegador
 
-Proceso: [Renderer](../glossary.md#renderer-process)
+Process: [Renderer](../glossary.md#renderer-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 El objeto `BrowserWindowProxy` es devuelto de `window.open` y proporciona una funcionalidad limitada con la ventana secundaria.
 
@@ -20,7 +20,7 @@ Cierra a la fuerza la ventana secundaria sin llamar a su evento de descarga.
 
 #### `win.eval(code)`
 
-* `codigo` String
+* `code` String
 
 Evalúa el código en la ventana secundaria.
 
@@ -41,7 +41,7 @@ Envía un mensaje a la ventana secundaria con el origen específicado o `*` sin 
 
 Además de estos métodos, la ventana secundaria implementa el objeto `window.opener` sin ninguna propiedad y un método único.
 
-### Propiedades de Instancia
+### Propiedades de la instancia
 
 El objeto `BrowserWindowProxy` tiene las siguientes propiedades de instancia:
 

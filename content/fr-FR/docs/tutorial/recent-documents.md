@@ -12,58 +12,81 @@ __Menu application du dock :__
 
 ![Dock de macOS][2]
 
-To add a file to recent documents, you need to use the [app.addRecentDocument][addrecentdocument] API.
+## Example
 
-## Exemple
-
-### Ajouter un élément aux documents récents
-
-Commencer avec une application fonctionnelle du [Guide de démarrage rapide](quick-start.md), ajoutez les lignes suivantes au fichier `main.js`:
+### Gestiçon des documents récents
 
 ```javascript fiddle='docs/fiddles/features/recent-documents'
-const { app } = require('electron')
+const { app, BrowserWindow } = require('electron')
+const fs = require('fs')
+const path = require('path')
 
-app.addRecentDocument('/Users/USERNAME/Desktop/work.type')
+function createWindow () {
+  const win = new BrowserWindow({
+    width: 800,
+    height: 600
+  })
+
+  win.loadFile('index.html')
+}
+
+const fileName = 'recently-used.md'
+fs.writeFile(fileName, 'Lorem Ipsum', () => {
+  app.addRecentDocument(path.join(__dirname, fileName))
+})
+
+app.whenReady().then(createWindow)
+
+app.on('window-all-closed', () => {
+  app.clearRecentDocuments()
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
+
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow()
+  }
+})
 ```
 
-Après avoir lancé l'application Electron, faites un clic droit sur l'icône de l'application. Vous devriez voir l'article que vous venez d'ajouter. Dans ce guide, l'élément est un fichier Markdown situé à la racine du projet :
+#### Ajout d'un document récent
+
+Utilisez l'API [app.addRecentDocument][addrecentdocument] pour ajouter un fichier aux documents récents .
+
+After launching the Electron application, right click the application icon. Dans ce guide, l'élément est un fichier Markdown situé à la racine du projet. Vous devriez voir `recently-used.md` ajouté à la liste des fichiers récents :
 
 ![Document récent](../images/recent-documents.png)
 
-### Effacer la liste des documents récents
+#### Effacement de la liste des documents récents
 
-To clear the list of recent documents, you need to use [app.clearRecentDocuments][clearrecentdocuments] API in the `main.js` file:
+Pour effacer la liste des documents récents, utilisez l'API [app.clearRecentDocuments][clearrecentdocuments]. Dans ce guide, la liste des documents est effacée lorsque toutes les fenêtres ont été fermées.
 
-```javascript
-const { app } = require('electron')
-
-app.clearRecentDocuments()
-```
-
-## Informations complémentaires
+## Additional information
 
 ### Remarques Windows
 
-Pour utiliser cette fonctionnalité sur Windows, votre application doit être enregistrée en tant que gestionnaire du type de fichier du document, sinon le fichier n'apparaîtra pas dans JumpList même après l'avoir ajouté. Vous trouverez tout l'enregistrement de votre application dans [Enregistrement de l'application][app-registration].
+Pour utiliser cette fonctionnalité sur Windows, votre application doit être enregistrée en tant que gestionnaire/responsable du type de fichier du document, sinon le fichier n’apparaîtra pas dans la JumpList même après l'avoir ajouté. Vous trouverez tout l'enregistrement de votre application dans [Enregistrement de l'application][app-registration].
 
 Lorsqu’un utilisateur clique sur un fichier à partir de la JumpList, cela démarre une nouvelle instance de votre application avec le chemin d’accès du fichier ajouté comme un argument de ligne de commande.
 
 ### Remarques macOS
 
-#### Ajouter la liste Documents récents au menu de l'application
+#### Ajouter la liste des Documents récents au menu de l'application
 
-Vous pouvez ajouter des éléments de menu pour accéder et effacer les documents récents en ajoutant le snippet suivant à votre modèle de menu:
+Vous pouvez ajouter des éléments de menu pour accéder et supprimer les documents récents en ajoutant le code suivant à votre template de menu :
 
 ```json
 {
-  "sous-menu":[
+  "submenu":[
     {
       "label":"Ouvrir récent",
-      "rôle":"documents récents",
-      "sous-menu":[
+      "role":"recentdocuments",
+      "submenu":[
         {
-          "label":"Effacer les récents",
-          "rôle":"clearrecentdocuments"
+          "label":"Effacer récent",
+          "role":"clearrecentdocuments"
         }
       ]
     }
@@ -71,7 +94,22 @@ Vous pouvez ajouter des éléments de menu pour accéder et effacer les document
 }
 ```
 
-![Élément de menu Documents récents macOS][6]
+Assurez-vous que le menu de l'application soit ajouté après l'événement [`'ready'`](../api/app.md#event-ready) et pas avant, ou l'élément de menu sera désactivé :
+
+```javascript
+const { app, Menu } = require('electron')
+
+const template = [
+  // Modèle de Menu 
+]
+const menu = Menu.buildFromTemplate(template)
+
+app.whenReady().then(() => {
+  Menu.setApplicationMenu(menu)
+})
+```
+
+![élément de menu Documents récents macOS][6]
 
 Lorsqu’un fichier est demandé dans le menu documents récents, l’événement `open-file` du module `app` sera émit.
 

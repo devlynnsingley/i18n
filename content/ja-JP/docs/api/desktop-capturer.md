@@ -2,7 +2,7 @@
 
 > [`navigator.mediaDevices.getUserMedia`][] APIを使用して、デスクトップからの音声と映像のキャプチャに利用できるメディアソース関連の情報にアクセスします。
 
-プロセス: [Main](../glossary.md#main-process), [Renderer](../glossary.md#renderer-process)
+プロセス: [メイン](../glossary.md#main-process), [レンダラー](../glossary.md#renderer-process)
 
 以下の例では、タイトルが `Electron` であるデスクトップウインドウからビデオをキャプチャする方法を示します。
 

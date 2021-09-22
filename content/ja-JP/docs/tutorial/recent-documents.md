@@ -12,47 +12,70 @@ __アプリケーションの Dock メニュー:__
 
 ![macOS の Dock メニュー][2]
 
-最近の使った書類にファイルを追加するには、[app.addRecentDocument][addrecentdocument] API を使用する必要があります。
-
 ## サンプル
 
-### 最近使ったドキュメントに項目を追加
-
-[クイックスタートガイド](quick-start.md)の作業アプリケーションから始めて、次の行を `main.js` ファイルに追加します。
+### 最近開いた書類の管理
 
 ```javascript fiddle='docs/fiddles/features/recent-documents'
-const { app } = require('electron')
+const { app, BrowserWindow } = require('electron')
+const fs = require('fs')
+const path = require('path')
 
-app.addRecentDocument('/Users/USERNAME/Desktop/work.type')
+function createWindow () {
+  const win = new BrowserWindow({
+    width: 800,
+    height: 600
+  })
+
+  win.loadFile('index.html')
+}
+
+const fileName = 'recently-used.md'
+fs.writeFile(fileName, 'Lorem Ipsum', () => {
+  app.addRecentDocument(path.join(__dirname, fileName))
+})
+
+app.whenReady().then(createWindow)
+
+app.on('window-all-closed', () => {
+  app.clearRecentDocuments()
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
+
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow()
+  }
+})
 ```
 
-Electron アプリケーションを起動した後、アプリケーションアイコンを右クリックします。 追加したばかりのアイテムが表示されます。 このガイドでは、項目はプロジェクトのルートにある Markdown ファイルです:
+#### 最近開いた書類の追加
+
+最近開いた書類にファイルを追加するには、[app.addRecentDocument][addrecentdocument] API を使用します。
+
+Electron アプリケーションの起動後、アプリケーションのアイコンを右クリックしてみましょう。 このガイドでは、そのアイテムはプロジェクトのルートにある Markdown ファイルとなっています。 最近開いたファイルのリストに `recently-used.md` が追加されているはずです。
 
 ![最近使った書類](../images/recent-documents.png)
 
-### 最近使ったドキュメントのリストをクリアする
+#### 最近開いた書類の消去
 
-最近使った書類のリストをクリアするには、以下のように [app.clearRecentDocuments][clearrecentdocuments] API を `main.js` ファイル内で使う必要があります。
+最近開いた書類のリストを消去するには、[app.clearRecentDocuments][clearrecentdocuments] API を使用します。 このガイドでは、すべてのウインドウを閉じた時点でその書類のリストは消去されます。
 
-```javascript
-const { app } = require('electron')
-
-app.clearRecentDocuments()
-```
-
-## 追加情報
+## さらなる情報
 
 ### Windows での注意
 
-Windows でこの機能を使用する際にアプリケーションが書類のファイルタイプのハンドラとして登録されていない場合、ファイルを追加してもジャンプリストに表示されません。 アプリケーションの登録に関するすべてのことは、[アプリケーションの登録][app-registration] にあります。
+Windows でこの機能を使用する際にアプリケーションが書類のファイルタイプのハンドラとして登録されていない場合、ファイルを追加してもジャンプリストに表示されません。 アプリケーションの登録については、[Application Registration][app-registration] にすべて記載されています。
 
 ユーザーがジャンプリストからファイルをクリックすると、アプリケーションの新しいインスタンスが、ファイルのパスがコマンドライン引数として追加されて起動されます。
 
 ### macOS での注意
 
-#### アプリメニューに「最近使用したドキュメント」リストを追加
+#### アプリケーションメニューに最近開いた書類を追加する
 
-メニューテンプレートに 以下のコードスニペットを追加することで、メニューアイテムにアクセスし、最近のドキュメントを消去することができます。
+以下のコードスニペットをメニューテンプレートに追加することで、最近開いた書類にアクセスしたり消去したりするメニュー項目を追加できます。
 
 ```json
 {
@@ -71,7 +94,22 @@ Windows でこの機能を使用する際にアプリケーションが書類の
 }
 ```
 
-![macOS 最近使ったドキュメントメニュー項目][6]
+以下のようにアプリケーションメニューを [`'ready'`](../api/app.md#event-ready) イベントより後に追加し、それより前では追加しないようにしてください。さもなくばメニューアイテムは無効になります。
+
+```javascript
+const { app, Menu } = require('electron')
+
+const template = [
+  // メニューテンプレートをこちらに
+]
+const menu = Menu.buildFromTemplate(template)
+
+app.whenReady().then(() => {
+  Menu.setApplicationMenu(menu)
+})
+```
+
+![macOS 最近使った書類のメニューアイテム][6]
 
 最近使った書類メニューからファイルが要求されると、それに対して `app` モジュールの `open-file` イベントが発生します。
 

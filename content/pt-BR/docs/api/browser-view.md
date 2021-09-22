@@ -1,12 +1,18 @@
-## Class: BrowserView
-
-> Cria e controla views.
-
-Processo: [Main](../glossary.md#main-process)
+# BrowserView
 
 Uma `BrowserView` pode ser usado para transformar um conteúdo web em
 
 BrowserWindow`. Ela é como uma janela filha, exceto que ela está posicionada em relação à janela a que pertence. Isso quer dizer que ela pretende ser uma alternativa à tag <code>webview`.</p> 
+
+
+
+## Class: BrowserView
+
+
+
+> Cria e controla views.
+
+Processo: [Main](../glossary.md#main-process)
 
 
 
@@ -31,12 +37,12 @@ view.webContents.loadURL('https://electronjs.org')
 
 ### `new BrowserView([options])` _Experimental_
 
-* `options` Object (optional) 
+* Objeto `options` (opcional) 
     * `webPreferences` Objeto (opcional) - Veja [BrowserWindow](browser-window.md).
 
 
 
-### Propriedades de Instância
+### Propriedades da Instância
 
 Objectos criados com `new BrowserView` posuem as seguintes propriedades:
 
@@ -66,7 +72,7 @@ Objectos criados com `new BrowserView` possuem os seguintes métodos de instânc
 
 #### `view.setBounds(bounds)` _Experimental_
 
-* `bounds` [Rectangle](structures/rectangle.md)
+* `bounds` [Retângulo](structures/rectangle.md)
 
 Resizes and moves the view to the supplied bounds relative to the window.
 
@@ -74,7 +80,7 @@ Resizes and moves the view to the supplied bounds relative to the window.
 
 #### `view.getBounds()` _Experimental_
 
-Returns [`Rectangle`](structures/rectangle.md)
+Retorna [`Rectangle`](structures/rectangle.md)
 
 The `bounds` of this BrowserView instance as `Object`.
 

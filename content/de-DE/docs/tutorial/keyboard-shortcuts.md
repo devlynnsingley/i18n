@@ -6,7 +6,7 @@ This feature allows you to configure local and global keyboard shortcuts for you
 
 ## Beispiel
 
-### Lokale Verknüpfungen
+### Local Shortcuts
 
 Local keyboard shortcuts are triggered only when the application is focused. To configure a local keyboard shortcut, you need to specify an [`accelerator`][] property when creating a [MenuItem][] within the [Menu][] module.
 
@@ -36,7 +36,7 @@ After launching the Electron application, you should see the application menu al
 
 If you click `Help` or press the defined accelerator and then open the terminal that you ran your Electron application from, you will see the message that was generated after triggering the `click` event: "Electron rocks!".
 
-### Globale Verknüpfungen
+### Global Shortcuts
 
 To configure a global keyboard shortcut, you need to use the [globalShortcut][] module to detect keyboard events even when the application does not have keyboard focus.
 
@@ -56,23 +56,27 @@ app.whenReady().then(() => {
 
 After launching the Electron application, if you press the defined key combination then open the terminal that you ran your Electron application from, you will see that Electron loves global shortcuts!
 
-### Verknüpfungen innerhalb eines Browserfensters
+### Shortcuts within a BrowserWindow
 
 #### Using web APIs
 
 If you want to handle keyboard shortcuts within a [BrowserWindow][], you can listen for the `keyup` and `keydown` [DOM events][dom-events] inside the renderer process using the [addEventListener() API][addEventListener-api].
 
-```js
-window.addEventListener('keyup', doSomething, true)
+```javascript fiddle='docs/fiddles/features/keyboard-shortcuts/web-apis|focus=renderer.js'
+function handleKeyPress(event) {
+  // You can put code here to handle the keypress.
+  document.getElementById("last-keypress").innerText = event.key;
+  console.log(`You pressed ${event.key}`);
+}
+
+window.addEventListener('keyup', handleKeyPress, true);
 ```
 
-Note the third parameter `true` indicates that the listener will always receive key presses before other listeners so they can't have `stopPropagation()` called on them.
+> Note:  the third parameter `true` indicates that the listener will always receive key presses before other listeners so they can't have `stopPropagation()` called on them.
 
 #### Intercepting events in the main process
 
-Das [`vor dem Input-Event`](../api/web-contents.md#event-before-input-event) Ereignis wird vor dem Versenden von `Tastendruck` und `Tastendruck` Ereignisse auf der Seite abgesendet. Es kann verwendet werden, um benutzerdefinierte Verknüpfungen zu fangen und zu verwalten, die im Menü nicht sichtbar sind.
-
-##### Beispiel
+The [`before-input-event`](../api/web-contents.md#event-before-input-event) event is emitted before dispatching `keydown` and `keyup` events in the page. It can be used to catch and handle custom shortcuts that are not visible in the menu.
 
 Starting with a working application from the [Quick Start Guide](quick-start.md), update the `main.js` file with the following lines:
 
@@ -80,7 +84,7 @@ Starting with a working application from the [Quick Start Guide](quick-start.md)
 const { app, BrowserWindow } = require('electron')
 
 app.whenReady().then(() => {
-  const win = new BrowserWindow({ width: 800, height: 600, webPreferences: { nodeIntegration: true } })
+  const win = new BrowserWindow({ width: 800, height: 600 })
 
   win.loadFile('index.html')
   win.webContents.on('before-input-event', (event, input) => {
@@ -119,7 +123,7 @@ Mousetrap.bind('g i', () => { console.log('go to inbox') })
 Mousetrap.bind('* a', () => { console.log('select all') })
 
 // konami code!
-Mousetrap.bind('oben links unten rechts rechts ein enter', () => {
+Mousetrap.bind('up up down down left right left right b a enter', () => {
   console.log('konami code')
 })
 ```

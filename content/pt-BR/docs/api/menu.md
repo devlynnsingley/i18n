@@ -1,3 +1,5 @@
+# Menu
+
 ## Class: Menu
 
 > Cria menus de aplicativo e menus de contexto nativos.
@@ -10,7 +12,7 @@ Cria um novo menu.
 
 ### Métodos estáticos
 
-The `Menu` class has the following static methods:
+A classe `Menu` tem os seguintes métodos estáticos:
 
 #### `Menu.setApplicationMenu(menu)`
 
@@ -18,7 +20,9 @@ The `Menu` class has the following static methods:
 
 Sets `menu` as the application menu on macOS. On Windows and Linux, the `menu` will be set as each window's top menu.
 
-Also on Windows and Linux, you can use a `&` in the top-level item name to indicate which letter should get a generated accelerator. For example, using `&File` for the file menu would result in a generated `Alt-F` accelerator that opens the associated menu. The indicated character in the button label gets an underline. The `&` character is not displayed on the button label.
+Also on Windows and Linux, you can use a `&` in the top-level item name to indicate which letter should get a generated accelerator. For example, using `&File` for the file menu would result in a generated `Alt-F` accelerator that opens the associated menu. The indicated character in the button label then gets an underline, and the `&` character is not displayed on the button label.
+
+In order to escape the `&` character in an item name, add a proceeding `&`. For example, `&&File` would result in `&File` displayed on the button label.
 
 Passing `null` will suppress the default menu. On Windows and Linux, this has the additional effect of removing the menu bar from the window.
 
@@ -30,7 +34,7 @@ Retorna `Menu | null` - O menu do aplicativo, se definido, ou `null`, se não fo
 
 **Nota:** A instancia `Menu` retornada não suporta adição dinâmica ou remoção de itens de menu. [Instance properties](#instance-properties) ainda podem ser modificadas dinamicamente.
 
-#### `Menu.sendActionToFirstResponder(action)` _macOS_
+#### `Menu.sendActionToFirstResponder(action)` no _macOS_
 
 * `action` String
 
@@ -42,7 +46,7 @@ See the [macOS Cocoa Event Handling Guide](https://developer.apple.com/library/m
 
 * `template` (MenuItemConstructorOptions | MenuItem)[]
 
-Returns `Menu`
+Retorna `Menu`
 
 Generally, the `template` is an array of `options` for constructing a [MenuItem](menu-item.md). The usage can be referenced above.
 
@@ -54,7 +58,7 @@ O objeto `menu` possui os seguintes métodos de instância:
 
 #### `menu.popup([options])`
 
-* `options` Object (optional)
+* Objeto `options` (opcional)
   * `window` [BrowserWindow](browser-window.md) (optional) - Default is the focused window.
   * `x` Number (optional) - Default is the current mouse cursor position. Must be declared if `y` is declared.
   * `y` Number (optional) - Default is the current mouse cursor position. Must be declared if `x` is declared.
@@ -110,7 +114,7 @@ Retorna:
 
 Emitted when a popup is closed either manually or with `menu.closePopup()`.
 
-### Propriedades de Instância
+### Propriedades da Instância
 
 Objetos `menu` também possuem as seguintes propriedades:
 
@@ -139,7 +143,7 @@ const template = [
       { role: 'services' },
       { type: 'separator' },
       { role: 'hide' },
-      { role: 'hideothers' },
+      { role: 'hideOthers' },
       { role: 'unhide' },
       { type: 'separator' },
       { role: 'quit' }
@@ -363,4 +367,4 @@ Menu:
 ```
 
 [AboutInformationPropertyListFiles]: https://developer.apple.com/library/ios/documentation/general/Reference/InfoPlistKeyReference/Articles/AboutInformationPropertyListFiles.html
-[setMenu]: https://github.com/electron/electron/blob/master/docs/api/browser-window.md#winsetmenumenu-linux-windows
+[setMenu]: browser-window.md#winsetmenumenu-linux-windows

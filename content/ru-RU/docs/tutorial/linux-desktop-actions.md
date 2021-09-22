@@ -1,10 +1,10 @@
-# Пользовательские действия рабочего стола Linux
+# Desktop Launcher Actions (Linux)
 
 ## Обзор
 
 On many Linux environments, you can add custom entries to the system launcher by modifying the `.desktop` file. For Canonical's Unity documentation, see [Adding Shortcuts to a Launcher][unity-launcher]. For details on a more generic implementation, see the [freedesktop.org Specification][spec].
 
-![чудовищный][3]
+![audacious][3]
 
 > NOTE: The screenshot above is an example of launcher shortcuts in Audacious audio player
 

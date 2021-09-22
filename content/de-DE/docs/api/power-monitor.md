@@ -2,17 +2,17 @@
 
 > Monitor power state changes.
 
-Prozess: [Main](../glossary.md#main-process)
+Prozess: [Haupt](../glossary.md#main-process)
 
 ## Ereignisse
 
-The `powerMonitor` module emits the following events:
+Das `powerMonitor` Modul sendet folgende Ereignisse aus:
 
-### Event: 'suspend' _macOS_ _Windows_
+### Event: 'suspend'
 
 Emitted when the system is suspending.
 
-### Event: 'resume' _macOS_ _Windows_
+### Event: 'resume'
 
 Emitted when system is resuming.
 
@@ -46,7 +46,7 @@ Emitted when a login session is deactivated. See [documentation](https://develop
 
 ## Methoden
 
-The `powerMonitor` module has the following methods:
+Das Modul `powerMonitor` verfügt über die folgenden Methoden:
 
 ### `powerMonitor.getSystemIdleState(idleThreshold)`
 

@@ -24,7 +24,7 @@ npm install -g electron-windows-store
 
 ## Paso 1: Empaqueta tu aplicación Electron
 
-Empaque la aplicación usando [electron-packager][electron-packager] (o una herramienta similar). Asegúrese de eliminar los `node_modules` que no necesita en su aplicación final, ya que cualquier módulo que realmente no necesite, aumentará el tamaño de su aplicación.
+Empaquetar la aplicación usando [electron-packager][electron-packager] (o una herramienta similar). Asegúrese de eliminar los `node_modules` que no necesita en su aplicación final, ya que cualquier módulo que realmente no necesite, aumentará el tamaño de su aplicación.
 
 La salida debería verse más o menos de esta forma:
 
@@ -39,9 +39,9 @@ La salida debería verse más o menos de esta forma:
 ├── libEGL.dll
 ├── libGLESv2.dll
 ├── locales
-│   ├── am.pak
-│   ├── ar.pak
-│   ├── [...]
+│   ├── am.pak
+│   ├── ar.pak
+│   ├── [...]
 ├── node.dll
 ├── resources
 │   └── app.asar

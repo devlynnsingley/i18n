@@ -1,40 +1,43 @@
 # MessageChannelMain
 
-`MessageChannelMain` is the main-process-side equivalent of the DOM [`MessageChannel`][] object. Its singular function is to create a pair of connected [`MessagePortMain`](message-port-main.md) objects.
+`MessageChannelMain` is the main-process-side equivalent of the DOM [`MessageChannel`][] object. Su función singular es crear un par de objetos [`MessagePortMain`](message-port-main.md) conectados.
 
-See the [Channel Messaging API][] documentation for more information on using channel messaging.
+Ve la documentacion de [Channel Messaging API][] para mas información sobre el uso de channel messaging.
 
 ## Clase: MessageChannelMain
 
-Proceso: [Main](../glossary.md#main-process)
+> Interfaz para la mensajería de canales del proceso principal.
+
+Proceso: [principal](../glossary.md#main-process)</0>
 
 Ejemplo:
 
 ```js
-// Main process
+// Proceso principal
+const { MessageChannelMain } = require('electron')
 const { port1, port2 } = new MessageChannelMain()
 w.webContents.postMessage('port', null, [port2])
 port1.postMessage({ some: 'message' })
 
-// Renderer process
+// Proceso de renderizado
 const { ipcRenderer } = require('electron')
 ipcRenderer.on('port', (e) => {
-  // e.ports is a list of ports sent along with this message
+  // e.ports es una lista de puertos enviados junto con este mensaje
   e.ports[0].on('message', (messageEvent) => {
     console.log(messageEvent.data)
   })
 })
 ```
 
-### Propiedades de Instancia
+### Propiedades de la instancia
 
 #### `channel.port1`
 
-A [`MessagePortMain`](message-port-main.md) property.
+Una propiedad [`MessagePortMain`](message-port-main.md).
 
 #### `channel.port2`
 
-A [`MessagePortMain`](message-port-main.md) property.
+Una propiedad [`MessagePortMain`](message-port-main.md).
 
 [`MessageChannel`]: https://developer.mozilla.org/en-US/docs/Web/API/MessageChannel
 [Channel Messaging API]: https://developer.mozilla.org/en-US/docs/Web/API/Channel_Messaging_API

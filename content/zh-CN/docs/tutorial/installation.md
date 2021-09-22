@@ -1,4 +1,4 @@
-# 安装
+# Advanced Installation Instructions
 
 要安装预编译的 Electron 二进制文件，请使用 [`npm`][npm]。 首选方法是在你的应用程序中安装 Electron 作为开发依赖：
 
@@ -8,13 +8,15 @@ npm install electron --save-dev
 
 查看[versioning doc][versioning]获取如何在你的应用中管理Electron的相关信息。
 
-## 全局安装
+## 运行 Electron ad-hoc
 
-您还可以在 `$PATH ` 中全局安装 ` electron ` 命令:
+如果你不想在本地工程上使用 `npm install` 同时又没用其它选择时，你也可以使用 `npm` 捆绑的 [`npx`][npx] 命令来运行 Electron ad-hoc：
 
 ```sh
-npm install electron -g
+npx electron .
 ```
+
+上面的命令会在当前工作目录下运行Electron。 需要注意的是，你的应用中的任何依赖将不会被安装。
 
 ## 自定义
 
@@ -45,7 +47,7 @@ npm install --platform=win32 electron
 
 #### 镜像
 
-您可以使用环境变量来覆盖基本 URL，查找 Electron 二进制文件的路径以及二进制文件名。 `@electron/get` 使用的URL组成如下：
+您可以使用环境变量来覆盖基本 URL，查找 Electron 二进制文件的路径以及二进制文件名。 `electron/get` 使用的网址组成如下：
 
 ```javascript
 url = ELECTRON_MIRROR + ELECTRON_CUSTOM_DIR + '/' + ELECTRON_CUSTOM_FILENAME
@@ -66,6 +68,8 @@ ELECTRON_CUSTOM_DIR="{{ version }}"
 
 上述配置将从URL下载，例如`https://npm.taobao.org/mirrors/electron-v8.0.0-linux-x64.zip`
 
+If your mirror serves artifacts with different checksums to the official Electron release you may have to set `ELECTRON_USE_REMOTE_CHECKSUMS=1` to force Electron to use the remote `SHASUMS256.txt` file to verify the checksum instead of the embedded checksums.
+
 #### 缓存
 
 或者，您可以覆盖本地缓存。 `electron-download` 会将下载的二进制文件缓存在本地目录中，不会增加网络负担。 您可以使用该缓存文件夹来提供 Electron 的定制版本，或者避免进行网络连接。
@@ -78,7 +82,7 @@ ELECTRON_CUSTOM_DIR="{{ version }}"
 
 您也可以通过提供一个 `electron_config_cache` 环境变量来覆盖本地缓存位置。
 
-缓存包含版本的官方zip文件以及校验和，存储为 个文本文件。 典型的缓存看起来像这样：
+缓存中包含了以文本文件形式存储的带有校验和的版本官方zip文件。 典型的缓存可能看起来像这样：
 
 ```sh
 ├── httpsgithub.comelectronelectronreleasesdownloadv1.7.9electron-v1.7.9-darwin-x64.zip
@@ -105,13 +109,11 @@ ELECTRON_CUSTOM_DIR="{{ version }}"
 
 ## 跳过二进制包下载
 
-当您在安装 `electron` NPM 包时, 它会自动下载 electron 的二进制包。
+Under the hood, Electron's JavaScript API binds to a binary that contains its implementations. Because this binary is crucial to the function of any Electron app, it is downloaded by default in the `postinstall` step every time you install `electron` from the npm registry.
 
-当在CI环境中 测试另一个组件的时候，这可能是不必要的。
+However, if you want to install your project's dependencies but don't need to use Electron functionality, you can set the `ELECTRON_SKIP_BINARY_DOWNLOAD` environment variable to prevent the binary from being downloaded. For instance, this feature can be useful in continuous integration environments when running unit tests that mock out the `electron` module.
 
-为了防止在安装所有 npm 依赖关系时下载二进制文件，您可以设置环境变量 `ELECTRON_SKIP_BINARY_DOWNLOAD`。 如：
-
-```sh
+```sh npm2yarn
 ELECRON_SKIP_BINARY_DOWNOAD=1 npm install
 ```
 
@@ -121,7 +123,7 @@ ELECRON_SKIP_BINARY_DOWNOAD=1 npm install
 
 在大多数情况下，这些错误都是由网络问题导致，而不是因为 `electron` npm 包的问题。 如 `ELIFECYCLE`、`EAI_AGAIN`、`ECONNRESET` 和 `ETIMEDOUT` 等错误都是此类网络问题的标志。 最佳的解决方法是尝试切换网络，或是稍后再尝试安装。
 
-如果通过`npm`安装失败，您也可以尝试通过从[electron/electron/release][releases]直接下载Electron。
+You can also attempt to download Electron directly from [electron/electron/releases][releases] if installing via `npm` is failing.
 
 如果安装失败并报错`EACCESS`，您可能需要[修复npm权限][npm-permissions]。
 
@@ -141,6 +143,7 @@ npm install --verbose electron
 
 [npm]: https://docs.npmjs.com
 [versioning]: ./electron-versioning.md
+[npx]: https://docs.npmjs.com/cli/v7/commands/npx
 [releases]: https://github.com/electron/electron/releases
 [proxy-env-10]: https://github.com/gajus/global-agent/blob/v2.1.5/README.md#environment-variables
 [proxy-env]: https://github.com/np-maintain/global-tunnel/blob/v2.7.1/README.md#auto-config

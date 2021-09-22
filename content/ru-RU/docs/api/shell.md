@@ -38,23 +38,12 @@ Open the given file in the desktop's default manner.
 
 * `url` String - Max 2081 characters on windows.
 * `options` Object (опционально)
-  * `activate` Boolean (optional) _macOS_ - `true` to bring the opened application to the foreground. The default is `true`.
+  * `activate` Boolean (optional) _macOS_ - `true` to bring the opened application to the foreground. По-умолчанию - `true`.
   * `workingDirectory` String (optional) _Windows_ - The working directory.
 
 Возвращает `Promise<void>`
 
 Open the given external protocol URL in the desktop's default manner. (For example, mailto: URLs in the user's default mail agent).
-
-### `shell.moveItemToTrash(fullPath[, deleteOnFail])` _Deprecated_
-
-* `fullPath` String
-* `deleteOnFail` Boolean (optional) - Whether or not to unilaterally remove the item if the Trash is disabled or unsupported on the volume. _macOS_
-
-Returns `Boolean` - Whether the item was successfully moved to the trash or otherwise deleted.
-
-> NOTE: This method is deprecated. Use `shell.trashItem` instead.
-
-Move the given file to trash and returns a boolean status for the operation.
 
 ### `shell.trashItem(path)`
 
@@ -85,7 +74,7 @@ Creates or updates a shortcut link at `shortcutPath`.
 
 * `shortcutPath` String
 
-Returns [`ShortcutDetails`](structures/shortcut-details.md)
+Возвращает [`ShortcutDetails`](structures/shortcut-details.md)
 
 Resolves the shortcut link at `shortcutPath`.
 

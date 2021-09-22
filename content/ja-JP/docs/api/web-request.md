@@ -2,7 +2,7 @@
 
 > ライフタイムのさまざまな段階でリクエストのコンテンツを傍受し、変更します。
 
-プロセス: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 `WebRequest` クラスのインスタンスには、`Session` の `webRequest` プロパティを使用してアクセスします。
 
@@ -36,8 +36,7 @@ session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback
 
 #### `webRequest.onBeforeRequest([filter, ]listener)`
 
-* `filter` Object (任意)
-  * `urls` String[] - URL パターンと一致しないリクエストを除去するために使用される URL パターンの配列。
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
   * `details` Object
     * `id` Integer
@@ -46,7 +45,7 @@ session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback
     * `webContentsId` Integer (任意)
     * `webContents` WebContents (任意)
     * `frame` WebFrameMain (任意)
-    * `resourceType` String
+    * `resourceType` String - `mainFrame`、`subFrame`、`stylesheet`、`script`、`image`、`font`、`object`、`xhr`、`ping`、`cspReport`、`media`、`webSocket`、`other` のいずれかにできます。
     * `referrer` String
     * `timestamp` Double
     * `uploadData` [UploadData[]](structures/upload-data.md)
@@ -78,8 +77,7 @@ session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback
 
 #### `webRequest.onBeforeSendHeaders([filter, ]listener)`
 
-* `filter` Object (任意)
-  * `urls` String[] - URL パターンと一致しないリクエストを除去するために使用される URL パターンの配列。
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
   * `details` Object
     * `id` Integer
@@ -88,7 +86,7 @@ session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback
     * `webContentsId` Integer (任意)
     * `webContents` WebContents (任意)
     * `frame` WebFrameMain (任意)
-    * `resourceType` String
+    * `resourceType` String - `mainFrame`、`subFrame`、`stylesheet`、`script`、`image`、`font`、`object`、`xhr`、`ping`、`cspReport`、`media`、`webSocket`、`other` のいずれかにできます。
     * `referrer` String
     * `timestamp` Double
     * `requestHeaders` Record<string, string>
@@ -103,8 +101,7 @@ session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback
 
 #### `webRequest.onSendHeaders([filter, ]listener)`
 
-* `filter` Object (任意)
-  * `urls` String[] - URL パターンと一致しないリクエストを除去するために使用される URL パターンの配列。
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
   * `details` Object
     * `id` Integer
@@ -113,7 +110,7 @@ session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback
     * `webContentsId` Integer (任意)
     * `webContents` WebContents (任意)
     * `frame` WebFrameMain (任意)
-    * `resourceType` String
+    * `resourceType` String - `mainFrame`、`subFrame`、`stylesheet`、`script`、`image`、`font`、`object`、`xhr`、`ping`、`cspReport`、`media`、`webSocket`、`other` のいずれかにできます。
     * `referrer` String
     * `timestamp` Double
     * `requestHeaders` Record<string, string>
@@ -122,8 +119,7 @@ session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback
 
 #### `webRequest.onHeadersReceived([filter, ]listener)`
 
-* `filter` Object (任意)
-  * `urls` String[] - URL パターンと一致しないリクエストを除去するために使用される URL パターンの配列。
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
   * `details` Object
     * `id` Integer
@@ -132,12 +128,11 @@ session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback
     * `webContentsId` Integer (任意)
     * `webContents` WebContents (任意)
     * `frame` WebFrameMain (任意)
-    * `resourceType` String
+    * `resourceType` String - `mainFrame`、`subFrame`、`stylesheet`、`script`、`image`、`font`、`object`、`xhr`、`ping`、`cspReport`、`media`、`webSocket`、`other` のいずれかにできます。
     * `referrer` String
     * `timestamp` Double
     * `statusLine` String
     * `statusCode` Integer
-    * `requestHeaders` Record<string, string>
     * `responseHeaders` Record<string, string[]> (任意)
   * `callback` Function
     * `headersReceivedResponse` Object
@@ -151,8 +146,7 @@ session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback
 
 #### `webRequest.onResponseStarted([filter, ]listener)`
 
-* `filter` Object (任意)
-  * `urls` String[] - URL パターンと一致しないリクエストを除去するために使用される URL パターンの配列。
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
   * `details` Object
     * `id` Integer
@@ -161,7 +155,7 @@ session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback
     * `webContentsId` Integer (任意)
     * `webContents` WebContents (任意)
     * `frame` WebFrameMain (任意)
-    * `resourceType` String
+    * `resourceType` String - `mainFrame`、`subFrame`、`stylesheet`、`script`、`image`、`font`、`object`、`xhr`、`ping`、`cspReport`、`media`、`webSocket`、`other` のいずれかにできます。
     * `referrer` String
     * `timestamp` Double
     * `responseHeaders` Record<string, string[]> (任意)
@@ -173,8 +167,7 @@ session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback
 
 #### `webRequest.onBeforeRedirect([filter, ]listener)`
 
-* `filter` Object (任意)
-  * `urls` String[] - URL パターンと一致しないリクエストを除去するために使用される URL パターンの配列。
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
   * `details` Object
     * `id` Integer
@@ -183,7 +176,7 @@ session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback
     * `webContentsId` Integer (任意)
     * `webContents` WebContents (任意)
     * `frame` WebFrameMain (任意)
-    * `resourceType` String
+    * `resourceType` String - `mainFrame`、`subFrame`、`stylesheet`、`script`、`image`、`font`、`object`、`xhr`、`ping`、`cspReport`、`media`、`webSocket`、`other` のいずれかにできます。
     * `referrer` String
     * `timestamp` Double
     * `redirectURL` String
@@ -197,8 +190,7 @@ session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback
 
 #### `webRequest.onCompleted([filter, ]listener)`
 
-* `filter` Object (任意)
-  * `urls` String[] - URL パターンと一致しないリクエストを除去するために使用される URL パターンの配列。
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
   * `details` Object
     * `id` Integer
@@ -207,7 +199,7 @@ session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback
     * `webContentsId` Integer (任意)
     * `webContents` WebContents (任意)
     * `frame` WebFrameMain (任意)
-    * `resourceType` String
+    * `resourceType` String - `mainFrame`、`subFrame`、`stylesheet`、`script`、`image`、`font`、`object`、`xhr`、`ping`、`cspReport`、`media`、`webSocket`、`other` のいずれかにできます。
     * `referrer` String
     * `timestamp` Double
     * `responseHeaders` Record<string, string[]> (任意)
@@ -220,8 +212,7 @@ session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback
 
 #### `webRequest.onErrorOccurred([filter, ]listener)`
 
-* `filter` Object (任意)
-  * `urls` String[] - URL パターンと一致しないリクエストを除去するために使用される URL パターンの配列。
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
   * `details` Object
     * `id` Integer
@@ -230,7 +221,7 @@ session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback
     * `webContentsId` Integer (任意)
     * `webContents` WebContents (任意)
     * `frame` WebFrameMain (任意)
-    * `resourceType` String
+    * `resourceType` String - `mainFrame`、`subFrame`、`stylesheet`、`script`、`image`、`font`、`object`、`xhr`、`ping`、`cspReport`、`media`、`webSocket`、`other` のいずれかにできます。
     * `referrer` String
     * `timestamp` Double
     * `fromCache` Boolean

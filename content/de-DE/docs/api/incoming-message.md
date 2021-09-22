@@ -2,15 +2,15 @@
 
 > Behandelt Antworten zu HTTP/HTTPS Anfragen.
 
-Prozess: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 `IncomingMessage` implementiert das [Readable Stream](https://nodejs.org/api/stream.html#stream_readable_streams) interface und ist somit ein [EventEmitter][event-emitter].
 
-### Instanz Events
+### Instanz-Ereignisse
 
 #### Event: 'data'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `chunk` Buffer - Ein Stück der Antwortdaten.
 
@@ -26,7 +26,7 @@ Ausgegeben wenn eine Anfrage während einer laufenden HTTP Transaktion abgebroch
 
 #### Event: 'error'
 
-Rückgabewert:
+Kehrt zurück:
 
 `error` Error - Typically holds an error string identifying failure root cause.
 

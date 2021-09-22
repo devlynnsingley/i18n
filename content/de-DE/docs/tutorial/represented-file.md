@@ -1,10 +1,10 @@
-# Repräsentierte Datei für macOS BrowserWindows
+# Representing Files in a BrowserWindow (macOS)
 
 ## Übersicht
 
 On macOS, you can set a represented file for any window in your application. The represented file's icon will be shown in the title bar, and when users `Command-Click` or `Control-Click`, a popup with a path to the file will be shown.
 
-![Repräsentierte Datei][1]
+![Represented File][1]
 
 > NOTE: The screenshot above is an example where this feature is used to indicate the currently opened file in the Atom text editor.
 
@@ -14,20 +14,38 @@ To set the represented file of window, you can use the [BrowserWindow.setReprese
 
 ## Beispiel
 
-Beginnend mit einer funktionierenden Anwendung aus dem [Quick Start Guide](quick-start.md), fügen Sie folgende Zeilen in die `main.js` Datei ein:
-
 ```javascript fiddle='docs/fiddles/features/represented-file'
 const { app, BrowserWindow } = require('electron')
+const os = require('os');
+
+function createWindow () {
+  const win = new BrowserWindow({
+    width: 800,
+    height: 600
+  })
+}
 
 app.whenReady().then(() => {
   const win = new BrowserWindow()
 
-  win.setRepresentedFilename('/etc/passwd')
+  win.setRepresentedFilename(os.homedir())
   win.setDocumentEdited(true)
+})
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
+
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow()
+  }
 })
 ```
 
-After launching the Electron application, click on the title with `Command` or `Control` key pressed. You should see a popup with the file you just defined:
+After launching the Electron application, click on the title with `Command` or `Control` key pressed. You should see a popup with the represented file at the top. In this guide, this is the current user's home directory:
 
 ![Represented file](../images/represented-file.png)
 

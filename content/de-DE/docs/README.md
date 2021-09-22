@@ -10,20 +10,14 @@ Es gibt sehr häufig gestellte Fragen. Prüfe das bitte vor dem Erstellen eines 
 
 ## Leitfäden und Tutorials
 
-### Schnellstart
+### Erste Schritte
 
-* [Schnellstart-Anleitung](tutorial/quick-start.md)
-  * [Vorrausetzungen](tutorial/quick-start.md#prerequisites)
-  * [Erstelle eine Basisanwendung](tutorial/quick-start.md#create-a-basic-application)
-  * [Anwendung ausführen](tutorial/quick-start.md#run-your-application)
-  * [Paket und verteilen Sie die Anwendung](tutorial/quick-start.md#package-and-distribute-the-application)
+* [Einführung](tutorial/introduction.md)
+* [Schnellstart](tutorial/quick-start.md)
+* [Prozessmodell](tutorial/process-model.md)
 
-### Grundlagen lernen
+### ไทย
 
-* [Electron's Process Model](tutorial/quick-start.md#application-architecture)
-  * [Main und Render Prozesse](tutorial/quick-start.md#main-and-renderer-processes)
-  * [Electron API](tutorial/quick-start.md#electron-api)
-  * [Node.js API](tutorial/quick-start.md#nodejs-api)
 * Features zu deiner App hinzufügen
   * [Benachrichtigungen](tutorial/notifications.md)
   * [Kürzliche Dokumente](tutorial/recent-documents.md)
@@ -33,8 +27,8 @@ Es gibt sehr häufig gestellte Fragen. Prüfe das bitte vor dem Erstellen eines 
   * [Benutzerdefinierte Linux Desktop Aktionen](tutorial/linux-desktop-actions.md)
   * [Tastenkürzel](tutorial/keyboard-shortcuts.md)
   * [Offline/Online erkennung](tutorial/online-offline-events.md)
-  * [Repräsentierte Datei für macOS BrowserWindows](tutorial/represented-file.md)
-  * [Native Datei Drag & Drop](tutorial/native-file-drag-drop.md)
+  * [Repräsentative Datei für macOS BrowserWindows](tutorial/represented-file.md)
+  * [Natives Datei Drag & Drop](tutorial/native-file-drag-drop.md)
   * [Offscreen Rendering](tutorial/offscreen-rendering.md)
   * [Dark Mode](tutorial/dark-mode.md)
   * [Einbindung von Webseiten in Electron](tutorial/web-embeds.md)
@@ -51,8 +45,9 @@ Es gibt sehr häufig gestellte Fragen. Prüfe das bitte vor dem Erstellen eines 
   * [Native Node.js Module benutzen](tutorial/using-native-node-modules.md)
   * [Performance Strategies](tutorial/performance.md)
   * [Security Strategies](tutorial/security.md)
+  * [Process Sandboxing](tutorial/sandbox.md)
 * [Barrierefreiheit](tutorial/accessibility.md)
-  * [Manuelle Aktivierung der Bedienungshilfen](tutorial/accessibility.md#manually-enabling-accessibility-features)
+  * [Manually Enabling Accessibility Features](tutorial/accessibility.md#manually-enabling-accessibility-features)
 * [Testen und Debuggen](tutorial/application-debugging.md)
   * [Debuggen des Hauptprozesses](tutorial/debugging-main-process.md)
   * [Debugging with Visual Studio Code](tutorial/debugging-vscode.md)
@@ -60,7 +55,8 @@ Es gibt sehr häufig gestellte Fragen. Prüfe das bitte vor dem Erstellen eines 
   * [Testen auf Headless CI-Systems (Travis, Jenkins)](tutorial/testing-on-headless-ci.md)
   * [DevTools Erweiterung](tutorial/devtools-extension.md)
   * [Automatisiertes Testen mit einem benutzerdefinierten Treiber](tutorial/automated-testing-with-a-custom-driver.md)
-* [Verteilung](tutorial/application-distribution.md)
+  * [REPL](tutorial/repl.md)
+* [Distribution](tutorial/application-distribution.md)
   * [Unterstützte Plattformen](tutorial/support.md#supported-platforms)
   * [Code Signierung](tutorial/code-signing.md)
   * [Mac App Store](tutorial/mac-app-store-submission-guide.md)
@@ -76,7 +72,7 @@ Es gibt sehr häufig gestellte Fragen. Prüfe das bitte vor dem Erstellen eines 
 
 Diese individuellen Tutorials bauen auf den Themen auf, die in dem Handbuch weiter oben diskutiert wurden.
 
-* [Electron installieren](tutorial/installation.md)
+* [Installiere Electron](tutorial/installation.md)
   * [Proxys](tutorial/installation.md#proxies)
   * [Benutzerdefinierte Mirrors und Caches](tutorial/installation.md#custom-mirrors-and-caches)
   * [Problemlösungen](tutorial/installation.md#troubleshooting)
@@ -110,14 +106,16 @@ Diese individuellen Tutorials bauen auf den Themen auf, die in dem Handbuch weit
 * [app](api/app.md)
 * [autoUpdater](api/auto-updater.md)
 * [BrowserView](api/browser-view.md)
-* [BrowserWindow](api/browser-window.md)
+* [Browserfenster](api/browser-window.md)
 * [contentTracing](api/content-tracing.md)
 * [dialog](api/dialog.md)
 * [globalShortcut](api/global-shortcut.md)
 * [inAppPurchase](api/in-app-purchase.md)
 * [ipcMain](api/ipc-main.md)
-* [Menu](api/menu.md)
+* [Menü](api/menu.md)
 * [MenuItem](api/menu-item.md)
+* [MessageChannelMain](api/message-channel-main.md)
+* [MessagePortMain](api/message-port-main.md)
 * [net](api/net.md)
 * [netLog](api/net-log.md)
 * [nativeTheme](api/native-theme.md)
@@ -127,6 +125,7 @@ Diese individuellen Tutorials bauen auf den Themen auf, die in dem Handbuch weit
 * [protocol](api/protocol.md)
 * [screen](api/screen.md)
 * [session](api/session.md)
+* [ShareMenu](api/share-menu.md)
 * [systemPreferences](api/system-preferences.md)
 * [TouchBar](api/touch-bar.md)
 * [Fach](api/tray.md)
@@ -135,17 +134,17 @@ Diese individuellen Tutorials bauen auf den Themen auf, die in dem Handbuch weit
 
 ### Module für den Renderer-Prozess (Webseite):
 
-* [contextBridge](api/context-bridge.md)
+* [kontextBridge](api/context-bridge.md)
 * [ipcRenderer](api/ipc-renderer.md)
 * [webFrame](api/web-frame.md)
 
 ### Module für beide Prozesse:
 
-* [Zwischenablage (clipboard)](api/clipboard.md)
+* [clipboard](api/clipboard.md)
 * [crashReporter](api/crash-reporter.md)
 * [desktopCapturer](api/desktop-capturer.md)
 * [nativeImage](api/native-image.md)
-* [Shell](api/shell.md)
+* [shell](api/shell.md)
 
 ## Entwicklung
 

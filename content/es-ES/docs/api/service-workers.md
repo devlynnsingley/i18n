@@ -2,9 +2,9 @@
 
 > Query and receive events from a sessions active service workers.
 
-Proceso: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
-Instances of the `ServiceWorkers` class are accessed by using `serviceWorkers` property of a `Session`.
+Las instancias de la clase `ServiceWorkers` son accedidas utilizado la propiedad `serviceWorkers` de una `Session`.
 
 Por ejemplo:
 
@@ -27,13 +27,13 @@ session.defaultSession.serviceWorkers.on('console-message', (event, messageDetai
 
 ### Eventos de Instancia
 
-The following events are available on instances of `ServiceWorkers`:
+Los siguientes eventos están disponibles en instancias de `ServiceWorkers`:
 
 #### Evento: 'console-message'
 
 Devuelve:
 
-* `event` Event
+* `event`
 * `messageDetails` Object - Information about the console message
   * `message` String - The actual console message
   * `versionId` Number - The version ID of the service worker that sent the log message
@@ -44,15 +44,25 @@ Devuelve:
 
 Emitted when a service worker logs something to the console.
 
+#### Evento: 'registration-completed'
+
+Devuelve:
+
+* `event`
+* `details` Object - Información sobre el service worker registrado
+  * `scope` String - La URL base para la que un service worker está registrada
+
+Emitido cuando un service worker ha sido registrado. Puede ocurrir después de una llama a [`navigator.serviceWorker.register('/sw.js')`](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/register) se resuelve con éxito o cuando una extensión de Chrome es cargada.
+
 ### Métodos de Instancia
 
-The following methods are available on instances of `ServiceWorkers`:
+Lo siguientes métodos están disponibles en instancias de `ServiceWorkers`:
 
 #### `serviceWorkers.getAllRunning()`
 
 Returns `Record<Number, ServiceWorkerInfo>` - A [ServiceWorkerInfo](structures/service-worker-info.md) object where the keys are the service worker version ID and the values are the information about that service worker.
 
-#### `serviceWorkers.getFromVersionID(versionId)`
+#### `serviceWorserviceWorkers.getFromVersionID(versionId)`
 
 * `versionId` Number
 

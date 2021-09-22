@@ -2,7 +2,7 @@
 
 > Se comunica de forma asincrónica desde el proceso principal a los procesos de renderizado.
 
-Proceso: [Main](../glossary.md#main-process)
+Proceso: [principal](../glossary.md#main-process)</0>
 
 El módulo `ipcMain` es un [Event Emitter][event-emitter]. Cuando se utiliza en el proceso principal, maneja mensajes asincrónicos y sincrónicos enviados desde el proceso de renderizado (página web). Los mensajes enviados desde el renderizador serán emitidos a este módulo.
 
@@ -17,7 +17,7 @@ También es posible enviar mensajes desde el proceso principal al proceso de ren
 Ejemplo de envío y manejo de mensajes entre el proceso de renderizado y el principal:
 
 ```javascript
-// En el proceso principal.
+// In main process.
 const { ipcMain } = require('electron')
 ipcMain.on('asynchronous-message', (event, arg) => {
   console.log(arg) // prints "ping"
@@ -31,7 +31,9 @@ ipcMain.on('synchronous-message', (event, arg) => {
 ```
 
 ```javascript
-// En el proceso de renderizado (página web).
+// In renderer process (web page).
+// NB. Electron APIs are only accessible from preload, unless contextIsolation is disabled.
+// Vea https://www.electronjs.org/docs/tutorial/process-model#preload-scripts para más detalles.
 const { ipcRenderer } = require('electron')
 console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
 
@@ -69,7 +71,7 @@ Adds a one time `listener` function for the event. This `listener` is invoked on
 * `listener` Función
   * `...args` any[]
 
-Elimina el `listener` especificado del arreglo del oyente para el `channel` especificado.
+Elimina el `listener` especificado del arreglo listener para el `channel` especificado.
 
 ### `ipcMain.removeAllListeners([channel])`
 
@@ -103,6 +105,8 @@ async () => {
 ```
 
 El `event` que es pasado como primer argumento al handler es el mismo que es pasado a un event listener normal. Incluye información sobre cual WebContents es el origen de la solicitud invocada.
+
+Los errores lanzados a través de `handle` en el main process no son transparentes, ya que se serializan y solo la propiedad `message` del error original es proveído al renderer process. Por favor, consulte [#24427](https://github.com/electron/electron/issues/24427) para más detalles.
 
 ### `ipcMain.handleOnce(channel, listener)`
 

@@ -13,7 +13,7 @@ Veja [`Menu`](menu.md) para exemplos.
     * `menuItem` MenuItem
     * `browserWindow` [BrowserWindow](browser-window.md) | undefined - This will not be defined if no window is open.
     * `event` [KeyboardEvent](structures/keyboard-event.md)
-  * `role` String (optional) - Can be `undo`, `redo`, `cut`, `copy`, `paste`, `pasteAndMatchStyle`, `delete`, `selectAll`, `reload`, `forceReload`, `toggleDevTools`, `resetZoom`, `zoomIn`, `zoomOut`, `togglefullscreen`, `window`, `minimize`, `close`, `help`, `about`, `services`, `hide`, `hideOthers`, `unhide`, `quit`, `startSpeaking`, `stopSpeaking`, `zoom`, `front`, `appMenu`, `fileMenu`, `editMenu`, `viewMenu`, `shareMenu`, `recentDocuments`, `toggleTabBar`, `selectNextTab`, `selectPreviousTab`, `mergeAllWindows`, `clearRecentDocuments`, `moveTabToNewWindow` or `windowMenu` - Define the action of the menu item, when specified the `click` property will be ignored. See [roles](#roles).
+  * `role` String (optional) - Can be `undo`, `redo`, `cut`, `copy`, `paste`, `pasteAndMatchStyle`, `delete`, `selectAll`, `reload`, `forceReload`, `toggleDevTools`, `resetZoom`, `zoomIn`, `zoomOut`, `toggleSpellChecker`, `togglefullscreen`, `window`, `minimize`, `close`, `help`, `about`, `services`, `hide`, `hideOthers`, `unhide`, `quit`, `startSpeaking`, `stopSpeaking`, `zoom`, `front`, `appMenu`, `fileMenu`, `editMenu`, `viewMenu`, `shareMenu`, `recentDocuments`, `toggleTabBar`, `selectNextTab`, `selectPreviousTab`, `mergeAllWindows`, `clearRecentDocuments`, `moveTabToNewWindow` or `windowMenu` - Define the action of the menu item, when specified the `click` property will be ignored. See [roles](#roles).
   * `type` String (opcional) - Pode ser `normal`, `separator`, `submenu`, `checkbox` ou `radio`.
   * `label` String (optional)
   * `sublabel` String (optional)
@@ -56,10 +56,10 @@ A propriedade `role` pode ter os seguintes valores:
 * `pasteAndMatchStyle`
 * `selectAll`
 * `delete`
-* `minimize` - Minimiza a janela atual.
-* `close` - Fecha a janela atual.
+* `minimize` - Minimize current window.
+* `close` - Close current window.
 * `quit` - Quit the application.
-* `reload` - Recarrega a janela atual.
+* `reload` - Reload the current window.
 * `forceReload` - Reload the current window ignoring the cache.
 * `toggleDevTools` - Toggle developer tools in the current window.
 * `togglefullscreen` - Toggle full screen mode on the current window.
@@ -68,20 +68,20 @@ A propriedade `role` pode ter os seguintes valores:
 * `zoomOut` - Zoom out the focused page by 10%.
 * `toggleSpellChecker` - Enable/disable builtin spell checker.
 * `fileMenu` - Whole default "File" menu (Close / Quit)
-* `editMenu` - Menu "Edit" padrão inteiro (Desfazer, Copiar, etc.).
+* `editMenu` - Whole default "Edit" menu (Undo, Copy, etc.).
 * `viewMenu` - Whole default "View" menu (Reload, Toggle Developer Tools, etc.)
 * `windowMenu` - Whole default "Window" menu (Minimize, Zoom, etc.).
 
 The following additional roles are available on _macOS_:
 
 * `appMenu` - Whole default "App" menu (About, Services, etc.)
-* `hide` - Mapeia para a ação `hide`.
+* `hide` - Map to the `hide` action.
 * `hideOthers` - Map to the `hideOtherApplications` action.
-* `hideothers` - Mapeia para a ação `unhideAllApplications`.
+* `unhide` - Map to the `unhideAllApplications` action.
 * `startSpeaking` - Map to the `startSpeaking` action.
 * `stopSpeaking` - Map to the `stopSpeaking` action.
-* `hide` - Mapeia para a ação `arrangeInFront`.
-* `zoom` - Mapeia para a ação `performZoom`.
+* `front` - Map to the `arrangeInFront` action.
+* `zoom` - Map to the `performZoom` action.
 * `toggleTabBar` - Map to the `toggleTabBar` action.
 * `selectNextTab` - Map to the `selectNextTab` action.
 * `selectPreviousTab` - Map to the `selectPreviousTab` action.
@@ -98,7 +98,7 @@ When specifying a `role` on macOS, `label` and `accelerator` are the only option
 
 **Nota Bene:** The `enabled` and `visibility` properties are not available for top-level menu items in the tray on macOS.
 
-### Propriedades de Instância
+### Propriedades da Instância
 
 As seguintes propriedades estão disponíveis em instâncias de `MenuItem`:
 
@@ -112,7 +112,7 @@ A `String` indicating the item's visible label.
 
 #### `menuItem.click`
 
-Uma `Function` que é ativada quando um item de menu recebe um evento de clique. It can be called with `menuItem.click(event, focusedWindow, focusedWebContents)`.
+A `Function` that is fired when the MenuItem receives a click event. It can be called with `menuItem.click(event, focusedWindow, focusedWebContents)`.
 
 * `event` [KeyboardEvent](structures/keyboard-event.md)
 * `focusedWindow` [BrowserWindow](browser-window.md)
@@ -128,11 +128,17 @@ A `String` indicating the type of the item. Can be `normal`, `separator`, `subme
 
 #### `menuItem.role`
 
-A `String` (optional) indicating the item's role, if set. Can be `undo`, `redo`, `cut`, `copy`, `paste`, `pasteAndMatchStyle`, `delete`, `selectAll`, `reload`, `forceReload`, `toggleDevTools`, `resetZoom`, `zoomIn`, `zoomOut`, `togglefullscreen`, `window`, `minimize`, `close`, `help`, `about`, `services`, `hide`, `hideOthers`, `unhide`, `quit`, `startSpeaking`, `stopSpeaking`, `zoom`, `front`, `appMenu`, `fileMenu`, `editMenu`, `viewMenu`, `recentDocuments`, `toggleTabBar`, `selectNextTab`, `selectPreviousTab`, `mergeAllWindows`, `clearRecentDocuments`, `moveTabToNewWindow` or `windowMenu`
+A `String` (optional) indicating the item's role, if set. Can be `undo`, `redo`, `cut`, `copy`, `paste`, `pasteAndMatchStyle`, `delete`, `selectAll`, `reload`, `forceReload`, `toggleDevTools`, `resetZoom`, `zoomIn`, `zoomOut`, `toggleSpellChecker`, `togglefullscreen`, `window`, `minimize`, `close`, `help`, `about`, `services`, `hide`, `hideOthers`, `unhide`, `quit`, `startSpeaking`, `stopSpeaking`, `zoom`, `front`, `appMenu`, `fileMenu`, `editMenu`, `viewMenu`, `shareMenu`, `recentDocuments`, `toggleTabBar`, `selectNextTab`, `selectPreviousTab`, `mergeAllWindows`, `clearRecentDocuments`, `moveTabToNewWindow` or `windowMenu`
 
 #### `menuItem.accelerator`
 
-A `Accelerator` (optional) indicating the item's accelerator, if set.
+An `Accelerator` (optional) indicating the item's accelerator, if set.
+
+#### `menuItem.userAccelerator` _Readonly_ _macOS_
+
+An `Accelerator | null` indicating the item's [user-assigned accelerator](https://developer.apple.com/documentation/appkit/nsmenuitem/1514850-userkeyequivalent?language=objc) for the menu item.
+
+**Note:** This property is only initialized after the `MenuItem` has been added to a `Menu`. Either via `Menu.buildFromTemplate` or via `Menu.append()/insert()`.  Accessing before initialization will just return `null`.
 
 #### `menuItem.icon`
 

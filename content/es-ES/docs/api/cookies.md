@@ -2,7 +2,7 @@
 
 > Busca y modifica las cookies de la sesión.
 
-Proceso: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 Las instancias de la clase `Cookies` son accedidas utilizado la propiedad `cookies` de una `Session`.
 
@@ -11,7 +11,7 @@ Por ejemplo:
 ```javascript
 const { session } = require('electron')
 
-// Busca todas las cookies.
+// Query all cookies.
 session.defaultSession.cookies.get({})
   .then((cookies) => {
     console.log(cookies)
@@ -46,9 +46,9 @@ Los siguientes eventos están disponibles en las instancias de `Cookies`:
 
 Devuelve:
 
-* `event` Event
+* `event`
 * `cookie` [Cookie](structures/cookie.md) - La cookie que se ha cambiado.
-* `cause` String - The cause of the change with one of the following values:
+* `cause` String - La causa del cambio con uno de los siguientes valores:
   * `explicit` - La cookie se cambió directamente por la acción de un consumidor.
   * `overwrite` - La cookie se eliminó automáticamente debido a una operación insertada que la sobreescribió.
   * `expired` - La cookie se eliminó automáticamente debido a que expiró.
@@ -64,7 +64,7 @@ Los siguientes métodos están disponibles en las instancias de `Cookies`:
 
 #### `cookies.get(filter)`
 
-* `filter` Object
+* Objeto `filter`
   * `url` String (opcional) - Recupera las cookies las cuales están asociadas con la `url`. Vacío implica recuperar las cookies de todas las URLs.
   * `name` Cadena (opcional) - Filtra las cookies por nombre.
   * `domain` Cadena (opcional) - Recupera las cookies de cuyos dominios coinciden o son subdominios de `domains`.
@@ -84,8 +84,8 @@ Envía una solicitud para obtener todas las cookies que coincidan con `filter`, 
   * `value` String (opcional) - El valor de la cookie. Vacío por defecto si se omite.
   * `domain` String (optional) - El dominio de la cookie; este será normalizado por precediéndolo con un punto para que también sea valido para el uso de subdominios. Vacío por defecto si se omite.
   * `path` String (opcional) - La ruta de la cookie. Vacío por defecto si se omite.
-  * `secure` Boolean (opcional) - Si la cookie debería ser marcado como Segura o no. Por defecto a false.
-  * `httpOnly` Boolean (opcional) - Si la cookie debería ser marcada como sólo HTTP. Por defecto es false.
+  * `secure` Boolean (opcional) - Si la cookie debería ser marcado como Segura o no. Defaults to false unless [Same Site=None](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite#samesitenone_requires_secure) attribute is used.
+  * `httpOnly` Boolean (opcional) - Si la cookie debería ser marcada como sólo HTTP. Por defecto es falso.
   * `expirationDate` Doble (opcional) - La fecha de vencimiento de la cookie como el número de segundos desde la época UNIX. Si se omite, entonces la cookie cambia a una cookie de sesión y no se conservará entre sesiones.
   * `sameSite` String (opcional) - La política del [Mismo sitio](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#SameSite_cookies) para aplicar a esta cookie.  Puede ser `unspecified`, `no_restriction`, `lax` o `strict`.  Por defecto es `no_restriction`.
 

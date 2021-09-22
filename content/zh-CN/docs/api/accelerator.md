@@ -4,7 +4,7 @@
 
 快捷键可以包含多个功能键和一个键码的字符串，由符号`+`结合，用来定义你应用中的键盘快捷键
 
-示例：
+示例
 
 * `CommandOrControl+A`
 * `CommandOrControl+Shift+Z`
@@ -28,7 +28,7 @@ app.whenReady().then(() => {
 
 使用 `Alt`按键替代 `Option`按键。 使用 Alt 键代替Option. `Option` 键只在 macOS 系统上存在, 而 `Alt` 键在任何系统上都有效.
 
-`Super`键是指 Windows 和 Linux 系统上的 `Windows` 键，但在 macOS 里为 `Cmd` 键.
+`Super` (或 `Meta`) 键对应Windows 和 Linux 系统上的 `Windows` 键，但在 macOS 里为 `Cmd` 键.
 
 ## 可用的功能键
 
@@ -40,6 +40,7 @@ app.whenReady().then(() => {
 * `AltGr`
 * `Shift`
 * `Super`
+* `元数据`
 
 ## 可用的普通按键
 
@@ -54,7 +55,7 @@ app.whenReady().then(() => {
 * `数字锁定（Numlock）`
 * `滚动锁定`
 * `Backspace`
-* `Delete`
+* `删除`
 * `Insert`
 * `Return` (等同于 `Enter`)
 * `Up`, `Down`, `Left` and `Right`

@@ -1,8 +1,10 @@
+# Menü
+
 ## Klasse: Menü
 
 > Create native application menus and context menus.
 
-Prozess: [Main](../glossary.md#main-process)
+Prozess: [Haupt](../glossary.md#main-process)
 
 ### `new Menu()`
 
@@ -10,7 +12,7 @@ Neues Menü anlegen.
 
 ### Static Methods
 
-The `Menu` class has the following static methods:
+Die `Menu` Klasse hat folgende statische Methoden:
 
 #### `Menu.setApplicationMenu(menu)`
 
@@ -18,7 +20,9 @@ The `Menu` class has the following static methods:
 
 Sets `menu` as the application menu on macOS. On Windows and Linux, the `menu` will be set as each window's top menu.
 
-Also on Windows and Linux, you can use a `&` in the top-level item name to indicate which letter should get a generated accelerator. For example, using `&File` for the file menu would result in a generated `Alt-F` accelerator that opens the associated menu. The indicated character in the button label gets an underline. The `&` character is not displayed on the button label.
+Also on Windows and Linux, you can use a `&` in the top-level item name to indicate which letter should get a generated accelerator. For example, using `&File` for the file menu would result in a generated `Alt-F` accelerator that opens the associated menu. The indicated character in the button label then gets an underline, and the `&` character is not displayed on the button label.
+
+In order to escape the `&` character in an item name, add a proceeding `&`. For example, `&&File` would result in `&File` displayed on the button label.
 
 Passing `null` will suppress the default menu. On Windows and Linux, this has the additional effect of removing the menu bar from the window.
 
@@ -48,7 +52,7 @@ Generally, the `template` is an array of `options` for constructing a [MenuItem]
 
 You can also attach other fields to the element of the `template` and they will become properties of the constructed menu items.
 
-### Instanz Methoden
+### Beispiel Methoden
 
 Das `menu` Objekt hat die folgenden Instanz Methoden:
 
@@ -77,7 +81,7 @@ Fügt dem Menü das `menuItem` hinzu.
 
 #### `menu.getMenuItemById(id)`
 
-* `id` String
+* `id` Zeichenfolge
 
 Returns `MenuItem | null` the item with the specified `id`
 
@@ -88,7 +92,7 @@ Returns `MenuItem | null` the item with the specified `id`
 
 Füre das `menuItem` an der `pos` Position im Menü ein.
 
-### Instanz Events
+### Instanz-Ereignisse
 
 Objects created with `new Menu` or returned by `Menu.buildFromTemplate` emit the following events:
 
@@ -96,7 +100,7 @@ Objects created with `new Menu` or returned by `Menu.buildFromTemplate` emit the
 
 #### Event: 'menu-will-show'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 
@@ -104,7 +108,7 @@ Emitted when `menu.popup()` is called.
 
 #### Event: 'menu-will-close'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 
@@ -139,7 +143,7 @@ const template = [
       { role: 'services' },
       { type: 'separator' },
       { role: 'hide' },
-      { role: 'hideothers' },
+      { role: 'hideOthers' },
       { role: 'unhide' },
       { type: 'separator' },
       { role: 'quit' }
@@ -271,8 +275,8 @@ macOS has a completely different style of application menu from Windows and Linu
 On macOS there are many system-defined standard menus, like the [`Services`](https://developer.apple.com/documentation/appkit/nsapplication/1428608-servicesmenu?language=objc) and `Windows` menus. To make your menu a standard menu, you should set your menu's `role` to one of the following and Electron will recognize them and make them become standard menus:
 
 * `window`
-* `hilfe`
-* `dienste`
+* `help`
+* `services`
 
 ### Standard Menu Item Actions
 
@@ -363,4 +367,4 @@ Menü:
 ```
 
 [AboutInformationPropertyListFiles]: https://developer.apple.com/library/ios/documentation/general/Reference/InfoPlistKeyReference/Articles/AboutInformationPropertyListFiles.html
-[setMenu]: https://github.com/electron/electron/blob/master/docs/api/browser-window.md#winsetmenumenu-linux-windows
+[setMenu]: browser-window.md#winsetmenumenu-linux-windows

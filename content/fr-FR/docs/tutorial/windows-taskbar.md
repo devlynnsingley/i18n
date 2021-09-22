@@ -1,10 +1,10 @@
-# Barre des tâches Windows
+# Personnalisation de la barre des tâches (Windows)
 
 ## Vue d'ensemble
 
 Electron possède des APIs pour configurer l'icône de l'application dans la barre des tâches de Windows. This API supports both Windows-only features like [creation of a `JumpList`](#jumplist), [custom thumbnails and toolbars](#thumbnail-toolbars), [icon overlays](#icon-overlays-in-taskbar), and the so-called ["Flash Frame" effect](#flash-frame), and cross-platform features like [recent documents][recent-documents] and [application progress][progress-bar].
 
-## JumpList 
+## JumpList
 
 Windows permet aux applications de définir un menu contextuel personnalisé s'affichant lorsque les utilisateurs effectuent un clic-droit sur l’icône de l’application dans la barre des tâches. Ce menu contextuel est appelé `JumpList`. You specify custom actions in the `Tasks` category of JumpList, as quoted from [MSDN][msdn-jumplist]:
 
@@ -67,7 +67,7 @@ As quoted from [MSDN][msdn-thumbnail]:
 
 > REMARQUE : La capture d'écran ci-dessus est un exemple de barre d'outils miniatures de Windows Media Player
 
-To set thumbnail toolbar in your application, you need to use [BrowserWindow.setThumbarButtons][setthumbarbuttons]
+Pour définir la barre d'outils des miniatures dans votre application, vous devez utiliser [BrowserWindow.setThumbarButtons][setthumbarbuttons]
 
 #### Exemples
 
@@ -120,7 +120,7 @@ As quoted from [MSDN][msdn-icon-overlay]:
 
 To set the overlay icon for a window, you need to use the [BrowserWindow.setOverlayIcon][setoverlayicon] API.
 
-#### Exemple
+#### Example
 
 Commençons avec une application fonctionnelle issue du [Quick Start Guide](quick-start.md), mettez à jour le fichier `main.js` avec les lignes suivantes :
 
@@ -142,7 +142,7 @@ As quoted from [MSDN][msdn-flash-frame]:
 
 To flash the BrowserWindow taskbar button, you need to use the [BrowserWindow.flashFrame][flashframe] API.
 
-#### Exemple
+#### Example
 
 Commençons avec une application fonctionnelle issue du [Quick Start Guide](quick-start.md), mettez à jour le fichier `main.js` avec les lignes suivantes :
 

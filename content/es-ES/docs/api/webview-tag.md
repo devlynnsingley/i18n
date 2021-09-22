@@ -1,8 +1,8 @@
-# Etiqueta `<webview>`
+# `<webview>` Etiqueta
 
 ## Advertencia
 
-La etiqueta `webview` de Electron está basada en [Chromium's `webview`][chrome-webview], el cual está experimentado cambios de arquitectura dramáticos. Esto impacta la estabilidad de `webviews`, incluyendo el renderizado, navegación y el enrutamiento de evento. Nosotros actualmente recomendamos no usar la etiqueta `webviews` y considerar alternativas como `iframe`, `BrowserView` de Electron o una arquitectura que evite embeber contenido incrustado.
+La etiqueta `webview` de Electron está basada en [Chromium's `webview`][chrome-webview], el cual está experimentado cambios de arquitectura dramáticos. Esto impacta la estabilidad de `webviews`, incluyendo el renderizado, navegación y el enrutamiento de evento. We currently recommend to not use the `webview` tag and to consider alternatives, like `iframe`, [Electron's `BrowserView`](browser-view.md), or an architecture that avoids embedded content altogether.
 
 ## Activando
 
@@ -12,7 +12,7 @@ By default the `webview` tag is disabled in Electron >= 5.  Usted necesita habil
 
 > Mostrar contenido externo de la web en un cuadro aislado y procesado.
 
-Proceso: [Renderer](../glossary.md#renderer-process)
+Process: [Renderer](../glossary.md#renderer-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 Use the `webview` tag to embed 'guest' content (such as web pages) in your Electron app. The guest content is contained within the `webview` container. Una página incrustada dentro de los controles de tu aplicación como el contenido de invitado es dispuesto y renderizado.
 
@@ -78,7 +78,7 @@ Asignarle a `src` su propio valor reiniciará la página actual.
 
 El atributo `src` puede aceptar data de URL, como `data:text/plain,Hello, world!`.
 
-### `no desintegración`
+### `nodeintegration`
 
 ```html
 <webview src="http://www.google.com/" nodeintegration></webview>
@@ -94,15 +94,7 @@ Un `Boolean`. Cuando este atributo esté presente, la página de invitado en `we
 
 Un `Boolean` para habilitar la opción experimental soporte NodeJS en sub frames tal como iframes dentro de `webview`. Todas sus precargas se cargarán por cada iframe, pude usar `process.isMainFrame` para determinar si estás en el frame principal o no. Esta opción está deshailitada por defecto en la pagina de invitado.
 
-### `enableremotemodule`
-
-```html
-<webview src="http://www.google.com/" enableremotemodule="false"></webview>
-```
-
-Un `Boolean`. Cuando este atributo es `false` la pagina de invitado en `webview` no tendrá acceso al módulo [`remote`](remote.md). The remote module is unavailable by default.
-
-### `complementos`
+### `plugins`
 
 ```html
 <webview src="https://www.github.com/" plugins></webview>
@@ -110,17 +102,20 @@ Un `Boolean`. Cuando este atributo es `false` la pagina de invitado en `webview`
 
 Un `Boolean`. When this attribute is present the guest page in `webview` will be able to use browser plugins. Plugins are disabled by default.
 
-### `precarga`
+### `preload`
 
 ```html
+<!-- from a file -->
 <webview src="https://www.github.com/" preload="./test.js"></webview>
+<!-- or if you want to load from an asar archive -->
+<webview src="https://www.github.com/" preload="./app.asar/test.js"></webview>
 ```
 
-Un `String` que especifica un script que será cargada antes que se ejecuten otros scripts en la página de invitado. El protocolo de guiones de URL deben ser `file:` o `asar:`, porque será cargado por `require` en la página de invitado debajo de la capucha.
+Un `String` que especifica un script que será cargada antes que se ejecuten otros scripts en la página de invitado. The protocol of script's URL must be `file:` (even when using `asar:` archives) because it will be loaded by Node's `require` under the hood, which treats `asar:` archives as virtual directories.
 
 Cuando la página de invitado no tiene integración de nodo, este guión todavía tendrá acceso a todos los nodos APIs, pero los objetos globales inyectados por Nodo serán eliminados luego de que el guión haya finalizado de ejecutarse.
 
-**Note:** This option will appear as `preloadURL` (not `preload`) in the `webPreferences` specified to the `will-attach-webview` event.
+**Nota:** Esta opción aparecerá como `preloadURL` (no `preload`) en el `webPreferences` especificado al evento `will-attach-webview`.
 
 ### `httpreferrer`
 
@@ -153,7 +148,7 @@ Un `Boolean`. When this attribute is present the guest page will have web securi
 <webview src="https://electronjs.org" partition="electron"></webview>
 ```
 
-Un `String` que representa la sesión utilizada por la página. Si `partition` empieza con `persist:`, la página usará una sesión persistente disponible para todas las páginas en la aplicación con la misma `partition`. si no hay un prefijo `persist:`, la página usará una sesión en memoria. Por asignar el mismo `partition`, múltiples páginas podrán compartir la misma sesión. Si la `partition` no se establece entonces la sesión por defecto de la aplicación será usada.
+Un `String` que representa la sesión utilizada por la página. Si `partition` empieza con `persist:`, la página usará una sesión persistente disponible para todas las páginas en la aplicación con la misma `partition`. si no hay un prefijo `persist:`, la página usará una sesión en memoria. Al asignar la misma `partition`, las páginas múltiples pueden compartir la misma sesión. Si la `partition` no se establece entonces la sesión por defecto de la aplicación será usada.
 
 This value can only be modified before the first navigation, since the session of an active renderer process cannot change. Subsequent attempts to modify the value will fail with a DOM exception.
 
@@ -210,10 +205,10 @@ webview.addEventListener('dom-ready', () => {
 
 * `url` URL
 * `options` Object (opcional)
-  * `httpReferrer` (String | [Referrer](structures/referrer.md)) (opcional) - Una url HTTP de referencia.
-  * `userAgent` String (opcional) - Un agente de usuario originando la solicitud.
-  * `extraHeaders` String (opcional) - Encabezados extras separadas por "\n"
-  * `postData` ([UploadRawData[]](structures/upload-raw-data.md) | [UploadFile[]](structures/upload-file.md)) (optional)
+  * `httpReferrer` (String | [Referrer](structures/referrer.md)) (opcional) - Una url HTTP Referencia.
+  * `userAgent` Cadena (opcional) - Un agente de usuario originando el pedido.
+  * `extraHeaders` Cadena (opcional) - Encabezados extras separados por "\n"
+  * `postData` ([UploadRawData](structures/upload-raw-data.md) | [UploadFile](structures/upload-file.md))[] (optional)
   * `baseURLForDataURL` String (opcional) - Url base (con separadores de ruta arrastrables) para archivos que se cargan por el url de datos. Esto es necesario únicamente si el `url` especificado es un url de datos y necesita cargar otros archivos.
 
 Devuelve `Promise<void>` - La promesa se resolverá cuando la pagina ha finalizado de cargar (ver [`did-finish-load`](webview-tag.md#event-did-finish-load)), y rechaza si la página falla al cargar (ver [`did-fail-load`](webview-tag.md#event-did-fail-load)).
@@ -274,7 +269,7 @@ Devuelve `Boolean` - Aunque la página de invitado pueda ir a `offset`.
 
 ### `<webview>.clearHistory()`
 
-Limpia el historial de navegación.
+Borra el historial de navegación.
 
 ### `<webview>.goBack()`
 
@@ -294,7 +289,7 @@ Navega a el índice absoluto específico.
 
 * `offset` Íntegro
 
-Navega a la compensación especifica desde la "entrada actual".
+Navega hacia el offset especificado desde "la entrada actual".
 
 ### `<webview>.isCrashed()`
 
@@ -324,11 +319,11 @@ Inyecta CSS en la página web actual y devuelve un identificador único para la 
 
 Devuelve `Promise<void>` - Resuelve si la eliminación fue exitosa.
 
-Elimina el CSS insertado desde la página web actual. The stylesheet is identified by its key, which is returned from `<webview>.insertCSS(css)`.
+Elimina el CSS insertado desde la página web actual. La hoja de estilos se identifica por su clave, el cual es devuelto desde `<webview>.insertCSS(css)`.
 
 ### `<webview>.executeJavaScript(code[, userGesture])`
 
-* `codigo` String
+* `code` String
 * `userGesture` Boolean (opcional) - Por defecto `false`.
 
 Devuelve `Promise<any>` - Una promesa que resuelve con el resultado de la ejecución del código o es rechazada si el resultado del código es una promesa rechazada.
@@ -418,19 +413,19 @@ Ejecuta el comando de edición `unselect` en página.
 
 ### `<webview>.replace(text)`
 
-* `texto` String
+* `texto` Cadena
 
 Ejecuta el comando de edición `replace` en página.
 
 ### `<webview>.replaceMisspelling(text)`
 
-* `texto` String
+* `texto` Cadena
 
 Ejecuta el comando de edición `replaceMisspelling` en página.
 
 ### `<webview>.insertText(text)`
 
-* `texto` String
+* `texto` Cadena
 
 Devuelve `Promise<void>`
 
@@ -441,7 +436,7 @@ Inserta `texto` en el elemento enfocado.
 * `text` String - El contenido para ser buscado, no debe quedar en blanco.
 * `options` Object (opcional)
   * `forward` Boolean (opcional) - Ya sea para buscar hacia adelante o hacia atrás, el valor predeterminado es `true`.
-  * `findNext` Boolean (opcional) - Si la operación es la primera solicitud o un seguimiento, por defecto a `false`.
+  * `findNext` Boolean (optional) - Whether to begin a new text finding session with this request. Should be `true` for initial requests, and `false` for follow-up requests. Por defecto es `false`.
   * `matchCase` Boolean (opcional) - Si la busqueda debe ser sensible a mayúsculas, por defecto es `false`.
 
 Devuelve `Integer` - El id de la solicitud usado para la solicitud.
@@ -464,7 +459,7 @@ Detiene cualquier solicitud `findInPage` para el `webview` con la `action` dada.
   * `printBackground` Boolean (optional) - Prints the background color and image of the web page. Por defecto es `false`.
   * `deviceName` String (optional) - Set the printer device name to use. Must be the system-defined name and not the 'friendly' name, e.g 'Brother_QL_820NWB' and not 'Brother QL-820NWB'.
   * `color` Boolean (optional) - Set whether the printed web page will be in color or grayscale. Por defecto es `true`.
-  * `margins` Object (optional)
+  * `margins` Object (opcional)
     * `marginType` String (opcional) - Puede ser `default`, `none`, `printableArea`, o `custom`. Si `custom` es elegido, además necesitar especificar `top`, `bottom`, `left`, y `right`.
     * `top` Number (opcional) - El margen superior de la página web impresa, en píxeles.
     * `bottom` Number (opcional) - El margen inferior de la página web impresa, en píxeles.
@@ -477,34 +472,34 @@ Detiene cualquier solicitud `findInPage` para el `webview` con la `action` dada.
   * `copies` Number (opcional) - El número de copias de la página web a imprimir.
   * `pageRanges` Object[] (optional) - The page range to print.
     * `from` Number - Index of the first page to print (0-based).
-    * `to` Number - Index of the last page to print (inclusive) (0-based).
-  * `duplexMode` String (optional) - Set the duplex mode of the printed web page. Can be `simplex`, `shortEdge`, or `longEdge`.
-  * `dpi` Record<string, number> (optional)
+    * `to` Number - Índice de la última página a imprimir (inclusive) (0-based).
+  * `duplexMode` String (optional) - Set the duplex mode of the printed web page. Puede ser `simplex`, `shortEdge`, o `longEdge`.
+  * `dpi` Record<string, number> (opcional)
     * `horizontal` Number (opcional) - El dpi horizontal.
     * `vertical` Number (opcional) - El dpi vertical.
   * `header` String (opcional) - Cadena a ser impresa como cabecera de la página.
   * `footer` String (opcional) - Cadena a ser impresa como pie de página.
-  * `pageSize` String | Size (optional) - Specify page size of the printed document. Can be `A3`, `A4`, `A5`, `Legal`, `Letter`, `Tabloid` or an Object containing `height`.
+  * `pageSize` String | Tamaño (opcional) - Especifique el tamaño de página del documento impreso. Puede ser `A3`, `A4`, `A5`, `Legal`, `Letter`, `Tabloid` o un objeto que contenga `height`.
 
 Devuelve `Promise<void>`
 
-Prints `webview`'s web page. Same as `webContents.print([options])`.
+Imprime la página web de `webview`. Igual que `webContents.print([options])`.
 
 ### `<webview>.printToPDF(opciones)`
 
 * `options` Object
-  * `headerFooter` Record<string, string> (optional) - the header and footer for the PDF.
-    * `title` String - The title for the PDF header.
-    * `url` String - the url for the PDF footer.
-  * `landscape` Boolean (opcional) - `true` for landscape, `false` for portrait.
-  * `marginsType` Integer (optional) - Specifies the type of margins to use. Uses 0 for default margin, 1 for no margin, and 2 for minimum margin. and `width` in microns.
-  * `scaleFactor` Number (opcional) - El factor de escalado de la página web. Can range from 0 to 100.
+  * `headerFooter` Record<string, string> (opcional) - el encabezado y el pie de página para el PDF.
+    * `title` String - El título para el encabezado PDF.
+    * `url` String - la url para el pie de página PDF.
+  * `landscape` Boolean (opcional) - `true` for landscape, `false` para portrait.
+  * `marginsType` Integer (optional) - Specifies the type of margins to use. Uses 0 for default margin, 1 for no margin, and 2 for minimum margin. y `width` en micrones.
+  * `scaleFactor` Number (opcional) - El factor de escalado de la página web. Puede variar entre 0 to 100.
   * `pageRanges` Record<string, number> (optional) - The page range to print. On macOS, only the first range is honored.
     * `from` Number - Index of the first page to print (0-based).
-    * `to` Number - Index of the last page to print (inclusive) (0-based).
-  * `pageSize` String | Size (opcional) - Especifique el tamaño de la página del PDF Generado. Can be `A3`, `A4`, `A5`, `Legal`, `Letter`, `Tabloid` or an Object containing `height`
-  * `printBackground` Boolean (opcional) - Si se imprime o no el fondo CSS.
-  * `printSelectionOnly` Boolean (opcional) - Si se imprime solo la selección.
+    * `to` Number - Índice de la última página a imprimir (inclusive) (0-based).
+  * `pageSize` String | Size (opcional) - Especifica el tamaño de la página del PDF generado. Puede ser `A3`, `A4`, `A5`, `Legal`, `Letter`, `Tabloid` o un objeto que contenga `height`
+  * `printBackground` Boolean (octional) - Si se va a imprimir los fondos CSS.
+  * `printSelectionOnly` Boolean (opcional) - Se va a imprimir solo la selección.
 
 Returns `Promise<Uint8Array>` - Se resuelve cuando los datos PDF son generados.
 
@@ -525,9 +520,21 @@ Captura una foto instantánea de la página dentro de `rect`. Omitiendo `rect` c
 
 Devuelve `Promise<void>`
 
-Envía un mensaje asincrónico al proceso de renderizado vía `channel`, también puedes mandar argumentos arbitrarios. El proceso renderizador puede manejar el mensaje escuchando el evento `channel` con el módulo [`ipcRenderer`](ipc-renderer.md).
+Envía un mensaje asincrónico al proceso de renderizado a través de `channel`. También se puede enviar argumentos arbitrarios. El proceso renderizador puede manejar el mensaje escuchando el evento `channel` con el módulo [`ipcRenderer`](ipc-renderer.md).
 
 Ver [webContents.send](web-contents.md#contentssendchannel-args) para ejemplos.
+
+### `<webview>.sendToFrame(frameId, channel, ...args)`
+
+* `frameId` [number, number] - `[processId, frameId]`
+* `channel` Cadena
+* `...args` any[]
+
+Devuelve `Promise<void>`
+
+Envía un mensaje asincrónico al proceso de renderizado a través de `channel`. También se puede enviar argumentos arbitrarios. El proceso renderizador puede manejar el mensaje escuchando el evento `channel` con el módulo [`ipcRenderer`](ipc-renderer.md).
+
+See [webContents.sendToFrame](web-contents.md#contentssendtoframeframeid-channel-args) for examples.
 
 ### `<webview>.sendInputEvent(event)`
 
@@ -572,7 +579,7 @@ Establecer el nivel de máximo y mínimo pizca de zoom.
 
 ### `<webview>.showDefinitionForSelection()` _macOS_
 
-Muestra el diccionario pop-up que busca la palabra seleccionada en la página.
+Muestra un diccionario que busca la palabra seleccionada en la página.
 
 ### `<webview>.getWebContentsId()`
 
@@ -599,7 +606,7 @@ Disparado cuando la navegación es terminada, i.e. el girador del tabulador deja
 
 Devuelve:
 
-* `errorCode` Entero
+* `errorCode` Integer
 * `errorDescription` String
 * `validatedURL` String
 * `EsElFramePrincipal` Boolean
@@ -621,6 +628,10 @@ Corresponde a los puntos en tiempo cuando el girador del tabulador empieza a gir
 ### Evento: 'did-stop-loading'
 
 Corresponde a los puntos en tiempo cuando el girador del tabulador termina de girar.
+
+### Event: 'did-attach'
+
+Fired when attached to the embedder web contents.
 
 ### Evento: 'dom-ready'
 
@@ -733,6 +744,30 @@ It is also not emitted during in-page navigation, such as clicking anchor links 
 
 Llamar a `event.preventDefault()`, __NO__ tiene ningún efecto.
 
+### Evento: 'did-start-navigation'
+
+Devuelve:
+
+* `url` String
+* `isInPlace` Boolean
+* `EsElFramePrincipal` Boolean
+* `frameProcessId` Integer
+* `frameRoutingId` Integer
+
+Emitido cuando cualquier frame (incluyendo el principal) comienza la navegación. `isInPlace` will be `true` for in-page navigations.
+
+### Evento: 'did-redirect-navigation'
+
+Devuelve:
+
+* `url` String
+* `isInPlace` Boolean
+* `EsElFramePrincipal` Boolean
+* `frameProcessId` Integer
+* `frameRoutingId` Integer
+
+Emitted after a server side redirect occurs during navigation. For example a 302 redirect.
+
 ### Evento: 'did-navigate'
 
 Devuelve:
@@ -740,6 +775,21 @@ Devuelve:
 * `url` String
 
 Emitido cuando la navegación es finalizada.
+
+This event is not emitted for in-page navigations, such as clicking anchor links or updating the `window.location.hash`. Use `did-navigate-in-page` event for this purpose.
+
+### Evento: 'did-frame-navigate'
+
+Devuelve:
+
+* `url` String
+* `httpResponseCode` Integer - -1 para navegaciones no HTTP
+* `httpStatusText` String - vacío para navegaciones no HTTP
+* `EsElFramePrincipal` Boolean
+* `frameProcessId` Integer
+* `frameRoutingId` Integer
+
+Emitido cuando se ha realizado un navegación de algun frame.
 
 This event is not emitted for in-page navigations, such as clicking anchor links or updating the `window.location.hash`. Use `did-navigate-in-page` event for this purpose.
 
@@ -771,6 +821,7 @@ webview.addEventListener('close', () => {
 
 Devuelve:
 
+* `frameId` [number, number] - pair of `[processId, frameId]`.
 * `channel` Cadena
 * `args` any[]
 

@@ -2,7 +2,7 @@
 
 > Detecta los eventos del teclado cuando la aplicación no tiene el enfoque en el teclado.
 
-Proceso: [Main](../glossary.md#main-process)
+Proceso: [principal](../glossary.md#main-process)</0>
 
 El módulo `globalShortcut` puede registrar o quitar un atajo del teclado global con el sistema operativo para que se puedan personalizar las operaciones para varios atajos.
 
@@ -21,15 +21,15 @@ app.whenReady().then(() => {
     console.log('registration failed')
   }
 
-  // Revisa si un atajo está registrado.
+  // Check whether a shortcut is registered.
   console.log(globalShortcut.isRegistered('CommandOrControl+X'))
 })
 
 app.on('will-quit', () => {
-  // Desregistra un atajo.
+  // Unregister a shortcut.
   globalShortcut.unregister('CommandOrControl+X')
 
-  // Desregistra todos los atajos.
+  // Unregister all shortcuts.
   globalShortcut.unregisterAll()
 })
 ```

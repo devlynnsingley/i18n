@@ -1,8 +1,10 @@
+# Fach
+
 ## Klasse: Tray
 
 > Fügen Sie Symbole und Kontextmenüs in den Benachrichtigungsbereich des Systems hinzu.
 
-Prozess: [Main](../glossary.md#main-process)
+Prozess: [Haupt](../glossary.md#main-process)
 
 `Tray` ist ein [EventEmitter][event-emitter].
 
@@ -61,13 +63,13 @@ If you want to keep exact same behaviors on all platforms, you should not rely o
 
 Creates a new tray icon associated with the `image`.
 
-### Instanz Events
+### Instanz-Ereignisse
 
 Das `Tray` Modul sendet folgende Ereignisse aus:
 
 #### Ereignis: 'click'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` [KeyboardEvent](structures/keyboard-event.md)
 * `bounds` [Rechteck](structures/rectangle.md) - Die Grenzen des Tray-Symbols.
@@ -77,7 +79,7 @@ Wird beim Klicken des Tray Icons gesendet.
 
 #### Ereignis: 'right-click' _macOS_ _Windows_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` [KeyboardEvent](structures/keyboard-event.md)
 * `bounds` [Rechteck](structures/rectangle.md) - Die Grenzen des Tray-Symbols.
@@ -86,7 +88,7 @@ Wird durch einen Rechts Klick auf das Tray Icon gesendet.
 
 #### Ereignis: 'double-click' _macOS_ _Windows_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` [KeyboardEvent](structures/keyboard-event.md)
 * `bounds` [Rechteck](structures/rectangle.md) - Die Grenzen des Tray-Symbols.
@@ -111,7 +113,7 @@ Emitted when any dragged items are dropped on the tray icon.
 
 #### Event: 'drop-files' _macOS_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `files` String[] - The paths of the dropped files.
@@ -120,7 +122,7 @@ Emitted when dragged files are dropped in the tray icon.
 
 #### Event: 'drop-text' _macOS_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `text` String - the dropped text string.
@@ -141,7 +143,7 @@ Emitted when a drag operation ends on the tray or ends at another location.
 
 #### Event: 'mouse-up' _macOS_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` [KeyboardEvent](structures/keyboard-event.md)
 * `position` [Punkt](structures/point.md) - Die Position des Events.
@@ -152,7 +154,7 @@ Note: This will not be emitted if you have set a context menu for your Tray usin
 
 #### Event: 'mouse-down' _macOS_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` [KeyboardEvent](structures/keyboard-event.md)
 * `position` [Punkt](structures/point.md) - Die Position des Events.
@@ -161,7 +163,7 @@ Emitted when the mouse clicks the tray icon.
 
 #### Event: 'mouse-enter' _macOS_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` [KeyboardEvent](structures/keyboard-event.md)
 * `position` [Punkt](structures/point.md) - Die Position des Events.
@@ -170,7 +172,7 @@ Emitted when the mouse enters the tray icon.
 
 #### Event: 'mouse-leave' _macOS_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` [KeyboardEvent](structures/keyboard-event.md)
 * `position` [Punkt](structures/point.md) - Die Position des Events.
@@ -179,14 +181,14 @@ Emitted when the mouse exits the tray icon.
 
 #### Event: 'mouse-move' _macOS_ _Windows_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` [KeyboardEvent](structures/keyboard-event.md)
 * `position` [Punkt](structures/point.md) - Die Position des Events.
 
 Emitted when the mouse moves in the tray icon.
 
-### Instanz Methoden
+### Beispiel Methoden
 
 The `Tray` class has the following methods:
 
@@ -238,9 +240,9 @@ Returns `Boolean` - Whether double click events will be ignored.
 
 #### `tray.displayBalloon(options)` _Windows_
 
-* `options` Object
+* `options` Objekt
   * `icon` ([NativeImage](native-image.md) | String) (optional) - Icon to use when `iconType` is `custom`.
-  * `iconType` String (optional) - Can be `none`, `info`, `warning`, `error` or `custom`. Default is `custom`.
+  * `iconType` String (optional) - Can be `none`, `info`, `warning`, `error` or `custom`. Standard ist `custom`.
   * `title` String
   * `content` String
   * `largeIcon` Boolean (optional) - The large version of the icon should be used. Standard ist `true`. Maps to [`NIIF_LARGE_ICON`][NIIF_LARGE_ICON].
@@ -278,7 +280,7 @@ Legt das Kontextmenü für dieses Symbol fest.
 
 #### `tray.getBounds()` _macOS_ _Windows_
 
-Returns [`Rectangle`](structures/rectangle.md)
+Gibt [`Rectangle`](structures/rectangle.md) zurück
 
 The `bounds` of this tray icon as `Object`.
 

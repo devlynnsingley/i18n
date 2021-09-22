@@ -1,25 +1,25 @@
-# Objeto ProcessMetric
+# ProcessMetric Object
 
-* `pid` Integer - Identificador del proceso.
+* `pid` Integer - Process id of the process.
 * `type` String - Tipo de proceso. Uno de los siguiente valores:
-  * `Navegador`
+  * `Browser`
   * `Tab`
-  * `Utilidad`
+  * `Utility`
   * `Zygote`
-  * `Ayuda de Sandbox`
+  * `Sandbox helper`
   * `GPU`
-  * `Plugin Pepper`
-  * `Broker de Plugin de Pepper`
-  * `Desconocido`
-* `serviceName` String (optional) - The non-localized name of the process.
-* `name` String (optional) - The name of the process. Examples for utility: `Audio Service`, `Content Decryption Module Service`, `Network Service`, `Video Capture`, etc.
-* `CPU` [CPUUsage](cpu-usage.md) - uso de CPU del proceso.
-* `creationTime` Number - Tiempo de creación para este proceso. El tiempo es representado como número de milisegundos desde la época. Dado que el  `pid` puede ser usada después que un proceso muere, es útil usar  tanto el `pid` y el `creationTime` para identificar de forma única un proceso.
-* `memory` [MemoryInfo](memory-info.md) - información de la memoria para el proceso.
+  * `Pepper Plugin`
+  * `Pepper Plugin Broker`
+  * `Unknown`
+* `serviceName` String (opcional) - El nombre no localizado del proceso.
+* `name` String (opcional) - El nombre del proceso. Examples for utility: `Audio Service`, `Content Decryption Module Service`, `Network Service`, `Video Capture`, etc.
+* `cpu` [CPUUsage](cpu-usage.md) - CPU usage of the process.
+* `creationTime` Number - Creation time for this process. The time is represented as number of milliseconds since epoch. Since the `pid` can be reused after a process dies, it is useful to use both the `pid` and the `creationTime` to uniquely identify a process.
+* `memory` [MemoryInfo](memory-info.md) - Memory information for the process.
 * `sandboxed` Boolean (optional) _macOS_ _Windows_ - Whether the process is sandboxed on OS level.
 * `integrityLevel` String (optional) _Windows_ - One of the following values:
   * `untrusted`
   * `low`
   * `medium`
   * `high`
-  * `desconocido`
+  * `unknown`

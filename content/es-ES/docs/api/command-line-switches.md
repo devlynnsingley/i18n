@@ -58,18 +58,25 @@ Fuerza el espacio máximo de disco a utilizar por la caché de disco, en bytes.
 
 Habilita el caller stack logging para las siguientes APIs (eventos filtrados):
 
-- `desktopCapturer.getSources()` / `desktop-capturer-get-sources`
-- `remote.require()` / `remote-require`
-- `remote.getGlobal()` / `remote-get-builtin`
-- `remote.getBuiltin()` / `remote-get-global`
-- `remote.getCurrentWindow()` / `remote-get-current-window`
-- `remote.getCurrentWebContents()` / `remote-get-current-web-contents`
+* `desktopCapturer.getSources()` / `desktop-capturer-get-sources`
 
-### --enable-logging
+### --enable-logging[=file]
 
-Escribe registros de Chromium en la consola.
+Prints Chromium's logging to stderr (or a log file).
 
-Esta opción no puede ser usada en `app.commandLine.appendSwitch` ya que es procesada antes que la app del usuario es cargada, pero puedes establecer la variable de entorno `ELECTRON_ENABLE_LOGGING` para lograr el mismo efecto.
+The `ELECTRON_ENABLE_LOGGING` environment variable has the same effect as passing `--enable-logging`.
+
+Passing `--enable-logging` will result in logs being printed on stderr. Passing `--enable-logging=file` will result in logs being saved to the file specified by `--log-file=...`, or to `electron_debug.log` in the user-data directory if `--log-file` is not specified.
+
+> **Note:** On Windows, logs from child processes cannot be sent to stderr. Logging to a file is the most reliable way to collect logs on Windows.
+
+See also `--log-file`, `--log-level`, `--v`, and `--vmodule`.
+
+### --force-fieldtrials=`trials`
+
+Las pruebas de campo se habilitan o deshabilitan por la fuerza.
+
+Por ejemplo: `WebRTC-Audio-Red-For-Opus/Enabled/`
 
 ### --host-rules=`rules`
 
@@ -104,15 +111,31 @@ Specifies the flags passed to the Node.js engine. It has to be passed when start
 $ electron --js-flags="--harmony_proxies --harmony_collections" your-app
 ```
 
-See the [Node.js documentation][node-cli] or run `node --help` in your terminal for a list of available flags. Adicionalmente, ejecute `node --v8-options` para ver una lista de opciones que se refieren específicamente al motor Node.js's V8 JavaScript.
+Vea la [Documentación de Node.js][node-cli] o ejecute `node --help` en su terminal para una lista de las opciones disponibles. Adicionalmente, ejecute `node --v8-options` para ver una lista de opciones que se refieren específicamente al motor Node.js's V8 JavaScript.
 
 ### --lang
 
 Establecer una configuración regional personalizada.
 
+### --log-file=`path`
+
+If `--enable-logging` is specified, logs will be written to the given path. The parent directory must exist.
+
+Setting the `ELECTRON_LOG_FILE` environment variable is equivalent to passing this flag. If both are present, the command-line switch takes precedence.
+
 ### --log-net-log=`path`
 
 Habilita el registro de los eventos de red para ser salvados y escritos en la ruta `path`.
+
+### --log-level=`N`
+
+Sets the verbosity of logging when used together with `--enable-logging`. `N` should be one of [Chrome's LogSeverities][severities].
+
+Note that two complimentary logging mechanisms in Chromium -- `LOG()` and `VLOG()` -- are controlled by different switches. `--log-level` controls `LOG()` messages, while `--v` and `--vmodule` control `VLOG()` messages. So you may want to use a combination of these three switches depending on the granularity you want and what logging calls are made by the code you're trying to watch.
+
+See [Chromium Logging source][logging] for more information on how `LOG()` and `VLOG()` interact. Loosely speaking, `VLOG()` can be thought of as sub-levels / per-module levels inside `LOG(INFO)` to control the firehose of `LOG(INFO)` data.
+
+See also `--enable-logging`, `--log-level`, `--v`, and `--vmodule`.
 
 ### --no-proxy-server
 
@@ -120,7 +143,7 @@ Don't use a proxy server and always make direct connections. Overrides any other
 
 ### --no-sandbox
 
-Disables Chromium sandbox, which is now enabled by default. Should only be used for testing.
+Disables the Chromium [sandbox](https://www.chromium.org/developers/design-documents/sandbox). Forces renderer process and Chromium helper processes to run un-sandboxed. Solo debe usarse para pruebas.
 
 ### --proxy-bypass-list=`hosts`
 
@@ -153,13 +176,17 @@ Gives the default maximal active V-logging level; 0 is the default. Normally pos
 
 Esta opción solo funciona cuando `--enable-logging` es también pasada.
 
+See also `--enable-logging`, `--log-level`, and `--vmodule`.
+
 ### --vmodule=`pattern`
 
-Permite que el nivel máximo por module de V-logging sobrepase el valor dado por `--v`. Por ejemplo. `my_module=2,foo*=3` would change the logging level for all code in source files `my_module.*` and `foo*.*`.
+Permite que el nivel máximo por module de V-logging sobrepase el valor dado por `--v`. E.g. `my_module=2,foo*=3` would change the logging level for all code in source files `my_module.*` and `foo*.*`.
 
-Cualquier patrón que contenga una barra hacia adelante o una barra hacia atras será probado contra el nombre de la ruta completa y no solo contra el módulo. Por ejemplo. `*/foo/bar/*=2` would change the logging level for all code in the source files under a `foo/bar` directory.
+Cualquier patrón que contenga una barra hacia adelante o una barra hacia atras será probado contra el nombre de la ruta completa y no solo contra el módulo. E.g. `*/foo/bar/*=2` would change the logging level for all code in the source files under a `foo/bar` directory.
 
 Esta opción solo funciona cuando `--enable-logging` es también pasada.
+
+See also `--enable-logging`, `--log-level`, and `--v`.
 
 ### --force_high_performance_gpu
 
@@ -171,7 +198,7 @@ Force using integrated GPU when there are multiple GPUs available.
 
 ## Banderas Node.js
 
-Electron supports some of the [CLI flags][node-cli] supported by Node.js.
+Electron soporta algunas de las [CLI flags][node-cli] soportadas por Node.js.
 
 **Note:** Passing unsupported command line switches to Electron when it is not running in `ELECTRON_RUN_AS_NODE` will have no effect.
 
@@ -189,11 +216,11 @@ Aliased to `--debug-port=[host:]port`.
 
 ### --inspect[=[host:]port]
 
-Activate inspector on `host:port`. Default is `127.0.0.1:9229`.
+Activate inspector on `host:port`. Por defecto es `127.0.0.1:9229`.
 
 V8 inspector integration allows tools such as Chrome DevTools and IDEs to debug and profile Electron instances. The tools attach to Electron instances via a TCP port and communicate using the [Chrome DevTools Protocol](https://chromedevtools.github.io/devtools-protocol/).
 
-See the [Debugging the Main Process][debugging-main-process] guide for more details.
+Vea la guía de [Debugging the Main Process][debugging-main-process] para más detalles.
 
 Aliased to `--debug[=[host:]port`.
 
@@ -208,5 +235,7 @@ By default inspector websocket url is available in stderr and under /json/list e
 [ready]: app.md#event-ready
 [play-silent-audio]: https://github.com/atom/atom/pull/9485/files
 [debugging-main-process]: ../tutorial/debugging-main-process.md
+[logging]: https://source.chromium.org/chromium/chromium/src/+/master:base/logging.h
 [node-cli]: https://nodejs.org/api/cli.html
 [node-cli]: https://nodejs.org/api/cli.html
+[severities]: https://source.chromium.org/chromium/chromium/src/+/master:base/logging.h?q=logging::LogSeverity&ss=chromium

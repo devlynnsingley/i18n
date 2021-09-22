@@ -1,4 +1,4 @@
-# Пулл реквесты
+# Запросы на слияние
 
 * [Setting up your local environment](#setting-up-your-local-environment)
   * [Step 1: Fork](#step-1-fork)
@@ -92,7 +92,6 @@ Common prefixes:
 * perf: A code change that improves performance
 * refactor: A code change that neither fixes a bug nor adds a feature
 * style: Changes that do not affect the meaning of the code (linting)
-* vendor: Bumping a dependency like libchromiumcontent or node
 
 Other things to keep in mind when writing a commit message:
 

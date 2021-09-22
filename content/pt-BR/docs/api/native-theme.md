@@ -6,7 +6,7 @@ Processo: [Main](../glossary.md#main-process)
 
 ## Eventos
 
-The `nativeTheme` module emits the following events:
+O módulo `nativeTheme` emite os seguintes eventos:
 
 ### Event: 'updated'
 

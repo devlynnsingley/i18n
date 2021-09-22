@@ -15,7 +15,7 @@
 const { app, globalShortcut } = require('electron')
 
 app.whenReady().then(() => {
-  // Register a 'CommandOrControl+Y' shortcut listener.
+  // Регистрирует слушателя сочетания клавиш 'CommandOrControl+Y'.
   globalShortcut.register('CommandOrControl+Y', () => {
     // Сделайте что-нибудь, когда Y и Command/Control нажаты.
   })
@@ -28,7 +28,7 @@ app.whenReady().then(() => {
 
 Используйте `Alt` вместо `опции`. Клавиша `Option` существует только на macOS, в то время как клавиша `Alt` доступна на всех платформах.
 
-Клавиша `Super` сопоставляется с клавишей `Windows` в Windows и Linux и `Cmd` на macOS.
+The `Super` (or `Meta`) key is mapped to the `Windows` key on Windows and Linux and `Cmd` on macOS.
 
 ## Доступные модификаторы
 
@@ -40,6 +40,7 @@ app.whenReady().then(() => {
 * `AltGr`
 * `Shift`
 * `Super`
+* `Meta`
 
 ## Доступные коды клавиш
 

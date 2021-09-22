@@ -2,12 +2,12 @@
 
 > Control de descargas de archivos desde fuentes remotas.
 
-Proceso: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
-`DownloadItem` es un [EventEmitter][event-emitter] que representa un elemento descargado en Electron. Se utiliza en el evento `will-download` de la clase `Session`, y permite a los usuarios controlar el elemento descargado.
+`DownloadItem` es un [EventEmitter][event-emitter] que representa un ítem descargado en Electron. Se utiliza en el evento `will-download` de la clase `Session`, y permite a los usuarios controlar el elemento descargado.
 
 ```javascript
-// En el proceso principal.
+/// In the main process.
 const { BrowserWindow } = require('electron')
 const win = new BrowserWindow()
 win.webContents.session.on('will-download', (event, item, webContents) => {
@@ -41,7 +41,7 @@ win.webContents.session.on('will-download', (event, item, webContents) => {
 
 Devuelve:
 
-* `event` Event
+* `event`
 * `state` String - Puede ser `en progresso` o `interrumpido`.
 
 Aparece cuando la descara ha sido actualizada y no está terminada.
@@ -55,7 +55,7 @@ El `state` puede ser uno de los siguientes:
 
 Devuelve:
 
-* `event` Event
+* `event`
 * `state` String - Puede ser `completado`, `cancelado` o `interrumpido`.
 
 Emitido cuando la descarga está en un estado terminal. Esto incluye una descarga completa, una descarga cancelada (a través de `downloadItem.cancel()`), y descargas interrumpidas que no pueden ser reanudadas.
@@ -166,7 +166,7 @@ Devuelve `String` - El valor de cabecera Etag.
 
 Devuelve `Double` - Número de segundos desde el UNIX epoch cuando se inició la descarga.
 
-### Propiedades de Instancia
+### Propiedades de la instancia
 
 #### `downloadItem.savePath`
 

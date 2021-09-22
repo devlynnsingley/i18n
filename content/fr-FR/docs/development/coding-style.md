@@ -17,12 +17,12 @@ Vous pouvez exécuter `npm run lint` pour montrer tous les problèmes de style d
 * Évitez le code dépendant de la plateforme :
   * Utilisez `path.join()` pour concaténer les noms de fichiers.
   * Utilisez `os.tmpdir()` au lieu de `/tmp` lorsque vous devez référencer le répertoire temporaire.
-* Utilisation d’un `return` lorsqu’il revient explicitement à la fin d’une fonction.
+* Using a plain `return` when returning explicitly at the end of a function.
   * Pas de `return null`, `return undefined`, `null` ou `undefined`
 
 ## C++ et Python
 
-Pour C++ et Python, nous suivons le [Style de codage](https://www.chromium.org/developers/coding-style) de Chromium. Vous pouvez utiliser [clang-format](clang-format.md) pour formatter le code C++ automatiquement. Il y a aussi un script `script/cpplint.py` pour vérifier si tous les fichiers sont conformes.
+Pour C++ et Python, nous suivons le [Style de codage](https://chromium.googlesource.com/chromium/src/+/refs/heads/main/styleguide/styleguide.md) de Chromium. Vous pouvez utiliser [clang-format](clang-format.md) pour formatter le code C++ automatiquement. Il y a aussi un script `script/cpplint.py` pour vérifier si tous les fichiers sont conformes.
 
 La version de Python que nous utilisons est Python 2.7.
 

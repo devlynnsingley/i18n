@@ -17,12 +17,12 @@ Para mostrar los problemas de estilo detectados por `cpplint` y `eslint`, puede 
 * Evitar código dependiente de la plataforma:
   * Use `path.join()` para concatenar nombres de archivos.
   * Use `os.tmpdir()` en lugar de `/tmp` cuando necesite referencias el directorio temporal.
-* Usar una `return` simple cuando se devuelve explícitamente al final de una función.
+* Using a plain `return` when returning explicitly at the end of a function.
   * No `return null`, `return undefined`, `null` o `undefined`
 
 ## C++ y Python
 
-Para C++ y Python, seguimos el [estilo de código](https://www.chromium.org/developers/coding-style) de Chromium. Puede usar el formato [clang-format](clang-format.md) para el código C++ automáticamente. También hay un script `script/cpplint.py` para comprobar si todos los archivos se cumplen con los requisitos.
+Para C++ y Python, seguimos el [estilo de código](https://chromium.googlesource.com/chromium/src/+/refs/heads/main/styleguide/styleguide.md) de Chromium. Puede usar el formato [clang-format](clang-format.md) para el código C++ automáticamente. También hay un script `script/cpplint.py` para comprobar si todos los archivos se cumplen con los requisitos.
 
 La versión de Python que estamos utilizando actualmente es Python 2.7.
 

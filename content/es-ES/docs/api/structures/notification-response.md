@@ -1,4 +1,4 @@
-# Objeto NotificationResponse
+# NotificationResponse Object
 
 * `actionIdentifier` String - The identifier string of the action that the user selected.
 * `date` Number - The delivery date of the notification.

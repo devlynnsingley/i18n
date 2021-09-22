@@ -1,8 +1,8 @@
 # Instruções para Configuração (Windows)
 
-Siga as instruções abaixo para compilar o Electron no Windows.
+Follow the guidelines below for building **Electron itself** on Windows, for the purposes of creating custom Electron binaries. For bundling and distributing your app code with the prebuilt Electron binaries, see the [application distribution][application-distribution] guide.
 
-## Pré-requisitos
+## Prerequisites
 
 * Windows 10 / Server 2012 R2 ou superior
 * Visual Studio 2017 15.7.2 or higher - [download VS 2019 Community Edition for free](https://www.visualstudio.com/vs/)
@@ -14,7 +14,7 @@ Siga as instruções abaixo para compilar o Electron no Windows.
 * [Node.js](https://nodejs.org/download/)
 * [Git](https://git-scm.com)
 * Debugging Tools for Windows of Windows SDK 10.0.15063.468 if you plan on creating a full distribution since `symstore.exe` is used for creating a symbol store from `.pdb` files.
-  * Different versions of the SDK can be installed side by side. To install the SDK, open Visual Studio Installer, select `Change` → `Individual Components`, scroll down and select the appropriate Windows SDK to install. Another option would be to look at the [Windows SDK and emulator archive](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive) and download the standalone version of the SDK respectively.
+  * Different versions of the SDK can be installed side by side. To install the SDK, open Visual Studio Installer, select `Modify` → `Individual Components`, scroll down and select the appropriate Windows SDK to install. Another option would be to look at the [Windows SDK and emulator archive](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive) and download the standalone version of the SDK respectively.
   * As Ferramentas de Depuração do SDK também devem ser instaladas. If the Windows 10 SDK was installed via the Visual Studio installer, then they can be installed by going to: `Control Panel` → `Programs` → `Programs and Features` → Select the "Windows Software Development Kit" → `Change` → `Change` → Check "Debugging Tools For Windows" → `Change`. Or, you can download the standalone SDK installer and use it to install the Debugging Tools.
 
 Caso você não tenha uma instalação do Windows, acesso o endereço [dev.microsoftedge.com](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/), tem uma versão para que possa configurar o Electron.
@@ -29,7 +29,7 @@ Windows Security doesn't like one of the files in the Chromium source code (see 
 
 ## Compilando
 
-Veja [Instruções de build: GN](build-instructions-gn.md)
+See [Build Instructions: GN](build-instructions-gn.md)
 
 ## Compilação 32bit
 
@@ -94,3 +94,5 @@ Make sure you have installed `pywin32` with `pip install pywin32`.
 ### Build Scripts Hang Until Keypress
 
 This bug is a "feature" of Windows' command prompt. It happens when clicking inside the prompt window with `QuickEdit` enabled and is intended to allow selecting and copying output text easily. Since each accidental click will pause the build process, you might want to disable this feature in the command prompt properties.
+
+[application-distribution]: ../tutorial/application-distribution.md

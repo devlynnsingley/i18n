@@ -1,4 +1,4 @@
-# Shell
+# shell
 
 > Verwalten von Dateien und URLs durch ihre Standardprogramme.
 
@@ -18,11 +18,11 @@ shell.openExternal('https://github.com')
 
 ## Methoden
 
-The `shell` module has the following methods:
+Das Modul `shell` verfügt über die folgenden Methoden:
 
 ### `shell.showItemInFolder(fullPath)`
 
-* `fullPath` String
+* `fullPath` Zeichenkette
 
 Show the given file in a file manager. If possible, select the file.
 
@@ -41,20 +41,9 @@ Open the given file in the desktop's default manner.
   * `activate` Boolean (optional) _macOS_ - `true` to bring the opened application to the foreground. The default is `true`.
   * `workingDirectory` String (optional) _Windows_ - The working directory.
 
-Returns `Promise<void>`
+Gibt das `Promise<void>` zurück
 
 Open the given external protocol URL in the desktop's default manner. (For example, mailto: URLs in the user's default mail agent).
-
-### `shell.moveItemToTrash(fullPath[, deleteOnFail])` _Deprecated_
-
-* `fullPath` String
-* `deleteOnFail` Boolean (optional) - Whether or not to unilaterally remove the item if the Trash is disabled or unsupported on the volume. _macOS_
-
-Returns `Boolean` - Whether the item was successfully moved to the trash or otherwise deleted.
-
-> NOTE: This method is deprecated. Use `shell.trashItem` instead.
-
-Move the given file to trash and returns a boolean status for the operation.
 
 ### `shell.trashItem(path)`
 
@@ -70,7 +59,7 @@ Play the beep sound.
 
 ### `shell.writeShortcutLink(shortcutPath[, operation], options)` _Windows_
 
-* `shortcutPath` String
+* `shortcutPath` Zeichenkette
 * `operation` String (optional) - Default is `create`, can be one of following:
   * `create` - Creates a new shortcut, overwriting if necessary.
   * `update` - Updates specified properties only on an existing shortcut.
@@ -83,7 +72,7 @@ Creates or updates a shortcut link at `shortcutPath`.
 
 ### `shell.readShortcutLink(shortcutPath)` _Windows_
 
-* `shortcutPath` String
+* `shortcutPath` Zeichenkette
 
 Returns [`ShortcutDetails`](structures/shortcut-details.md)
 

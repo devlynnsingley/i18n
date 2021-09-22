@@ -2,7 +2,7 @@
 
 > Манипулирование аргументами командной строки для вашего приложения, которое читает Chromium
 
-Процесс: [Основной](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 В следующем примере показано, как проверить, установлен ли флаг `--disable-gpu`.
 
@@ -11,7 +11,7 @@ const { app } = require('electron')
 app.commandLine.hasSwitch('disable-gpu')
 ```
 
-For more information on what kinds of flags and switches you can use, check out the [Command Line Switches](./command-line-switches.md) document.
+Для получения более подробной информации о том, какие флаги и переключатели можно использовать, смотрите [переключатели командной строки](./command-line-switches.md).
 
 ### Методы экземпляра
 

@@ -1,18 +1,18 @@
-# Monitor de energía
+# powerMonitor
 
 > Monitorea los cambios de estado de energía.
 
-Proceso: [Main](../glossary.md#main-process)
+Proceso: [principal](../glossary.md#main-process)</0>
 
 ## Eventos
 
 El módulo `powerMonitor` emite los siguientes eventos:
 
-### Event: 'suspend' _macOS_ _Windows_
+### Evento: "suspend"
 
 Se emite cuando se suspende el sistema.
 
-### Event: 'resume' _macOS_ _Windows_
+### Evento: "resume"
 
 Se emite cuando se reanuda el sistema.
 
@@ -52,7 +52,7 @@ El modulo `powerMonitor` tiene los siguientes métodos:
 
 * `idleThreshold` Integer
 
-Returns `String` - The system's current state. Can be `active`, `idle`, `locked` or `unknown`.
+Returns `String` - The system's current state. Puede ser `active`, `idle`, `locked` o `unknown`.
 
 Calcule el estado de reposo del sistema. `idleThreshold` es la cantidad de tiempo (en segundos) antes de considerar inactivo.  `locked` is available on supported systems only.
 

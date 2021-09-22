@@ -2,7 +2,7 @@
 
 > Control file downloads from remote sources.
 
-Prozess: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 `DownloadItem` is an [EventEmitter][event-emitter] that represents a download item in Electron. It is used in `will-download` event of `Session` class, and allows users to control the download item.
 
@@ -35,16 +35,16 @@ win.webContents.session.on('will-download', (event, item, webContents) => {
 })
 ```
 
-### Instanz Events
+### Instanz-Ereignisse
 
 #### Event: 'updated'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `state` String - Can be `progressing` or `interrupted`.
 
-Emitted when the download has been updated and is not done.
+Ausgelöst, wenn sich der Status des Downloads geändert hat, aber der Download nicht fertig ist.
 
 The `state` can be one of following:
 
@@ -53,7 +53,7 @@ The `state` can be one of following:
 
 #### Event: 'done'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `state` String - Can be `completed`, `cancelled` or `interrupted`.
@@ -66,7 +66,7 @@ The `state` can be one of following:
 * `cancelled` - The download has been cancelled.
 * `interrupted` - The download has interrupted and can not resume.
 
-### Instanz Methoden
+### Beispiel Methoden
 
 The `downloadItem` object has the following methods:
 

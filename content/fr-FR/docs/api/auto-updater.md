@@ -28,7 +28,7 @@ Lorsque vous utilisez [electron-winstaller][installer-lib] ou [electron-forge][e
 
 The installer generated with Squirrel will create a shortcut icon with an [Application User Model ID][app-user-model-id] in the format of `com.squirrel.PACKAGE_ID.YOUR_EXE_WITHOUT_DOT_EXE`, examples are `com.squirrel.slack.Slack` and `com.squirrel.code.Code`. Vous devez utiliser le même ID pour votre application qu'avec l'API `app.setAppUserModelId`, sinon Windows ne sera pas en mesure d'épingler correctement votre application dans la barre des tâches.
 
-Contrairement à Squirrel.Mac, Windows peut héberger des mises à jour sur S3 ou tout autre hôte de fichiers statiques. You can read the documents of [Squirrel.Windows][squirrel-windows] to get more details about how Squirrel.Windows works.
+Comme Squirrel.Mac, Windows peut héberger des mises à jour sur S3 ou tout autre hôte de fichiers statiques. You can read the documents of [Squirrel.Windows][squirrel-windows] to get more details about how Squirrel.Windows works.
 
 ## Événements
 
@@ -58,7 +58,7 @@ Retourne :
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `releaseNotes` String
 * `releaseName` String
 * `releaseDate` Date
@@ -82,9 +82,9 @@ L'objet `autoUpdater` dispose des méthodes suivantes :
 
 ### `autoUpdater.setFeedURL(options)`
 
-* `options` Object
+* Objet `options`
   * `url` String
-  * `en-têtes` Enregistrement<String, String> (facultatif) _macOS_ - En-têtes de requête HTTP.
+  * `headers` Record<String, String> (optional) _macOS_ - HTTP request headers.
   * `serverType` String (optional) _macOS_ - Can be `json` or `default`, see the [Squirrel.Mac][squirrel-mac] README for more information.
 
 Définit l'`url` et initialise l'auto updater.
@@ -95,15 +95,17 @@ Retourne `String` - L'URL de flux des mises à jour.
 
 ### `autoUpdater.checkForUpdates()`
 
-Asks the server whether there is an update. You must call `setFeedURL` before using this API.
+Demande au serveur s'il y a une mise à jour. You must call `setFeedURL` before using this API.
+
+**Note:** If an update is available it will be downloaded automatically. Calling `autoUpdater.checkForUpdates()` twice will download the update two times.
 
 ### `autoUpdater.quitAndInstall()`
 
-Restarts the app and installs the update after it has been downloaded. It should only be called after `update-downloaded` has been emitted.
+Redémarre l'application et installe la mise à jour après son téléchargement. It should only be called after `update-downloaded` has been emitted.
 
 Derrière l'appel de `autoUpdater.quitAndInstall()` fermera toutes les applications windows en premier, appellera automatiquement `app.quit()` après que toutes les fenêtres aient été fermées.
 
-**Note:** Il n'est pas strictement nécessaire d'appeler cette fonction pour appliquer une mise à jour, en tant que mise à jour téléchargée avec succès sera toujours appliquée au prochain démarrage de l'application .
+**Note:** It is not strictly necessary to call this function to apply an update, as a successfully downloaded update will always be applied the next time the application starts.
 
 [squirrel-mac]: https://github.com/Squirrel/Squirrel.Mac
 [server-support]: https://github.com/Squirrel/Squirrel.Mac#server-support

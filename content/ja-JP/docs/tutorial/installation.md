@@ -1,4 +1,4 @@
-# インストール
+# 高度なインストール手順
 
 Electron のビルド済みバイナリをインストールするには、[`npm`][npm] を使用します。 アプリの開発用依存関係として Electron をインストールする方法を推奨します。
 
@@ -8,13 +8,15 @@ npm install electron --save-dev
 
 アプリ内で Electron のバージョンを管理する方法については、[Electron のバージョン管理][versioning] を参照して下さい。
 
-## グローバルインストール
+## Electron の臨時実行
 
-`$PATH` に `electron` コマンドをグローバルインストールするには、以下も実行します。
+もし急用かつローカルプロジェクト内で `npm install` を使用すべきでない場合は、以下のように [`npm` にバンドルされている `npx` コマンドランナー][npx] を使った Electron の臨時実行もできます。
 
 ```sh
-npm install electron -g
+npx electron .
 ```
+
+上記のコマンドは、Electron で現在のワーキングディレクトリを実行します。 注意としてアプリ内の依存関係がインストールされることはありません。
 
 ## カスタマイズ
 
@@ -30,7 +32,7 @@ npm install --arch=ia32 electron
 npm install --platform=win32 electron
 ```
 
-## プロキシ
+## プロキシ環境下
 
 HTTP プロキシを使用する必要がある場合は、`ELECTRON_GET_USE_PROXY` 変数を任意の値に設定する必要があります。さらに、ホストシステムの Node のバージョンに応じて追加の環境変数を設定する必要があります。
 
@@ -65,6 +67,8 @@ ELECTRON_CUSTOM_DIR="{{ version }}"
 ```
 
 上記の構成では、`https://npm.taobao.org/mirrors/electron/8.0.0/electron-v8.0.0-linux-x64.zip` の URL からダウンロードされます。
+
+If your mirror serves artifacts with different checksums to the official Electron release you may have to set `ELECTRON_USE_REMOTE_CHECKSUMS=1` to force Electron to use the remote `SHASUMS256.txt` file to verify the checksum instead of the embedded checksums.
 
 #### キャッシュ
 
@@ -105,13 +109,11 @@ ELECTRON_CUSTOM_DIR="{{ version }}"
 
 ## バイナリダウンロードのスキップ
 
-`electron` NPM パッケージをインストールすると、electron バイナリが自動的にダウンロードされます。
+実際には、Electron の JavaScript API はその実装を格納するバイナリにバインドされています。 このバイナリは Electron アプリの動作に不可欠であるため、npm レジストリから `electron` をインストールするたびに `postinstall` ステップにおいて既定でダウンロードされます。
 
-これは時々不要になることがあります。CI 環境で、他のコンポーネントをテストするときなどです。
+しかし、プロジェクトの依存関係をインストールしたいものの Electron の機能を使う必要がない場合は、`ELECTRON_SKIP_BINARY_DOWNLOAD` 環境変数を設定してバイナリのダウンロードを抑止できます。 例えば、継続的インテグレーション環境において `electron` モジュールをモックアウトした単体テストを実行する際に、この機能が役立ちます。
 
-すべての npm 依存関係をインストールするときにバイナリがダウンロードされないようにするには、環境変数 `ELECTRON_SKIP_BINARY_DOWNLOAD` を設定します。 以下はその例です。
-
-```sh
+```sh npm2yarn
 ELECTRON_SKIP_BINARY_DOWNLOAD=1 npm install
 ```
 
@@ -121,11 +123,11 @@ ELECTRON_SKIP_BINARY_DOWNLOAD=1 npm install
 
 ほとんどの場合、このエラーはネットワークによるもので、`electron` の npm パッケージに問題はありません。 `ELIFECYCLE`、`EAI_AGAIN`、`ECONNRESET`、`ETIMEDOUT` といったエラーは、ネットワーク上の問題を示しています。 最善の解決策は、ネットワークを切り替えるか、少し待ってからもう一度インストールしてることです。
 
-`npm` でのインストールに失敗する場合、Electron を [electron/electron/releases][releases] から直接ダウンロードすることもできます。
+`npm` を介したインストールに失敗する場合、Electron の [electron/electron/releases][releases] からの直接ダウンロードを試みることもできます。
 
-`EACCESS` エラーでインストールが失敗した場合は、おそらく [npmの権限を修正する][npm-permissions] 必要があります。
+インストールが `EACCESS` エラーで失敗する場合は、[npm の権限の修正][npm-permissions] が必要かもしれません。
 
-上記のエラーが継続する場合は、 [unsafe-perm][unsafe-perm] フラグをtrueにする必要があるかもしれません。
+上記のエラーが続く場合は、[unsafe-perm][unsafe-perm] フラグを true にする必要があるでしょう。
 
 ```sh
 sudo npm install electron --unsafe-perm=true
@@ -141,6 +143,7 @@ npm install --verbose electron
 
 [npm]: https://docs.npmjs.com
 [versioning]: ./electron-versioning.md
+[npx]: https://docs.npmjs.com/cli/v7/commands/npx
 [releases]: https://github.com/electron/electron/releases
 [proxy-env-10]: https://github.com/gajus/global-agent/blob/v2.1.5/README.md#environment-variables
 [proxy-env]: https://github.com/np-maintain/global-tunnel/blob/v2.7.1/README.md#auto-config

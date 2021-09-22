@@ -1,16 +1,16 @@
-# 暗黑模式
+# Dark Mode
 
 ## 概览
 
 ### 自动更新原生界面
 
-"Native interfaces" include the file picker, window border, dialogs, context menus, and more - anything where the UI comes from your operating system and not from your app. The default behavior is to opt into this automatic theming from the OS.
+"本地界面"包括文件选择器、窗口边框、对话框、上下文 菜单等 - 任何UI来自操作系统而非应用的界面。 默认行为是从操作系统选择自动主题。
 
-### Automatically update your own interfaces
+### 自动更新您自己的界面
 
-If your app has its own dark mode, you should toggle it on and off in sync with the system's dark mode setting. You can do this by using the [prefer-color-scheme][] CSS media query.
+如果您的应用有自己的黑暗模式，您应该在与系统黑暗模式设置同步时切换。 您可以通过使用[prefer-color-scheme] CSS 媒体查询来做到这一点。
 
-### Manually update your own interfaces
+### 手动更新您自己的界面
 
 If you want to manually switch between light/dark modes, you can do this by setting the desired mode in the [themeSource](../api/native-theme.md#nativethemethemesource) property of the `nativeTheme` module. This property's value will be propagated to your Renderer process. Any CSS rules related to `prefers-color-scheme` will be updated accordingly.
 
@@ -24,13 +24,17 @@ If you wish to opt-out while using Electron &gt; 8.0.0, you must set the `NSRequ
 
 ## 示例
 
-We'll start with a working application from the [Quick Start Guide](quick-start.md) and add functionality gradually.
+此示例演示了Electron 应用程序从`nativeTheme`中获取主题颜色。 此外，它还使用 IPC 通道提供主题切换和重置控制。
 
-首先，让我们编辑我们的接口，以便用户可以在光线和暗色的 模式之间切换。  这个基本的界面包含更改 `原生主题源` 设置的按钮，并且包含一个文本元素，指明了哪些 `主题源` 值被选中。 By default, Electron follows the system's dark mode preference, so we will hardcode the theme source as "System".
+```javascript fiddle='docs/fiddles/features/macos-dark-mode'
 
-将以下内容添加到 `index.html` 文件：
+```
 
-```html
+### 它是如何工作的呢？
+
+从 `index.html` 文件开始：
+
+```html title='index.html'
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,45 +56,61 @@ We'll start with a working application from the [Quick Start Guide](quick-start.
 </html>
 ```
 
-Next, add [event listeners](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener) that listen for `click` events on the toggle buttons. Because the `nativeTheme` module only exposed in the Main process, you need to set up each listener's callback to use IPC to send messages to and handle responses from the Main process:
+以及 `styles.css` 文件：
 
-* when the "Toggle Dark Mode" button is clicked, we send the `dark-mode:toggle` message (event) to tell the Main process to trigger a themek change, and update the "Current Theme Source" label in the UI based on the response from the Main process.
-* 单击"重置系统主题"按钮时，我们会发送 `暗模式：系统` 消息（事件），告诉主进程使用系统 配色方案，并更新"当前主题源"标签到 `系统`。
+```css title='styles.css'
+@media (prefers-color-scheme: dark) {
+  body { background: #333; color: white; }
+}
 
-To add listeners and handlers, add the following lines to the `renderer.js` file:
+@media (prefers-color-scheme: light) {
+  body { background: #ddd; color: black; }
+}
+```
 
-```javascript
-const { ipcRenderer } = require('electron')
+该示例渲染一个包含几个元素的 HTML 页面。 `<strong id="theme-source">` 元素显示当前选中的主题，两个 `<button>` 元素是 控件。 CSS 文件使用 [`prefers-color-scheme`][prefers-color-scheme] 媒体查询 设置 `<body>` 元素背景和文本颜色。
 
+`preload.js` 脚本在 `window`对象中添加了一个新的 API叫做 `深色模式`。 此 API 暴露两个IPC 通道到渲染器进程，分别为 `'dark-mode:toggle'` 和 `'dark-mode:system'`。 它还分配了两个方法， `toggle` 和 `system`，它们将渲染器中的信息传递到 主进程。
+
+```js title='preload.js'
+const { contextBridge, ipcRenderer } = require('electron')
+
+contextBridge.exposeInMainWorld('darkMode', {
+  toggle: () => ipcRenderer.invoke('dark-mode:toggle'),
+  system: () => ipcRenderer.invoke('dark-mode:system')
+})
+```
+
+现在，渲染器进程可以安全地与主进程通信，并对`nativeTheme` 对象执行必要的变更。
+
+`renderer.js` 文件负责控制 `<button>` 功能。
+
+```js title='renderer.js'
 document.getElementById('toggle-dark-mode').addEventListener('click', async () => {
-  const isDarkMode = await ipcRenderer.invoke('dark-mode:toggle')
+  const isDarkMode = await window.darkMode.toggle()
   document.getElementById('theme-source').innerHTML = isDarkMode ? 'Dark' : 'Light'
 })
 
 document.getElementById('reset-to-system').addEventListener('click', async () => {
-  await ipcRenderer.invoke('dark-mode:system')
+  await window.darkMode.system()
   document.getElementById('theme-source').innerHTML = 'System'
 })
 ```
 
-If you run your code at this point, you'll see that your buttons don't do anything just yet, and your Main process will output an error like this when you click on your buttons: `Error occurred in handler for 'dark-mode:toggle': No handler registered for 'dark-mode:toggle'` This is expected — we haven't actually touched any `nativeTheme` code yet.
+使用 `addEventListener`， `renderer.js` 文件将`'click'` [事件监听器][event-listeners]添加到每个按钮元素上。 每个事件监听处理器都会调用到相关的 `window.darkmode` API 方法。
 
-Now that we're done wiring the IPC from the Renderer's side, the next step is to update the `main.js` file to handle events from the Renderer process.
+最后， `main.js` 文件代表了主进程并包含实际的 `nativeTheme` API。
 
-Depending on the received event, we update the [`nativeTheme.themeSource`](../api/native-theme.md#nativethemethemesource) property to apply the desired theme on the system's native UI elements (e.g. context menus) and propagate the preferred color scheme to the Renderer process:
-
-* Upon receiving `dark-mode:toggle`, we check if the dark theme is currently active using the `nativeTheme.shouldUseDarkColors` property, and set the `themeSource` to the opposite theme.
-* Upon receiving `dark-mode:system`, we reset the `themeSource` to `system`.
-
-```javascript
+```js
 const { app, BrowserWindow, ipcMain, nativeTheme } = require('electron')
+const path = require('path')
 
 function createWindow () {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: true
+      preload: path.join(__dirname, 'preload.js')
     }
   })
 
@@ -110,42 +130,36 @@ function createWindow () {
   })
 }
 
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+  createWindow()
+
+  app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow()
+    }
+  })
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
-
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow()
-  }
-})
 ```
 
-The final step is to add a bit of styling to enable dark mode for the web parts of the UI by leveraging the [`prefers-color-scheme`][prefer-color-scheme] CSS attribute. The value of `prefers-color-scheme` will follow your `nativeTheme.themeSource` setting.
+`ipcMain.handle` 方法表明主进程如何响应来自 HTML 页面上 按钮的点击事件。
 
-创建一个 `styles.css` 文件，并添加以下行：
+`'dark-mode:toggle'` IPC 通道处理器方法检查 `shouldUseDarkColors` boolean属性 设置对应的 `themeSource`, 然后返回当前的 `shouldUseDarkColors` 属性。 回顾此 IPC 通道的渲染器进程事件监听器，此处理器的返回值为 `<strong id='theme-source'>` 元素指定正确的文本。
 
-```css fiddle='docs/fiddles/features/macos-dark-mode'
-@media (prefers-color-scheme: dark) {
-  body { background:  #333; color: white; }
-}
+`'dark-mode:system'` IPC 通道处理器方法将字符串 `'system'` 赋值到 `themeSource` 同时无返回值。 这也对应于相应的渲染器进程事件监听器，因为方法正在等待，且不需要返回值。
 
-@media (prefers-color-scheme: light) {
-  body { background:  #ddd; color: black; }
-}
-```
+使用Electron Fiddle运行示例，然后点击“切换深色模式”按钮； 应用程序应该开始在亮色和黑色背景颜色之间交替。
 
-启动 Electron 应用程序后，你可以通过点击相应按钮更改模式或将 主题重置为系统默认值。
-
-![暗黑模式](../images/dark_mode.gif)
+![Dark Mode](../images/dark_mode.gif)
 
 [system-wide-dark-mode]: https://developer.apple.com/design/human-interface-guidelines/macos/visual-design/dark-mode/
 [electron-forge]: https://www.electronforge.io/
 [electron-packager]: https://github.com/electron/electron-packager
-[packager-darwindarkmode-api]: https://electron.github.io/electron-packager/master/interfaces/electronpackager.options.html#darwindarkmodesupport
-[prefer-color-scheme]: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
-[prefer-color-scheme]: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
+[packager-darwindarkmode-api]: https://electron.github.io/electron-packager/main/interfaces/electronpackager.options.html#darwindarkmodesupport
+[prefers-color-scheme]: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
+[event-listeners]: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener

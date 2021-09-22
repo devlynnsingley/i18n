@@ -2,7 +2,7 @@
 
 > 自定义渲染当前网页
 
-进程: [渲染进程](../glossary.md#renderer-process)
+进程: [ Renderer](../glossary.md#renderer-process)
 
 `webFrame` export of the Electron module is an instance of the `WebFrame` class representing the top frame of the current `BrowserWindow`. Sub-frames can be retrieved by certain properties and methods (e.g. `webFrame.firstChild`).
 
@@ -51,14 +51,16 @@ Returns `Number` - The current zoom level.
 > **NOTE**: Visual zoom is disabled by default in Electron. To re-enable it, call:
 > 
 > ```js
-webFrame.setVisualZoomLevelLimits(1, 3)
-```
+> webFrame.setVisualZoomLevelLimits(1, 3)
+> ```
+
+> **NOTE**: Visual zoom only applies to pinch-to-zoom behavior. Cmd+/-/0 zoom shortcuts are controlled by the 'zoomIn', 'zoomOut', and 'resetZoom' MenuItem roles in the application Menu. To disable shortcuts, manually [define the Menu](./menu.md#examples) and omit zoom roles from the definition.
 
 ### `webFrame.setSpellCheckProvider(language, provider)`
 
 * `language` String
 * `provider` Object
-  * `spellCheck` Function
+  * `spellCheck` 函数
     * `words` String[]
     * `callback` Function
       * `misspeltWords` String[]
@@ -222,29 +224,29 @@ Returns `Boolean` - True if the word is misspelled according to the built in spe
 
 Returns `String[]` - A list of suggested words for a given word. If the word is spelled correctly, the result will be empty.
 
-## Properties
+## 属性
 
-### `webFrame.top` _Readonly_
+### `webFrame.top` _只读_
 
 A `WebFrame | null` representing top frame in frame hierarchy to which `webFrame` belongs, the property would be `null` if top frame is not in the current renderer process.
 
-### `webFrame.opener` _Readonly_
+### `webFrame.opener` _只读_
 
 A `WebFrame | null` representing the frame which opened `webFrame`, the property would be `null` if there's no opener or opener is not in the current renderer process.
 
-### `webFrame.parent` _Readonly_
+### `webFrame.parent` _只读_
 
 A `WebFrame | null` representing parent frame of `webFrame`, the property would be `null` if `webFrame` is top or parent is not in the current renderer process.
 
-### `webFrame.firstChild` _Readonly_
+### `webFrame.firstChild` _只读_
 
 A `WebFrame | null` representing the first child frame of `webFrame`, the property would be `null` if `webFrame` has no children or if first child is not in the current renderer process.
 
-### `webFrame.nextSibling` _Readonly_
+### `webFrame.nextSibling` _只读_
 
 A `WebFrame | null` representing next sibling frame, the property would be `null` if `webFrame` is the last frame in its parent or if the next sibling is not in the current renderer process.
 
-### `webFrame.routingId` _Readonly_
+### `webFrame.routingId` _只读_
 
 An `Integer` representing the unique frame id in the current renderer process. Distinct WebFrame instances that refer to the same underlying frame will have the same `routingId`.
 

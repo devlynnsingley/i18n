@@ -4,7 +4,7 @@ Il y a plusieurs méthodes pour mettre à jour une application Electron. La plus
 
 ## Utilisation de `update.electronjs.org`
 
-L'équipe d'Electron maintient [update.electronjs.org][], un webservice gratuit et open-source que les applications Electron peuvent utiliser pour se mettre à jour automatiquement. Ce service est conçu pour les applications Electron répondant aux critères suivant:
+The Electron team maintains [update.electronjs.org][], a free and open-source webservice that Electron apps can use to self-update. Ce service est conçu pour les applications Electron répondant aux critères suivant:
 
 - L'application tourne sous macOs ou Windows
 - L'application a un répertoire GitHub public
@@ -35,14 +35,14 @@ Si vous développez une application Electron privée, ou si vous ne publiez pas 
 
 Selon vos besoins, vous pouvez choisir parmi l'un d'entre eux :
 
-- [Hazel][hazel] – Serveur de mise à jour pour des applications privées ou open-source qui peuvent être déployées gratuitement sur [Now][now]. Cela récupère les [releases GitHub][gh-releases] et exploite la puissance du CDN de GitHub.
+- [Hazel][hazel] - Serveur de mise à jour pour les applications privées ou open source qui peuvent être déployées gratuitement sur [Vercel][vercel]. Cela récupère les [releases GitHub][gh-releases] et exploite la puissance du CDN de GitHub.
 - [Nuts][nuts] – Utilise aussi les [releases GitHub][gh-releases], mais met en cache les mises à jour des applications sur le disque et prend en charge les dépôts privés.
 - [electron-release-server][electron-release-server] – Fournit un tableau de bord pour la gestion des releases et n'exige pas que les releases soient créés sur GitHub.
 - [Nucleus][nucleus] – Un serveur de mise à jour complet pour les applications Electron maintenues par Atlassian. Prend en charge plusieurs applications et canaux; utilise un magasin de fichiers statique pour minimiser le coût du serveur.
 
 ## Implémentation des mises à jour dans votre application
 
-Une fois que vous avez déployé votre serveur de mise à jour, continuez d'importer les modules requis dans votre code. Le code suivant peut varier pour les différents serveurs, mais il fonctionne comme décrit lors de l'utilisation de [Hazel](https://github.com/zeit/hazel).
+Une fois que vous avez déployé votre serveur de mise à jour, continuez d'importer les modules requis dans votre code. Le code suivant peut varier pour les différents serveurs, mais il fonctionne comme décrit lors de l'utilisation de [Hazel][hazel].
 
 **Important :** Veuillez vous assurer que le code ci-dessous sera exécuté uniquement dans votre application empaquetée, et non dans la version en développement. Vous pouvez utiliser [electron-is-dev](https://github.com/sindresorhus/electron-is-dev) pour vérifier l'environnement.
 
@@ -100,10 +100,10 @@ autoUpdater.on('error', message => {
 
 ## Gestion manuelle des mises à jour
 
-Parce que les requêtes faites par la mise à jour automatique ne sont pas sous votre contrôle direct, vous pouvez trouver des situations difficiles à gérer (comme si le serveur de mise à jour est derrière l'authentification). Le champ `url` supporte les fichiers, ce qui signifie qu'avec un peu d'effort, vous pouvez ignorer l'aspect serveur-communication du processus. [Voici un exemple de comment cela pourrait fonctionner](https://github.com/electron/electron/issues/5020#issuecomment-477636990).
+Because the requests made by Auto Update aren't under your direct control, you may find situations that are difficult to handle (such as if the update server is behind authentication). The `url` field does support files, which means that with some effort, you can sidestep the server-communication aspect of the process. [Here's an example of how this could work](https://github.com/electron/electron/issues/5020#issuecomment-477636990).
 
-[now]: https://zeit.co/now
-[hazel]: https://github.com/zeit/hazel
+[vercel]: https://vercel.com
+[hazel]: https://github.com/vercel/hazel
 [nuts]: https://github.com/GitbookIO/nuts
 [gh-releases]: https://help.github.com/articles/creating-releases/
 [electron-release-server]: https://github.com/ArekSredzki/electron-release-server

@@ -1,8 +1,8 @@
 # Инструкции по сборке (Windows)
 
-Следуйте рекомендациям ниже для сборки Electron под Windows.
+Follow the guidelines below for building **Electron itself** on Windows, for the purposes of creating custom Electron binaries. For bundling and distributing your app code with the prebuilt Electron binaries, see the [application distribution][application-distribution] guide.
 
-## Требования
+## Prerequisites
 
 * Windows 10 / Server 2012 R2 или выше
 * Visual Studio 2017 15.7.2 or higher - [download VS 2019 Community Edition for free](https://www.visualstudio.com/vs/)
@@ -14,7 +14,7 @@
 * [Node.js](https://nodejs.org/download/)
 * [Git](https://git-scm.com)
 * Debugging Tools for Windows of Windows SDK 10.0.15063.468 if you plan on creating a full distribution since `symstore.exe` is used for creating a symbol store from `.pdb` files.
-  * Различные версии SDK могут быть установлены бок о бок. Для установки SDK откройте установщик Visual Studio, выберите `Изменить` → `Индивидуальные компоненты`, прокрутите вниз и выберите соответствующий Windows SDK для установки. Другая опция заключается в том, чтобы посмотреть на [Windows SDK и архив эмулятора](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive) и скачать отдельную версию SDK соответственно.
+  * Различные версии SDK могут быть установлены бок о бок. To install the SDK, open Visual Studio Installer, select `Modify` → `Individual Components`, scroll down and select the appropriate Windows SDK to install. Another option would be to look at the [Windows SDK and emulator archive](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive) and download the standalone version of the SDK respectively.
   * Также необходимо установить инструменты отладки SDK. If the Windows 10 SDK was installed via the Visual Studio installer, then they can be installed by going to: `Control Panel` → `Programs` → `Programs and Features` → Select the "Windows Software Development Kit" → `Change` → `Change` → Check "Debugging Tools For Windows" → `Change`. Or, you can download the standalone SDK installer and use it to install the Debugging Tools.
 
 Если у вас нет установщика Windows, то [dev.microsoftedge.com](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/) имеет версии Windows, которые вы можете использовать для сборки Electron.
@@ -94,3 +94,5 @@ This can happen during build, when Debugging Tools for Windows has been installe
 ### Строить сценарии повесить до Keypress
 
 Эта ошибка является "функцией" командной строки Windows. It happens when clicking inside the prompt window with `QuickEdit` enabled and is intended to allow selecting and copying output text easily. Puisque chaque clic accidentel met en pause le processus de construction, vous pouvez désactiver cette fonctionnalité dans les propriétés de l'invite de commande.
+
+[application-distribution]: ../tutorial/application-distribution.md

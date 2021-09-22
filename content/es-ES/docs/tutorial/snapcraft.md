@@ -1,4 +1,4 @@
-# Guía de Snapcraft (Ubuntu Software Center & Más)
+# Snapcraft Guide (Linux)
 
 Esta guía provee información sobre cómo empacar you aplicación en Electron para cualquier ambiente en Snapcraft, incluyendo el Centro de Software de Ubuntu.
 
@@ -10,7 +10,7 @@ Hay tres maneras de crear un archivo `.snap`:
 
 1) Usando [`electron-forge`][electron-forge] o  [`electron-builder`][electron-builder], ambas herramientas que vienen con soporte para `snap` incluido. Esta es la opción más fácil. 2) Usando `electron-installer-snap`, que toma el resultado de `electron-packager`. 3) Usando un paquete `.deb` ya creado.
 
-En algunos casos, deberás tener instalada la herramienta `Snapcraft`. Las instrucciones para instalar `snapcraft` para tu distribución particular están disponibles [aquí](https://snapcraft.io/docs/installing-snapcraft).
+En algunos casos, deberás tener instalada la herramienta `Snapcraft`. Instructions to install `snapcraft` for your particular distribution are available [here](https://snapcraft.io/docs/installing-snapcraft).
 
 ## Usando `electron-installer-snap`
 
@@ -138,19 +138,19 @@ Snapcraft es capaz de tomar un archivo `.deb` existente y convertirlo en un arch
 
 ### Paso 1: Crear un paquete Debian
 
-Si aún no tienes listo un paquete `.deb`, usando `electron-installer-snap` podría ser una forma más fácil para crear el paquete instantáneo. Sin embargo, existen múltiples soluciones para la creación de paquetes de Debian, incluyendo [`electron-forge`][electron-forge], [`electron-builder`][electron-builder] o [`electron-installer-debian`][electron-installer-debian].
+Si aún no tienes listo un paquete `.deb`, usando `electron-installer-snap` podría ser una forma más fácil para crear el paquete instantáneo. However, multiple solutions for creating Debian packages exist, including [`electron-forge`][electron-forge], [`electron-builder`][electron-builder] or [`electron-installer-debian`][electron-installer-debian].
 
 ### Paso 2: Creando un snapcraft.yaml
 
-For more information on the available configuration options, see the [documentation on the snapcraft syntax][snapcraft-syntax]. Let's look at an example:
+For more information on the available configuration options, see the [documentation on the snapcraft syntax][snapcraft-syntax]. Veamos un ejemplo:
 
 ```yaml
 name: myApp
 version: '2.0.0'
-summary: Una pequeña descripción de su aplicación.
+summary: A little description for the app.
 description: |
- ¿Sábes qué? ¡Esta aplicación es asombrosa! Hace todas las cosas
- por vos. Algunos dicen que te mantiene joven, tal vez incluso feliz.
+ You know what? This app is amazing! It does all the things
+ for you. Some say it keeps you young, maybe even happy.
 
 grade: stable
 confinement: classic
@@ -200,8 +200,8 @@ Alternativamente, si esta construyendo su `snap` con aislamiento `strict`, puede
 ```yaml
 apps:
   myApp:
-    # Corrija la ruta de TMPDIR para que Chromium Framework/Electron se asegure que 
-    # libappindicator puede leer los recursos.
+    # Correct the TMPDIR path for Chromium Framework/Electron to ensure
+    # libappindicator has readable resources.
     command: env TMPDIR=$XDG_RUNTIME_DIR PATH=/usr/local/bin:${PATH} ${SNAP}/bin/desktop-launch $SNAP/myApp/desktop
     desktop: usr/share/applications/desktop.desktop
 ```

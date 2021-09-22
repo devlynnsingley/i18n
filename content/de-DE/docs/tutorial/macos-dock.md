@@ -1,23 +1,30 @@
-# macOS Dock
+# Dock (macOS)
 
-## Übersicht
+Electron has APIs to configure the app's icon in the macOS Dock. A macOS-only API exists to create a custom dock menu, but Electron also uses the app dock icon as the entry point for cross-platform features like [recent documents][recent-documents] and [application progress][progress-bar].
 
-Electron hat APIs zum Konfigurieren des App-Symbols im MacOS-Dock. A macOS-only API exists to create a custom dock menu, but Electron also uses the app dock icon as the entry point for cross-platform features like [recent documents][recent-documents] and [application progress][progress-bar].
-
-Das benutzerdefinierte Dock wird häufig verwendet, um Verknüpfungen zu Aufgaben hinzuzufügen, für die der Benutzer nicht das gesamte App-Fenster öffnen möchte.
+The custom dock is commonly used to add shortcuts to tasks the user wouldn't want to open the whole app window for.
 
 __Dock Menu der Terminal.app:__
 
-![Dock-Menü][3]
+![Dock Menu][3]
 
-Um Ihr benutzerdefiniertes Dock-Menü festzulegen, müssen Sie das [`app.dock.setMenu`](../api/dock.md#docksetmenumenu-macos) API, verwenden, das nur auf macOS verfügbar ist.
+To set your custom dock menu, you need to use the [`app.dock.setMenu`](../api/dock.md#docksetmenumenu-macos) API, which is only available on macOS.
 
 ## Beispiel
 
 Starting with a working application from the [Quick Start Guide](quick-start.md), update the `main.js` file with the following lines:
 
 ```javascript fiddle='docs/fiddles/features/macos-dock-menu'
-const { app, Menu } = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
+
+function createWindow () {
+  const win = new BrowserWindow({
+    width: 800,
+    height: 600,
+  })
+
+  win.loadFile('index.html')
+}
 
 const dockMenu = Menu.buildFromTemplate([
   {
@@ -34,13 +41,28 @@ const dockMenu = Menu.buildFromTemplate([
 ])
 
 app.whenReady().then(() => {
-  app.dock.setMenu(dockMenu)
+  if (process.platform === 'darwin') {
+    app.dock.setMenu(dockMenu)
+  }
+}).then(createWindow)
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
 })
+
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow()
+  }
+})
+
 ```
 
-Nachdem Sie die Electron-Anwendung gestartet haben, klicken Sie mit der rechten Maustaste auf das Symbol der Anwendung. Sie sollten das benutzerdefinierte Menü sehen, das Sie gerade definiert haben:
+After launching the Electron application, right click the application icon. You should see the custom menu you just defined:
 
-![macOS-Dock-Menü](../images/macos-dock-menu.png)
+![macOS dock menu](../images/macos-dock-menu.png)
 
 [3]: https://cloud.githubusercontent.com/assets/639601/5069962/6032658a-6e9c-11e4-9953-aa84006bdfff.png
 [recent-documents]: ./recent-documents.md

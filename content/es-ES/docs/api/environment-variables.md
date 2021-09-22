@@ -89,9 +89,9 @@ No utilizar la barra de menú global en Linux.
 
 ### `ELECTRON_TRASH` _Linux_
 
-Set the trash implementation on Linux. Default is `gio`.
+Set the trash implementation on Linux. Por defecto es `gio`.
 
-Options:
+Opciones:
 
 * `gvfs-trash`
 * `trash-cli`
@@ -104,7 +104,32 @@ Las siguientes variables de entorno están principalmente diseñadas para propó
 
 ### `ELECTRON_ENABLE_LOGGING`
 
-Imprime el registro interno de Chrome a la consola.
+Prints Chromium's internal logging to the console.
+
+Setting this variable is the same as passing `--enable-logging` on the command line. For more info, see `--enable-logging` in [command-line switches](./command-line-switches.md#enable-loggingfile).
+
+### `ELECTRON_LOG_FILE`
+
+Sets the file destination for Chromium's internal logging.
+
+Setting this variable is the same as passing `--log-file` on the command line. For more info, see `--log-file` in [command-line switches](./command-line-switches.md#log-filepath).
+
+### `ELECTRON_DEBUG_DRAG_REGIONS`
+
+Agrega coloración a regiones arrastrables en [`BrowserView`](./browser-view.md) en macOS - Las regiones que se pueden arrastrar se colorearán en verde y las regiones que no se pueden arrastrar se colorearán en rojo para facilitar la depuración.
+
+### `ELECTRON_DEBUG_NOTIFICATIONS`
+
+Agrega registros adicionales al ciclos de vida [`Notification`](./notification.md) en macOS para ayudar a depurar. Se mostrará un registro adicional cuando se creen o activen nuevas notificaciones. They will also be displayed when common a tions are taken: a notification is shown, dismissed, its button is clicked, or it is replied to.
+
+Ejemplo de salida:
+
+```sh
+Notification created (com.github.Electron:notification:EAF7B87C-A113-43D7-8E76-F88EC9D73D44)
+Notification displayed (com.github.Electron:notification:EAF7B87C-A113-43D7-8E76-F88EC9D73D44)
+Notification activated (com.github.Electron:notification:EAF7B87C-A113-43D7-8E76-F88EC9D73D44)
+Notification replied to (com.github.Electron:notification:EAF7B87C-A113-43D7-8E76-F88EC9D73D44)
+```
 
 ### `ELECTRON_LOG_ASAR_READS`
 

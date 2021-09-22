@@ -1,12 +1,14 @@
+# BrowserView
+
+Un `BrowserView` peut être utilisé pour intégrer des contenus web supplémentaires dans un [`BrowserWindow`](browser-window.md). C'est comme une fenêtre enfant, sauf qu'il est positionné par rapport à sa fenêtre propriétaire. Il se veut être une alternative à la balise `webview`.
+
 ## Classe : BrowserView
 
 > Créer et contrôle les fenêtres.
 
 Processus : [Main](../glossary.md#main-process)
 
-Un `BrowserView` peut être utilisé pour intégrer des contenus web supplémentaires dans un [`BrowserWindow`](browser-window.md). C'est comme une fenêtre enfant, sauf qu'il est positionné par rapport à sa fenêtre propriétaire. Il se veut être une alternative à la balise `webview`.
-
-### Exemple
+### Example
 
 ```javascript
 // Dans le processus main.
@@ -22,7 +24,7 @@ view.webContents.loadURL('https://electronjs.org')
 
 ### `new BrowserView([options])` _Experimental_
 
-* `options` Object (optional)
+* `options` Object (facultatif)
   * `webPreferences` Object (facultatif) - Voir [BrowserWindow](browser-window.md).
 
 ### Propriétés d'instance
@@ -39,7 +41,7 @@ Les objets créés avec `new BrowserView` ont les méthodes d’instance suivant
 
 #### `view.setAutoResize(options)` _Experimental_
 
-* `options` Object
+* Objet `options`
   * `width` Boolean (optional) - If `true`, the view's width will grow and shrink together with the window. `false` by default.
   * `height` Boolean (optional) - If `true`, the view's height will grow and shrink together with the window. `false` by default.
   * `horizontal` Boolean (optional) - If `true`, the view's x position and width will grow and shrink proportionally with the window. `false` by default.

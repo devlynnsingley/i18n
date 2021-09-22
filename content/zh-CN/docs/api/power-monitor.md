@@ -1,4 +1,4 @@
-# 电源监视器
+# powerMonitor
 
 > 监视电源状态的改变。
 
@@ -8,11 +8,11 @@
 
 ` powerMonitor ` 模块触发以下事件:
 
-### Event: 'suspend' _macOS_ _Windows_
+### Event: 'suspend'
 
 在系统挂起时触发。
 
-### Event: 'resume' _macOS_ _Windows_
+### Event: 'resume'
 
 在系统恢复时触发。
 
@@ -52,7 +52,7 @@
 
 * `idleThreshold` Integer
 
-Returns `String` - The system's current state. Can be `active`, `idle`, `locked` or `unknown`.
+Returns `String` - The system's current state. 可以被设置为`active`，`idle`，`locked`或者`unknown`
 
 计算系统空闲状态。 `idleThreshold` is the amount of time (in seconds) before considered idle.  `locked` is available on supported systems only.
 
@@ -68,7 +68,7 @@ Returns `Integer` - Idle time in seconds
 
 要监视此属性的变化，请使用 `on-battery` 和 `on-ac<` 事件。
 
-## Properties
+## 属性
 
 ### `powerMonitor.onBatteryPower`
 

@@ -141,13 +141,13 @@ Creates a new `NativeImage` instance from `buffer` that contains the raw bitmap 
 
 * `buffer` [Buffer][buffer]
 * `options` Object (опционально)
-  * `width` Integer (optional) - Required for bitmap buffers.
+  * `width` Integer (опционально) - требуется для буферов растровых изображений.
   * `height` Integer (опционально) - требуется для буферов растровых изображений.
   * `scaleFactor` Double (опционально) - По умолчанию 1.0.
 
 Возвращает `NativeImage`
 
-Creates a new `NativeImage` instance from `buffer`. Tries to decode as PNG or JPEG first.
+Создает новый `NativeImage` из `buffer`. Tries to decode as PNG or JPEG first.
 
 ### `nativeImage.createFromDataURL(dataURL)`
 
@@ -184,7 +184,7 @@ Creates a new `NativeImage` instance from `buffer`. Tries to decode as PNG or JP
 
 > Встроенная упаковка изображений, таких как область уведомлений, док-станция и значки приложений.
 
-Процессы: [Основной](../glossary.md#main-process), [Графический](../glossary.md#renderer-process)
+Process: [Main](../glossary.md#main-process), [Renderer](../glossary.md#renderer-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### Методы экземпляра
 
@@ -234,7 +234,7 @@ The difference between `getBitmap()` and `toBitmap()` is that `getBitmap()` does
 
 #### `image.isEmpty()`
 
-Возвращает `Boolean` - признак того что изображение пустое.
+Returns `Boolean` - Whether the image is empty.
 
 #### `image.getSize([scaleFactor])`
 
@@ -248,11 +248,11 @@ If `scaleFactor` is passed, this will return the size corresponding to the image
 
 * `option` Boolean
 
-Помечает изображение как шаблон изображения.
+Marks the image as a template image.
 
 #### `image.isTemplateImage()`
 
-Возвращает `Boolean` - признак того что изображение является шаблоном.
+Returns `Boolean` - Whether the image is a template image.
 
 #### `image.crop(rect)`
 
@@ -264,8 +264,8 @@ If `scaleFactor` is passed, this will return the size corresponding to the image
 
 * `options` Object
   * `width` Integer (optional) - Defaults to the image's width.
-  * `height` Integer (опционально) - По умолчанию высота изображения.
-  * `quality` String (опционально) - Желаемое качество изображения при изменения размера. Possible values are `good`, `better`, or `best`. The default is `best`. These values express a desired quality/speed tradeoff. They are translated into an algorithm-specific method that depends on the capabilities (CPU, GPU) of the underlying platform. It is possible for all three methods to be mapped to the same algorithm on a given platform.
+  * `height` Integer (optional) - Defaults to the image's height.
+  * `quality` String (optional) - The desired quality of the resize image. Possible values are `good`, `better`, or `best`. The default is `best`. These values express a desired quality/speed tradeoff. They are translated into an algorithm-specific method that depends on the capabilities (CPU, GPU) of the underlying platform. It is possible for all three methods to be mapped to the same algorithm on a given platform.
 
 Возвращает `NativeImage` - измененый размер изображения.
 

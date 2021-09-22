@@ -10,6 +10,8 @@ Un ejemplo de zoom de la página actual al 200%.
 
 ```javascript
 const { webFrame } = require('electron')
+
+webFrame.setZoomFactor(2)
 ```
 
 ## Métodos
@@ -28,7 +30,7 @@ El factor debe ser mayor que 0.0.
 
 Devuelve `Número` - El factor de zoom actual.
 
-### `webFrame.setZoomLevel(nivel)`
+### `webFrame.setZoomLevel(level)`
 
 * `nivel` Número - Nivel de Zoom.
 
@@ -50,14 +52,16 @@ Establecer el nivel de máximo y mínimo pizca de zoom.
 > **NOTE**: Visual zoom is disabled by default in Electron. To re-enable it, call:
 > 
 > ```js
-webFrame.setVisualZoomLevelLimits(1, 3)
-```
+> webFrame.setVisualZoomLevelLimits(1, 3)
+> ```
+
+> **NOTE**: Visual zoom only applies to pinch-to-zoom behavior. Cmd+/-/0 zoom shortcuts are controlled by the 'zoomIn', 'zoomOut', and 'resetZoom' MenuItem roles in the application Menu. Para desactivar los atajos manualmente, [defina el menú](./menu.md#examples) y omita los roles de zoom de la definición.
 
 ### `webFrame.setSpellCheckProvider(language, provider)`
 
 * `idioma` Cadena
-* `provider` Object
-  * `spellCheck` Function
+* Objeto `provider`
+  * `spellCheck` Función
     * `words` String[]
     * `callback` Función
       * `misspeltWords` String[]
@@ -104,17 +108,17 @@ Inyecta CSS en la página web actual y devuelve un identificador único para la 
 
 * `llave` Cadena
 
-Elimina el CSS insertado desde la página web actual. The stylesheet is identified by its key, which is returned from `webFrame.insertCSS(css)`.
+Elimina el CSS insertado desde la página web actual. La hoja de estilos se identifica por su clave, el cual es devuelto desde `webFrame.insertCSS(css)`.
 
 ### `webFrame.insertText(texto)`
 
-* `texto` String
+* `texto` Cadena
 
 Inserta `texto` en el elemento enfocado.
 
 ### `webFrame.executeJavaScript(code[, userGesture, callback])`
 
-* `codigo` String
+* `code` String
 * `userGesture` Boolean (opcional) - Predeterminado es `falso`.
 * `callback` Function (optional) - Called after script has been executed. Unless the frame is suspended (e.g. showing a modal alert), execution will be synchronous and the callback will be invoked before the method returns. For compatibility with an older version of this method, the error parameter is second.
   * `resultado` Cualquiera
@@ -143,8 +147,8 @@ Note that when the execution of script fails, the returned promise will not reje
 
 ### `webFrame.setIsolatedWorldInfo(worldId, info)`
 
-* `worldId` Integer - El ID de la palabra para correr javascript en, `0` es el mundo por defecto, `999` es el mundo usado por la característica de Electron `contextIsolation`. Las extenciones de Chrome reservan el rango de IDs en `[1 << 20, 1 << 29)`. Puede aquí suministrar cualquier entero.
-* `info` Object
+* `worldId` Integer - El ID de la palabra para correr javascript en, `0` es el mundo por defecto, `999` es el mundo usado por la característica de Electron `contextIsolation`. Las extenciones de Chrome reservan el rango de IDs en `[1 << 20, 1 << 29)`. Aquí puede suministrar cualquier entero.
+* Objeto `info`
   * `securityOrigin` String (opcional) - Origen de seguridad para el mundo aislado.
   * `csp` String (opcional) - Política de Seguridad de Contenido para el mundo aislado.
   * `name` String (optional) - Name for isolated world. Useful in devtools.
@@ -153,7 +157,7 @@ Set the security origin, content security policy and name of the isolated world.
 
 ### `webFrame.getResourceUsage()`
 
-Devuelve `Objecto`:
+Devuelve `Objeto`:
 
 * `images` [MemoryUsageDetails](structures/memory-usage-details.md)
 * `scripts` [MemoryUsageDetails](structures/memory-usage-details.md)

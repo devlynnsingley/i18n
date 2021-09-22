@@ -2,7 +2,7 @@
 
 > Gère les téléchargements de fichiers depuis des sources distantes.
 
-Processus : [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 `DownloadItem` est un [EventEmitter][event-emitter] qui représente un élément de téléchargement dans Electron. Il est utilisé dans l'événement `will-download` de la classe `Session`, et permet aux utilisateurs de gérer les fichiers en cours de téléchargement.
 
@@ -41,7 +41,7 @@ win.webContents.session.on('will-download', (event, item, webContents) => {
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `state` Chaîne de caratères - Peut être `progressing` ou `interrupted`.
 
 Émis lorsque le téléchargement a été mis à jour et n'est pas fini.
@@ -55,7 +55,7 @@ Le `state` peut être un de ces cas :
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `state` Chaîne de caratères - Peut être `completed`, `cancelled` ou `interrupted`.
 
 Emitted when the download is in a terminal state. This includes a completed download, a cancelled download (via `downloadItem.cancel()`), and interrupted download that can't be resumed.

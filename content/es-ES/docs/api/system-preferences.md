@@ -2,10 +2,10 @@
 
 > Obtener las preferencias del sistema.
 
-Proceso: [Main](../glossary.md#main-process)
+Proceso: [principal](../glossary.md#main-process)</0>
 
 ```javascript
-const { systemPreferences } = requiere('electron')
+const { systemPreferences } = require('electron')
 console.log(systemPreferences.isDarkMode())
 ```
 
@@ -17,20 +17,20 @@ El objeto de los`sistemasdePreferencias`emiten los siguietes eventos:
 
 Devuelve:
 
-* `event` Event
+* `event`
 * `nuevoColor` String - El nuevo color RGBA que el usuario asignó para ser su color de acento del sistema.
 
 ### Event: 'color-changed' _Windows_
 
 Devuelve:
 
-* `event` Event
+* `event`
 
 ### Evento: 'inverted-color-scheme-changed' _Windows_ _Obsoleto_
 
 Devuelve:
 
-* `event` Event
+* `event`
 * `invertedColorScheme` Boolean - `true` si un esquema de color invertido (un esquema de color de alto contraste con texto claro y fondos oscuros) se esta usando, de otra manera `false`.
 
 **Obsoleto:** Debería usar el nuevo evento [`updated`](native-theme.md#event-updated) en el módulo `nativeTheme`.
@@ -39,7 +39,7 @@ Devuelve:
 
 Devuelve:
 
-* `event` Event
+* `event`
 * `highContrastColorScheme` Boolean - `true` si un tema de alto contraste es esta empezando a usar, de otra manera `false`.
 
 **Obsoleto:** Debería usar el nuevo evento [`updated`](native-theme.md#event-updated) en el módulo `nativeTheme`.
@@ -50,7 +50,7 @@ Devuelve:
 
 Devuelve `Boolean` - Aunque el sistema esté en modo oscuro.
 
-**Deprecated:** Should use the new [`nativeTheme.shouldUseDarkColors`](native-theme.md#nativethemeshouldusedarkcolors-readonly) API.
+**Obsoleto:** Debería usar la nueva API [`nativeTheme.shouldUseDarkColors`](native-theme.md#nativethemeshouldusedarkcolors-readonly).
 
 ### `systemPreferences.isSwipeTrackingFromScrollEventsEnabled()` _macOS_
 
@@ -109,7 +109,7 @@ Bajo de la capucha este API subscribe a `NSDistributedNotificationCenter`, valor
 
 Devuelve `Number` - El ID de la suscripción
 
-Same as `subscribeNotification`, but uses `NSNotificationCenter` for local defaults. This is necessary for events such as `NSUserDefaultsDidChangeNotification`.
+Same as `subscribeNotification`, but uses `NSNotificationCenter` for local defaults. Esto es necesario para eventos como `NSUserDefaultsDidChangeNotification`.
 
 ### `systemPreferences.subscribeWorkspaceNotification(event, callback)` _macOS_
 
@@ -118,6 +118,8 @@ Same as `subscribeNotification`, but uses `NSNotificationCenter` for local defau
   * `evento` Cadena
   * Registro `userInfo`<String, unknown>
   * String `object`
+
+Devuelve `Number` - El ID de la suscripción
 
 Igual que `subscribeNotification`, pero utiliza `NSWorkspace.sharedWorkspace.notificationCenter`. Esto es necesario para eventos como `NSWorkspaceDidActivateApplicationNotification`.
 
@@ -145,12 +147,12 @@ Igual que `unsubscribeNotification`, pero remueve el subscriptor desde `NSWorksp
 
 Agregue los valores predeterminados especificados a `NSUserDefaults` de su aplicación.
 
-### `systemPreferences.getUserDefault(key, type)` _macOS_
+### `systemPreferences.getUserDefault<Type extends keyof UserDefaultTypes>(key, type)` _macOS_
 
 * `llave` Cadena
-* `type` String - Puede ser `string`, `boolean`, `integer`, `float`, `double`, `url`, `array` o `dictionary`.
+* `type` Type - Can be `string`, `boolean`, `integer`, `float`, `double`, `url`, `array` or `dictionary`.
 
-Devuelve `any` - El valor de `Key` en `NSUserDefaults`.
+Returns [`UserDefaultTypes[Type]`](structures/user-default-types.md) - The value of `key` in `NSUserDefaults`.
 
 Algún `key` y `type`s populares:
 
@@ -202,10 +204,10 @@ if (process.platform !== 'win32' || systemPreferences.isAeroGlassEnabled()) {
 const win = new BrowserWindow(browserOptions)
 
 // Navigate.
-si (browserOptions.transparent) {
+if (browserOptions.transparent) {
   win.loadURL(`file://${__dirname}/index.html`)
 } else {
- // No hay transparencia, así que cargamos un retroceso que usa estilos básicos.
+  // No transparency, so we load a fallback that uses basic styles.
   win.loadURL(`file://${__dirname}/fallback.html`)
 }
 ```
@@ -216,9 +218,9 @@ Devuelve `Cadena` - El sistema actual de usuarios amplía el acento del color de
 
 ```js
 const color = systemPreferences.getAccentColor() // `"aabbccdd"`
-const rojo = color.substr(0, 2) // "aa"
-const verde = color.substr(2, 2) // "bb"
-const azul = color.substr(4, 2) // "cc"
+const red = color.substr(0, 2) // "aa"
+const green = color.substr(2, 2) // "bb"
+const blue = color.substr(4, 2) // "cc"
 const alpha = color.substr(6, 2) // "dd"
 ```
 
@@ -241,7 +243,7 @@ Esta API solo esta disponible desde macOS 10.15 Mojave or posteriores.
     * `caption-text` - Textos en subtítulos, tamaño de la caja y la barra de desplazamiento de la caja de flecha.
     * `desktop` - Color de fondo del escritorio.
     * `disabled-text` - Gris (desactivado) texto.
-    * 0>highlight</code> - objeto(s) seleccionados en un control.
+    * `highlight` - objeto(s) seleccionados en un control.
     * `highlight-text` - Texto de objeto(s) seleccionados en un control.
     * `hotlight` - Color para un hiperlink o un muy rastreado objeto.
     * `inactive-border` - Borde de ventana inactivo.
@@ -293,7 +295,7 @@ Esta API solo esta disponible desde macOS 10.15 Mojave or posteriores.
     * `window-background` - El fondo de una ventana.
     * `window-frame-text` - El texto en la area de la barra de título de la ventana.
 
-Devuelve `String` - El color del sistema ajustando en la forma hexadecimal de RGB (`#ABCDEF`). See the [Windows docs][windows-colors] and the [macOS docs][macos-colors] for more details.
+Devuelve `String` - El color del sistema ajustando en la forma hexadecimal de RGB (`#ABCDEF`). Vea el [Windows docs][windows-colors] y el [macOS docs][macos-colors] para más detalles.
 
 Los siguientes colores solo están disponibles en macOS 10.14: `find-highlight`, `selected-content-background`, `separator`, `unemphasized-selected-content-background`, `unemphasized-selected-text-background`, y `unemphasized-selected-text`.
 
@@ -314,17 +316,17 @@ Devuelve `String` - El sistema de color estándar formateado como `#RRGGBBAA`.
 
 Devuelve uno de los varios colores estándar del sistema que se adaptan automáticamente a la vibración y los cambios en los ajustes de accesibilidad como "Aumentar contraste" y "reducir transparencia". Ver [Apple Documentation](https://developer.apple.com/design/human-interface-guidelines/macos/visual-design/color#system-colors) para mas detalles.
 
-### `systemPreferences.isInvertedColorScheme()` _Windows_ _Obsoleto_
+### `systemPreferences.isInvertedColorScheme()` _Windows_ _Deprecated_
 
 Returns `Boolean` - `true` si un esquema de color invertido (un esquema de color de alto contraste con texto claro y fondo oscuro) está activo. De otra manera `false`.
 
-**Deprecated:** Should use the new [`nativeTheme.shouldUseInvertedColorScheme`](native-theme.md#nativethemeshoulduseinvertedcolorscheme-macos-windows-readonly) API.
+**Obsoleto:** Debería usar la nueva API [`nativeTheme.shouldUseInvertedColorScheme`](native-theme.md#nativethemeshoulduseinvertedcolorscheme-macos-windows-readonly).
 
 ### `systemPreferences.isHighContrastColorScheme()` _macOS_ _Windows_ _Deprecated_
 
 Devuelve `Boolean` - `true` si un tema de alto contraste está activo, si no `false`.
 
-**Deprecated:** Should use the new [`nativeTheme.shouldUseHighContrastColors`](native-theme.md#nativethemeshouldusehighcontrastcolors-macos-windows-readonly) API.
+**Deprecated:** Use la nueva API de [`nativeTheme.shouldUseHighContrastColors`](native-theme.md#nativethemeshouldusehighcontrastcolors-macos-windows-readonly).
 
 ### `systemPreferences.getEffectiveAppearance()` _macOS_
 
@@ -332,7 +334,7 @@ Devuelve `String` - Puede ser `dark`, `light` o `unknown`.
 
 Obtiene confiración de la apariencia de macOS que está actulemente aplicada, mapea a [NSApplication.effectiveAppearance](https://developer.apple.com/documentation/appkit/nsapplication/2967171-effectiveappearance?language=objc)
 
-### `systemPreferences.getAppLevelAppearance()` _macOS_ _Obsoleto_
+### `systemPreferences.getAppLevelAppearance()` _macOS_ _Deprecated_
 
 Devuelve`String` | `null` - Puede ser `dark`, `light` o `unknown`.
 
@@ -392,13 +394,13 @@ Windows 10 has a global setting controlling `microphone` and `camera` access for
 
 Devuelve `Promise<Boolean>` - Una promesa que resuelve con `true` se fue concedido el consentimiento y `false` si fue denegado. Si un `mediaType` invalido es pasado, la promesa será rechazada. Si se negó una solicitud de acceso y después se cambia a través del panel de Preferencias del Sistema, se requerirá un reinicio de la aplicación para que los nuevos permisos surtan efecto. Si el acceso ya ha sido solicitado y denegado, _must_ ser cambiado a través del panel de preferencias; una alerta no aparecerá y la promesa resolverá con el estado de acceso existente.
 
-**Important:** Para poder aprovechar correctamente esta API, debes [must set](https://developer.apple.com/documentation/avfoundation/cameras_and_media_capture/requesting_authorization_for_media_capture_on_macos?language=objc) las cadenas `NSMicrophoneUsageDescription` y `NSCameraUsageDescription` en el archivo `Info.plist` de tu aplicación. Los valores para estas claves se utilizarán para rellenar los diálogos de permisos para que el usuario sea informado correctamente sobre el propósito de la solicitud de permiso. Mira [Electron Application Distribution](https://electronjs.org/docs/tutorial/application-distribution#macos) para más información acerca de como establecer estos en el contexto de Electron.
+**Important:** Para poder aprovechar correctamente esta API, debes [must set](https://developer.apple.com/documentation/avfoundation/cameras_and_media_capture/requesting_authorization_for_media_capture_on_macos?language=objc) las cadenas `NSMicrophoneUsageDescription` y `NSCameraUsageDescription` en el archivo `Info.plist` de tu aplicación. Los valores para estas claves se utilizarán para rellenar los diálogos de permisos para que el usuario sea informado correctamente sobre el propósito de la solicitud de permiso. Mira [Electron Application Distribution](../tutorial/application-distribution.md#macos) para más información acerca de como establecer estos en el contexto de Electron.
 
 Este consentimiento de usuario no fue requerido hasta macOS 10.14 Mojave, por lo que este método siempre devolverá `true` si su sistema está ejecutando 10.13 High Sierra o inferior.
 
 ### `systemPreferences.getAnimationSettings()`
 
-Devuelve `Objecto`:
+Devuelve `Objeto`:
 
 * `shouldRenderRichAnimation` Boolean - Devuelve verdadero is animaciones ricas deben ser renderizadas. Se observa en el tipo de sesión (por ejemplo, escritorio remoto) y ajustes de accesibilidad para dar orientación a animaciones pesadas.
 * `scrollAnimationsEnabledBySystem` Boolean - Determina sobre una base por plataforma si las animaciones de desplazamiento (por ejemplo, producidas por la clave home/end) deben estar habilitadas.
@@ -416,7 +418,7 @@ Posibles valores que se pueden configurar son `dark` y `light` y posibles valore
 
 Esta propiedad solo está disponible en macOS 10.14 Mojave o posteriores.
 
-### `systemPreferences.effectiveAppearance` _macOS_ _Readonly_
+### `systemPreferences.effectiveAppearance` _macOS_ _SoloLectura_
 
 Una propiedad `String` que puede ser `dark`, `light` o `unknown`.
 

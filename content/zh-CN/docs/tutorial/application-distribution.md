@@ -2,7 +2,7 @@
 
 ## 概览
 
-要使用 Electron 分发您的应用，您需要打包并重命名它。 为此，您可以使用专用工具或手动方法。
+To distribute your app with Electron, you need to package and rebrand it. 为此，您可以使用专用工具或手动方法。
 
 ## 专用工具
 
@@ -14,7 +14,7 @@
 
 这些工具将自动进行所有的步骤，例如，打包您的应用程序，重组可执行文件，并设置正确的图标。
 
-You can check the example of how to package your app with `electron-forge` in our [Quick Start Guide](quick-start.md#package-and-distribute-the-application).
+您可以查看 [快速上手指南](quick-start.md#package-and-distribute-your-application) 中如何用 `electron-forge` 打包您的应用程序的例子。
 
 ## 手动发布
 

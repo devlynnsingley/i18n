@@ -1,8 +1,8 @@
 # `<webview>` Tag
 
-## Aviso
+## Atenção
 
-Electron's `webview` tag is based on [Chromium's `webview`][chrome-webview], which is undergoing dramatic architectural changes. This impacts the stability of `webviews`, including rendering, navigation, and event routing. We currently recommend to not use the `webview` tag and to consider alternatives, like `iframe`, Electron's `BrowserView`, or an architecture that avoids embedded content altogether.
+Electron's `webview` tag is based on [Chromium's `webview`][chrome-webview], which is undergoing dramatic architectural changes. This impacts the stability of `webviews`, including rendering, navigation, and event routing. We currently recommend to not use the `webview` tag and to consider alternatives, like `iframe`, [Electron's `BrowserView`](browser-view.md), or an architecture that avoids embedded content altogether.
 
 ## Enabling
 
@@ -12,7 +12,7 @@ By default the `webview` tag is disabled in Electron >= 5.  You need to enable t
 
 > Display external web content in an isolated frame and process.
 
-Processo: [Renderizador](../glossary.md#renderer-process)
+Process: [Renderer](../glossary.md#renderer-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 Use the `webview` tag to embed 'guest' content (such as web pages) in your Electron app. The guest content is contained within the `webview` container. An embedded page within your app controls how the guest content is laid out and rendered.
 
@@ -94,14 +94,6 @@ A `Boolean`. When this attribute is present the guest page in `webview` will hav
 
 A `Boolean` for the experimental option for enabling NodeJS support in sub-frames such as iframes inside the `webview`. All your preloads will load for every iframe, you can use `process.isMainFrame` to determine if you are in the main frame or not. This option is disabled by default in the guest page.
 
-### `enableremotemodule`
-
-```html
-<webview src="http://www.google.com/" enableremotemodule="false"></webview>
-```
-
-A `Boolean`. When this attribute is `false` the guest page in `webview` will not have access to the [`remote`](remote.md) module. The remote module is unavailable by default.
-
 ### `plugins`
 
 ```html
@@ -113,10 +105,13 @@ A `Boolean`. When this attribute is present the guest page in `webview` will be 
 ### `preload`
 
 ```html
+<!-- from a file -->
 <webview src="https://www.github.com/" preload="./test.js"></webview>
+<!-- or if you want to load from an asar archive -->
+<webview src="https://www.github.com/" preload="./app.asar/test.js"></webview>
 ```
 
-A `String` that specifies a script that will be loaded before other scripts run in the guest page. The protocol of script's URL must be either `file:` or `asar:`, because it will be loaded by `require` in guest page under the hood.
+A `String` that specifies a script that will be loaded before other scripts run in the guest page. The protocol of script's URL must be `file:` (even when using `asar:` archives) because it will be loaded by Node's `require` under the hood, which treats `asar:` archives as virtual directories.
 
 When the guest page doesn't have node integration this script will still have access to all Node APIs, but global objects injected by Node will be deleted after this script has finished executing.
 
@@ -209,11 +204,11 @@ webview.addEventListener('dom-ready', () => {
 ### `<webview>.loadURL(url[, options])`
 
 * `url` URL
-* `options` Object (optional)
+* Objeto `options` (opcional)
   * `httpReferrer` (String | [Referrer](structures/referrer.md)) (optional) - An HTTP Referrer url.
   * `userAgent` String (optional) - A user agent originating the request.
   * `extraHeaders` String (optional) - Extra headers separated by "\n"
-  * `postData` ([UploadRawData[]](structures/upload-raw-data.md) | [UploadFile[]](structures/upload-file.md)) (optional)
+  * `postData` ([UploadRawData](structures/upload-raw-data.md) | [UploadFile](structures/upload-file.md))[] (optional)
   * `baseURLForDataURL` String (optional) - Base url (with trailing path separator) for files to be loaded by the data url. This is needed only if the specified `url` is a data url and needs to load other files.
 
 Returns `Promise<void>` - The promise will resolve when the page has finished loading (see [`did-finish-load`](webview-tag.md#event-did-finish-load)), and rejects if the page fails to load (see [`did-fail-load`](webview-tag.md#event-did-fail-load)).
@@ -432,16 +427,16 @@ Executes editing command `replaceMisspelling` in page.
 
 * `text` String
 
-Returns `Promise<void>`
+Retorna `Promise<void>`
 
 Inserts `text` to the focused element.
 
 ### `<webview>.findInPage(text[, options])`
 
 * `text` String - Content to be searched, must not be empty.
-* `options` Object (optional)
+* Objeto `options` (opcional)
   * `forward` Boolean (optional) - Whether to search forward or backward, defaults to `true`.
-  * `findNext` Boolean (optional) - Whether the operation is first request or a follow up, defaults to `false`.
+  * `findNext` Boolean (optional) - Whether to begin a new text finding session with this request. Should be `true` for initial requests, and `false` for follow-up requests. Defaults to `false`.
   * `matchCase` Boolean (optional) - Whether search should be case-sensitive, defaults to `false`.
 
 Returns `Integer` - The request id used for the request.
@@ -459,12 +454,12 @@ Stops any `findInPage` request for the `webview` with the provided `action`.
 
 ### `<webview>.print([options])`
 
-* `options` Object (optional)
+* Objeto `options` (opcional)
   * `silent` Boolean (optional) - Don't ask user for print settings. Por padrão é `false`.
   * `printBackground` Boolean (optional) - Prints the background color and image of the web page. Por padrão é `false`.
   * `deviceName` String (optional) - Set the printer device name to use. Must be the system-defined name and not the 'friendly' name, e.g 'Brother_QL_820NWB' and not 'Brother QL-820NWB'.
-  * `color` Boolean (optional) - Set whether the printed web page will be in color or grayscale. Default is `true`.
-  * `margins` Object (optional)
+  * `color` Boolean (optional) - Set whether the printed web page will be in color or grayscale. Por padrão é `true`.
+  * Objeto `margins` (opcional)
     * `marginType` String (optional) - Can be `default`, `none`, `printableArea`, or `custom`. If `custom` is chosen, you will also need to specify `top`, `bottom`, `left`, and `right`.
     * `top` Number (optional) - The top margin of the printed web page, in pixels.
     * `bottom` Number (optional) - The bottom margin of the printed web page, in pixels.
@@ -478,7 +473,7 @@ Stops any `findInPage` request for the `webview` with the provided `action`.
   * `pageRanges` Object[] (optional) - The page range to print.
     * `from` Number - Index of the first page to print (0-based).
     * `to` Number - Index of the last page to print (inclusive) (0-based).
-  * `duplexMode` String (optional) - Set the duplex mode of the printed web page. Can be `simplex`, `shortEdge`, or `longEdge`.
+  * `duplexMode` String (optional) - Set the duplex mode of the printed web page. Pode ser `simplex`, `shortEdge` ou `longEdge`.
   * `dpi` Record<string, number> (optional)
     * `horizontal` Number (optional) - The horizontal dpi.
     * `vertical` Number (optional) - The vertical dpi.
@@ -486,7 +481,7 @@ Stops any `findInPage` request for the `webview` with the provided `action`.
   * `footer` String (optional) - String to be printed as page footer.
   * `pageSize` String | Size (optional) - Specify page size of the printed document. Can be `A3`, `A4`, `A5`, `Legal`, `Letter`, `Tabloid` or an Object containing `height`.
 
-Returns `Promise<void>`
+Retorna `Promise<void>`
 
 Prints `webview`'s web page. Same as `webContents.print([options])`.
 
@@ -523,17 +518,29 @@ Captures a snapshot of the page within `rect`. Omitting `rect` will capture the 
 * `channel` String
 * `...args` any[]
 
-Returns `Promise<void>`
+Retorna `Promise<void>`
 
 Send an asynchronous message to renderer process via `channel`, you can also send arbitrary arguments. The renderer process can handle the message by listening to the `channel` event with the [`ipcRenderer`](ipc-renderer.md) module.
 
 See [webContents.send](web-contents.md#contentssendchannel-args) for examples.
 
+### `<webview>.sendToFrame(frameId, channel, ...args)`
+
+* `frameId` [number, number] - `[processId, frameId]`
+* `channel` String
+* `...args` any[]
+
+Retorna `Promise<void>`
+
+Send an asynchronous message to renderer process via `channel`, you can also send arbitrary arguments. The renderer process can handle the message by listening to the `channel` event with the [`ipcRenderer`](ipc-renderer.md) module.
+
+See [webContents.sendToFrame](web-contents.md#contentssendtoframeframeid-channel-args) for examples.
+
 ### `<webview>.sendInputEvent(event)`
 
 * `event`  [MouseInputEvent](structures/mouse-input-event.md) | [MouseWheelInputEvent](structures/mouse-wheel-input-event.md) | [KeyboardInputEvent](structures/keyboard-input-event.md)
 
-Returns `Promise<void>`
+Retorna `Promise<void>`
 
 Sends an input `event` to the page.
 
@@ -566,7 +573,7 @@ Returns `Number` - the current zoom level.
 * `minimumLevel` Number
 * `maximumLevel` Number
 
-Returns `Promise<void>`
+Retorna `Promise<void>`
 
 Sets the maximum and minimum pinch-to-zoom level.
 
@@ -621,6 +628,10 @@ Corresponds to the points in time when the spinner of the tab starts spinning.
 ### Event: 'did-stop-loading'
 
 Corresponds to the points in time when the spinner of the tab stops spinning.
+
+### Event: 'did-attach'
+
+Fired when attached to the embedder web contents.
 
 ### Event: 'dom-ready'
 
@@ -733,6 +744,30 @@ It is also not emitted during in-page navigation, such as clicking anchor links 
 
 Calling `event.preventDefault()` does __NOT__ have any effect.
 
+### Event: 'did-start-navigation'
+
+Retorna:
+
+* String `url`
+* `isInPlace` Boolean
+* `isMainFrame` Boolean
+* `frameProcessId` Integer
+* `frameRoutingId` Integer
+
+Emitted when any frame (including main) starts navigating. `isInPlace` will be `true` for in-page navigations.
+
+### Event: 'did-redirect-navigation'
+
+Retorna:
+
+* String `url`
+* `isInPlace` Boolean
+* `isMainFrame` Boolean
+* `frameProcessId` Integer
+* `frameRoutingId` Integer
+
+Emitted after a server side redirect occurs during navigation. For example a 302 redirect.
+
 ### Event: 'did-navigate'
 
 Retorna:
@@ -740,6 +775,21 @@ Retorna:
 * String `url`
 
 Emitted when a navigation is done.
+
+This event is not emitted for in-page navigations, such as clicking anchor links or updating the `window.location.hash`. Use `did-navigate-in-page` event for this purpose.
+
+### Event: 'did-frame-navigate'
+
+Retorna:
+
+* String `url`
+* `httpResponseCode` Integer - -1 for non HTTP navigations
+* `httpStatusText` String - empty for non HTTP navigations,
+* `isMainFrame` Boolean
+* `frameProcessId` Integer
+* `frameRoutingId` Integer
+
+Emitted when any frame navigation is done.
 
 This event is not emitted for in-page navigations, such as clicking anchor links or updating the `window.location.hash`. Use `did-navigate-in-page` event for this purpose.
 
@@ -771,6 +821,7 @@ webview.addEventListener('close', () => {
 
 Retorna:
 
+* `frameId` [number, number] - pair of `[processId, frameId]`.
 * `channel` String
 * `args` any[]
 

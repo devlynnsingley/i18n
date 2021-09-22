@@ -2,7 +2,7 @@
 
 > Systemeinstellungen anschauen.
 
-Prozess: [Main](../glossary.md#main-process)
+Prozess: [Haupt](../glossary.md#main-process)
 
 ```javascript
 const { systemPreferences } = require('electron')
@@ -11,24 +11,24 @@ console.log(systemPreferences.isDarkMode())
 
 ## Ereignisse
 
-The `systemPreferences` object emits the following events:
+Das `systemPreferences` Objekt stellt folgende Event zur Verfügung:
 
 ### Event: 'accent-color-changed' _Windows_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `newColor` String - The new RGBA color the user assigned to be their system accent color.
 
 ### Event: 'color-changed' _Windows_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 
 ### Event: 'inverted-color-scheme-changed' _Windows_ _Deprecated_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `invertedColorScheme` Boolean - `true` if an inverted color scheme (a high contrast color scheme with light text and dark backgrounds) is being used, `false` otherwise.
@@ -37,7 +37,7 @@ Rückgabewert:
 
 ### Event: 'high-contrast-color-scheme-changed' _Windows_ _Deprecated_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `highContrastColorScheme` Boolean - `true` if a high contrast theme is being used, `false` otherwise.
@@ -84,7 +84,7 @@ Posts `event` as native notifications of macOS. The `userInfo` is an Object that
 * `callback` Function
   * `event` String
   * `userInfo` Record<String, unknown>
-  * `object` String
+  * `object` Zeichenkette
 
 Returns `Number` - The ID of this subscription
 
@@ -105,7 +105,7 @@ Under the hood this API subscribes to `NSDistributedNotificationCenter`, example
 * `callback` Function
   * `event` String
   * `userInfo` Record<String, unknown>
-  * `object` String
+  * `object` Zeichenkette
 
 Returns `Number` - The ID of this subscription
 
@@ -117,7 +117,9 @@ Same as `subscribeNotification`, but uses `NSNotificationCenter` for local defau
 * `callback` Function
   * `event` String
   * `userInfo` Record<String, unknown>
-  * `object` String
+  * `object` Zeichenkette
+
+Returns `Number` - The ID of this subscription
 
 Same as `subscribeNotification`, but uses `NSWorkspace.sharedWorkspace.notificationCenter`. This is necessary for events such as `NSWorkspaceDidActivateApplicationNotification`.
 
@@ -145,12 +147,12 @@ Same as `unsubscribeNotification`, but removes the subscriber from `NSWorkspace.
 
 Add the specified defaults to your application's `NSUserDefaults`.
 
-### `systemPreferences.getUserDefault(key, type)` _macOS_
+### `systemPreferences.getUserDefault<Type extends keyof UserDefaultTypes>(key, type)` _macOS_
 
 * `key` String
-* `type` String - Can be `string`, `boolean`, `integer`, `float`, `double`, `url`, `array` or `dictionary`.
+* `type` Type - Can be `string`, `boolean`, `integer`, `float`, `double`, `url`, `array` or `dictionary`.
 
-Returns `any` - The value of `key` in `NSUserDefaults`.
+Returns [`UserDefaultTypes[Type]`](structures/user-default-types.md) - The value of `key` in `NSUserDefaults`.
 
 Some popular `key` and `type`s are:
 
@@ -392,7 +394,7 @@ Windows 10 has a global setting controlling `microphone` and `camera` access for
 
 Returns `Promise<Boolean>` - A promise that resolves with `true` if consent was granted and `false` if it was denied. If an invalid `mediaType` is passed, the promise will be rejected. If an access request was denied and later is changed through the System Preferences pane, a restart of the app will be required for the new permissions to take effect. If access has already been requested and denied, it _must_ be changed through the preference pane; an alert will not pop up and the promise will resolve with the existing access status.
 
-**Important:** In order to properly leverage this API, you [must set](https://developer.apple.com/documentation/avfoundation/cameras_and_media_capture/requesting_authorization_for_media_capture_on_macos?language=objc) the `NSMicrophoneUsageDescription` and `NSCameraUsageDescription` strings in your app's `Info.plist` file. The values for these keys will be used to populate the permission dialogs so that the user will be properly informed as to the purpose of the permission request. See [Electron Application Distribution](https://electronjs.org/docs/tutorial/application-distribution#macos) for more information about how to set these in the context of Electron.
+**Important:** In order to properly leverage this API, you [must set](https://developer.apple.com/documentation/avfoundation/cameras_and_media_capture/requesting_authorization_for_media_capture_on_macos?language=objc) the `NSMicrophoneUsageDescription` and `NSCameraUsageDescription` strings in your app's `Info.plist` file. The values for these keys will be used to populate the permission dialogs so that the user will be properly informed as to the purpose of the permission request. See [Electron Application Distribution](../tutorial/application-distribution.md#macos) for more information about how to set these in the context of Electron.
 
 This user consent was not required until macOS 10.14 Mojave, so this method will always return `true` if your system is running 10.13 High Sierra or lower.
 

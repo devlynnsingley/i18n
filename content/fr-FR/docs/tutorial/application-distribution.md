@@ -14,7 +14,7 @@ Vous pouvez utiliser les outils suivants pour distribuer votre application :
 
 Ces outils se chargeront des différentes opérations nécessaires à l'obtention d'une application Electron distribuable telles que l'empaquetage, le renommage de l'exécutable et l'initialisation des icones.
 
-Vous pouvez consulter un exemple d'empaquetage d'une application à l'aide de `electron-forge<` dans notre [Quick Start Guide](quick-start.md#package-and-distribute-the-application).
+Vous pouvez consulter un exemple de la façon d’empaquetage d'une application avec `electron-forge` dans le guide [de démarrage rapide](quick-start.md#package-and-distribute-your-application).
 
 ## Répartition manuelle
 
@@ -42,7 +42,7 @@ electron/resources/app
 └── index.html
 ```
 
-Then execute `Electron.app` on macOS, `electron` on Linux, or `electron.exe` on Windows, and Electron will start as your app. The `electron` directory will then be your distribution to deliver to users.
+Exécutez ensuite `Electron.app` sous macOS, `electron` sous Linux ou `electron.exe` sous Windows, et Electron démarrera en tant qu'application. The `electron` directory will then be your distribution to deliver to users.
 
 ### With an app source code archive
 

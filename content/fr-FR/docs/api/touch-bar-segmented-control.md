@@ -2,11 +2,11 @@
 
 > Créer un contrôle segmenté (un groupe de bouton) où un seul bouton a un état sélectionné
 
-Processus : [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### `new TouchBarSegmentedControl(options)`
 
-* `options` Object
+* Objet `options`
   * `segmentStyle` String (optional) - Style of the segments:
     * `automatique` - Par défaut. The appearance of the segmented control is automatically determined based on the type of window in which the control is displayed and the position within the window. Maps to `NSSegmentStyleAutomatic`.
     * `rounded` - Le contrôle est affiché en utilisant le style arrondi. Maps to `NSSegmentStyleRounded`.

@@ -15,7 +15,7 @@ nav:
   userland: ユーザーランド
   governance: ガバナンス
 keyboard_modal:
-  title: キーボードショートカット
+  title: キーボード ショート カット
   key: キー
   action: アクション
   focus_search: 検索バーにフォーカス
@@ -26,10 +26,9 @@ keyboard_modal:
   open_new_tab: 選択した検索結果を新しいタブで開く
 docs:
   title: Electron ドキュメント
-  description: 全ドキュメントを <a href="/docs/all">まとめて表示する</a>ことも可能です。また、<a href="/docs/faq">よくある質問</a> もご用意しております。
-  guides: "ガイド: Electronで始める"
+  guides: "ガイド: Electron のはじめかた"
   api_reference: API リファレンス
-  api_structures: API構造
+  api_structures: API の構造体
   advanced: 発展的なドキュメント
   detailed: 詳細
   custom_dom: カスタム DOM 要素
@@ -39,7 +38,6 @@ docs:
   propose_change: このドキュメントを改善する
   version_history: 過去のバージョン
   translate: ドキュメントの翻訳に参加する
-  view_all_docs: Electronに関する全てのドキュメントを1ページで表示する
 languages:
   choose_language: 言語選択
   view_more_details: 言語の詳細をもっと表示する
@@ -49,10 +47,10 @@ community:
   title: コミュニティ
   description: Electron に関する活動を行う人々のための情報
   channels:
-    get_started: "<a href='/docs/tutorial/first-app'><b>はじめる</b></a>: <a href='/docs/tutorial/first-app'>クイックスタートガイド</a>アプリを読みながら、はじめてのElectronアプリを開発することができます。"
+    get_started: "<a href='/docs/tutorial/first-app'><b>はじめる</b></a>: <a href='/docs/tutorial/first-app'>クイックスタートガイド</a> を読みながら、はじめての Electron アプリを構築しましょう。"
     updates: "<a href='https://twitter.com/electronjs'><b>最新情報を入手</b></a>: Twitter で<a href='https://twitter.com/electronjs'>@electronjs</a> \n をフォローしたり、<a href='/blog'>ブログのフィード</a>をご購読ください。"
     localized_docs: "<a href='/languages'><b>翻訳されたドキュメント</b></a>: <a href='/languages'>言語ページ</a>からアクセスできます。"
-    help: "<a href='https://discord.gg/electron'>Discord サーバー</a>、<a href='https://discuss.atom.io/c/electron'>Discuss</a>、<a href='https://stackoverflow.com/questions/tagged/electron'>スタック・オーバーフロー</a> などで <b>ヘルプとフィードバック</b> を受けられます。"
+    help: "<b>ヘルプやフィードバック</b> は, <a href='https://discord.gg/electron'>Discord サーバー</a> に参加したり、<a href='https://stackoverflow.com/questions/tagged/electron'>Stack Overflow</a> を訪れることで受けられます。"
     security: "<a href='mailto:security@electronjs.org'><b>セキュリティの問題を報告する</b></a>: <a href='mailto:security@electronjs.org'>security@electronjs.org</a> までメールでお知らせください。"
     bugs: "<a href='https://github.com/electron/electron/issues'><b>バグの報告</b></a>: <a href='https://github.com/electron/electron/issues'>electron/electron</a> リポジトリに Issue を作成してください。"
     feature_requests: "<a href='https://github.com/electron/electron/issues'><b>機能の要望</b></a>: GitHub の <a href='https://github.com/electron/electron/issues'>electron/electron</a> リポジトリに Issue を作成してください。"
@@ -68,7 +66,7 @@ community:
   videos: 動画
   meetups: ミートアップイベント
   awesome_notice: このリストは <a href="https://github.com/sindresorhus/awesome-electron">@sindresorhus による Awesome Electron リポジトリ </a> から生成されています。<br>もし不足しているものがあれば、<a href="https://github.com/sindresorhus/awesome-electron/blob/master/contributing.md">プルリクエストにてお知らせください</a>。
-  meetup_notice: ミートアップイベントの情報をこのページに追加するには、 <code>data/meetups.json</code> を編集した上で <a href="https://github.com/electron/electronjs.org/tree/master/data/meetups.json">プルリクエストを送信</a>してください。
+  meetup_notice: ミートアップイベントの情報をこのページに追加するには、<code>data/meetups.json</code> を編集した上で <a href="https://github.com/electron/electronjs.org/tree/master/data/meetups.json">プルリクエストを送信</a>してください。
 releases:
   show_releases: "リリー スの表示:"
   show_only_releases_from: "表示するリリースのバージョン"
@@ -77,6 +75,8 @@ releases:
   stable_desc: 定期かつサポートされるリリース
   beta_releases: ベータリリース
   beta_desc: 変更予定をアプリでテストしましょう
+  alpha_releases: アルファリリース
+  alpha_desc: 新機能を少しずつテストする
   nightly_releases: Nightly リリース
   nightly_desc: 最新機能の体験
   next: 次
@@ -90,14 +90,14 @@ electron_is_good:
   title: Electron 製のアプリは、ユーザーに愛されています
   description: あらゆる業界の何千もの組織が、Electron を使用してクロスプラットフォームソフトウェアを構築しています。
 electron_is_easy:
-  title: 想像以上に簡単です
+  title: 簡単に開発できます
   description: Webサイトを作成する感覚でデスクトップアプリを開発できます。Electron は JavaScript, HTML, CSS といったWeb技術を利用してネイティブアプリケーションを作成するためのフレームワークです。開発者はアプリの重要な部分の実装に集中して、面倒な部分はElectronにお任せください。
 web_technologies:
   title: Web技術
   description: Electron は ChromiumとNode.jsを利用しているため、HTML, CSS, JavaScriptを利用してアプリを開発することができます。
 open_source:
   title: オープンソース
-  description: Electron は GitHubおよび活発なボランティアのコミュニティによってメンテナンスされるオープンソースプロジェクトです。
+  description: Electron は OpenJS Foundation と活発な貢献者コミュニティがメンテナンスするオープンソースプロジェクトです。
 cross_platform:
   title: クロスプラットフォーム
   description: Mac, Windows, Linuxに対応。Electronアプリは3つのプラットフォームでビルド・動作します。
@@ -112,13 +112,10 @@ get_started:
   title: 始めましょう！
   description: Electronでの開発を始めるには、こちらの情報をチェックしてください。Electronを用いたWebアプリのパッケージ化、APIへのアクセス、インストーラの作成方法などが解説されています。
 explore:
-  title: ElectronのAPIに触れる
-  description: "<a href='https://github.com/electron/electron-api-demos'>デモアプリケーション</a>では、Electron API の重要な機能をインタラクティブに体験できます。Electron で実現できることを Tips 付きのサンプルコードと共にご覧いただけますので、アプリ開発にお役立てください。"
   fiddle_title: Electron Fiddle の強力な実験機能を試しましょう
   see_more_info: 詳細
 download: ダウンロード
 download_from_github: GitHub からダウンロード
-view_all_releases_on_github: GitHub で<a href="https://github.com/electron/electron-api-demos/releases">すべてのリリースを見る</a>
 quick_start:
   title: "<a href='https://github.com/electron/electron-quick-start' target='_blank'>Quick Start</a> アプリで実際に動く Electron を見てみましょう"
   description: 親切なコメント文とともに、最低限の機能だけが実装された Electron アプリをお試しください
@@ -128,7 +125,7 @@ quick_start:
   dive_deeper: さらに詳細な情報が必要であれば<a href='/docs'>ドキュメント</a>を参照することもできます。
 need_help:
   title: お困りですか？
-  description: <a href='https://discuss.atom.io/c/electron'>ディスカッション</a>フォーラムで質問することができます。また、Twitter の <a href="https://twitter.com/electronjs">@electronjs</a> では Electron に関する重要な情報をツイートしているので、是非フォローしてみてください。非公開での連絡をご希望の方は、メール <a href="mailto:info@electronjs.org">info@electronjs.org</a> でのお問い合わせも可能です。
+  description: <a href='https://discord.gg/electron'>Discord サーバー</a> で質問してみましょう。重要なお知らせは Twitter <a href="https://twitter.com/electronjs">@electronjs</a> をフォローしてください。非公開での連絡をご希望ですか? <a href="mailto:info@electronjs.org">info@electronjs.org</a> までメールでお問い合わせください。
 headings:
   languages: 言語
 taglines:
@@ -164,7 +161,6 @@ clipboard:
 fiddle_launch_button:
   launch: 動かす
   launch_in_fiddle: Fiddle で動かす
-or: または
 pages:
   '/':
     title: Electron | JavaScript, HTML, CSSによるクロスプラットフォームなデスクトップアプリ開発
@@ -175,9 +171,6 @@ pages:
   '/docs':
     title: ドキュメント
     description: 最新の Electron に関するガイドと API リファレンス
-  '/docs/all':
-    title: Electronに関する全てのドキュメント
-    description: Electron のガイド、APIドキュメントは単一の検索可能なページにまとめています。
   '/docs/api':
     title: API
     description: 最新の Electron のための API リファレンス
@@ -283,6 +276,6 @@ governance:
     see_charter: より詳しくは <a href="https://github.com/electron/governance/tree/master/charter/README.md">憲章</a> を参照してください。
   code_of_conduct: Electron の組織とその中のすべてのリポジトリは、この <a href="https://github.com/electron/governance/blob/master/CODE_OF_CONDUCT.md">行動規範</a> を遵守しています。
   license: Electron は <a href="https://github.com/electron/electron/blob/master/LICENSE">MIT License</a> でライセンスされています。
-  repository: ガバナンス構造の詳細については、<a href="https://github.com/electron/governance">Governance Repository</a> を確認してください。
+  repository: ガバナンス構造の詳細については、<a href="https://github.com/electron/governance">ガバナンスリポジトリ</a> を確認してください。
 _404:
   page_not_found: ページが見つかりません。

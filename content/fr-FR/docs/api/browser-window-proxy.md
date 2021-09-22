@@ -1,8 +1,8 @@
 ## Classe : BrowserWindowProxy
 
-> Manipuler la fenêtre de navigateur enfant
+> Manipule la fenêtre enfant
 
-Processus : [Rendu](../glossary.md#renderer-process)
+Process: [Renderer](../glossary.md#renderer-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 L'objet `BrowserWindowProxy` est retournée par `window.open` et fournit les fonctionnalités limitées avec la fenêtre enfant.
 
@@ -12,7 +12,7 @@ L’objet `BrowserWindowProxy` dispose des méthodes d’instance suivantes :
 
 #### `win.blur()`
 
-Supprime focus à partir de la fenêtre enfant.
+Retire le focus de la fenêtre enfant.
 
 #### `win.close()`
 

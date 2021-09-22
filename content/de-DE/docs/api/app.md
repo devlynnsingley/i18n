@@ -2,7 +2,7 @@
 
 > Kontrolliere den Ereignisverlauf deiner Anwendung.
 
-Prozess: [Main](../glossary.md#main-process)
+Prozess: [Haupt](../glossary.md#main-process)
 
 Das folgende Beispiel zeigt, wie die Applikation beendet wird, wenn das letzte Fenster geschlossen wurde:
 
@@ -25,7 +25,7 @@ In den meisten Fällen, sollte man alles im `ready` Eventhandler machen.
 
 ### Event: 'ready'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `launchInfo` Record<string, any> | [NotificationResponse](structures/notification-response.md) _macOS_
@@ -40,7 +40,7 @@ Wenn du keinen einzigen Listener für dieses Event nutzt und alle Fenster geschl
 
 ### Event: 'before-quit'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 
@@ -52,7 +52,7 @@ Ausgelöst, bevor sich die Fenster der Anwendung schließen. Ein Aufruf von `eve
 
 ### Event: 'before-quit'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 
@@ -64,7 +64,7 @@ Schau dir die Beschreibung/Dokumentation des `window-all-closed` Events an um di
 
 ### Event: 'quit'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `exitCode` Integer
@@ -75,7 +75,7 @@ Wird ausgelöst wenn die App beendet wird.
 
 ### Event: 'open-file' _macOS_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `path` String
@@ -88,7 +88,7 @@ In Windows musst du `process.argv` (im Main-Prozess) parsen, um den Dateipfad zu
 
 ### Event: 'open-url' _macOS_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `url` String
@@ -99,7 +99,7 @@ Du musst `event.preventDefault()` aufrufen um dieses Event selbst zu nutzen.
 
 ### Event: 'activate' _macOS_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `hasVisibleWindows` Boolean
@@ -108,7 +108,7 @@ Wird ausgelöst wenn die App aktiviert wird. Eine ganze Menge an Aktionen könne
 
 ### Event: 'did-become-active' _macOS_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 
@@ -116,19 +116,21 @@ Emitted when mac application become active. Difference from `activate` event is 
 
 ### Event: 'continue-activity' _macOS_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `type` String - Ein string zum identifizieren einer Aktivität. Maped auf [`NSUserActivity.activityType`][activity-type].
 * `userInfo` Object - Enthält den app-spezifischen Zustand, der von einer Aktivität auf einem anderen Gerät gespeichert wurde.
+* `details` Objekt
+  * `webpageURL` String (optional) - A string identifying the URL of the webpage accessed by the activity on another device, if available.
 
 Wird während [Handoff][handoff] ausgelöst, wenn eine Aktivität von einem anderen Gerät wieder aufgenommen werden soll. Du solltest `event.preventDefault()` aufrufen wenn du dieses Event verwenden willst.
 
-Eine Benutzeraktivität kann nur in einer App fortgesetzt werden, die die gleiche Entwicklerteam-ID als die Quell-App der Aktivität hat und den Typ der Aktivität unterstützt. Supported activity types are specified in the app's `Info.plist` under the `NSUserActivityTypes` key.
+Eine Benutzeraktivität kann nur in einer App fortgesetzt werden, die die gleiche Entwicklerteam-ID als die Quell-App der Aktivität hat und den Typ der Aktivität unterstützt. Unterstützte Aktivitätstypen sind spezifiziert in `Info.plist` unter dem `NSUserActivityTypes` Schlüssel.
 
 ### Event: 'will-continue-activity' _macOS_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `type` String - Ein string zum identifizieren einer Aktivität. Maped auf [`NSUserActivity.activityType`][activity-type].
@@ -137,7 +139,7 @@ Wird während [Handoff][handoff] ausgelöst, bevor eine Aktivität von einem and
 
 ### Event: 'continue-activity-error' _macOS_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `type` String - Ein string zum identifizieren einer Aktivität. Maped auf [`NSUserActivity.activityType`][activity-type].
@@ -147,7 +149,7 @@ Wird während [Handoff][handoff] ausgelöst, wenn eine Aktivität von einem ande
 
 ### Ereignis: 'activity-was-continued' _macOS_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `type` String - Ein string zum identifizieren einer Aktivität. Maped auf [`NSUserActivity.activityType`][activity-type].
@@ -157,17 +159,17 @@ Wird während [Handoff][handoff] ausgelöst, wenn eine Aktivität von diesem Ger
 
 ### Event: 'update-activity-state' _macOS_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `type` String - Ein string zum identifizieren einer Aktivität. Maped auf [`NSUserActivity.activityType`][activity-type].
 * `userInfo` unknown - Enthält app-spezifischen Zustand, der von der Aktivität gespeichert wird.
 
-Wird ausgelöst wenn [Handoff][handoff] auf einem anderen Gerät fortgesetzt wird. Wenn Sie den zu übertragenden Status aktualisieren müssen, sollten Sie `event.preventDefault()` sofort aufrufen, ein neues `userInfo-Wörterbuch` erstellen und `app.updateCurrentActivity()` zeitnah aufrufen. Otherwise, the operation will fail and `continue-activity-error` will be called.
+Wird ausgelöst wenn [Handoff][handoff] auf einem anderen Gerät fortgesetzt wird. Wenn Sie den zu übertragenden Status aktualisieren müssen, sollten Sie `event.preventDefault()` sofort aufrufen, ein neues `userInfo-Wörterbuch` erstellen und `app.updateCurrentActivity()` zeitnah aufrufen. Andernfalls wird die Operation fehlschlagen und `Continue-Activity-error` wird aufgerufen.
 
 ### Event: 'new-window-for-tab' _macOS_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 
@@ -175,16 +177,16 @@ Emittiert, wenn der Benutzer auf die neue Registerkarte macOS mit systemeigenem 
 
 ### Event: 'browser-window-blur'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `window` [BrowserWindow](browser-window.md)
 
-Emitted when a [browserWindow](browser-window.md) gets blurred.
+Wird ausgegeben, wenn ein [ browserWindow ](browser-window.md) ausgeblendet wird.
 
 ### Event: 'browser-window-focus'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `window` [BrowserWindow](browser-window.md)
@@ -193,7 +195,7 @@ Emittiert wenn ein [browserWindow](browser-window.md) in den Fokus kommt.
 
 ### Event: 'browser-window-created'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `window` [BrowserWindow](browser-window.md)
@@ -202,7 +204,7 @@ Emittiert wenn ein neues [browserWindow](browser-window.md) erstellt wird.
 
 ### Event: 'web-contents-created'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `webContents` [WebContents](web-contents.md)
@@ -211,7 +213,7 @@ Emittiert wen ein neues [webContents](web-contents.md) erstellt wird.
 
 ### Event: 'certificate-error'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `webContents` [WebContents](web-contents.md)
@@ -239,7 +241,7 @@ app.on('certificate-error', (event, webContents, url, error, certificate, callba
 
 ### Event: 'select-client-certificate'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `webContents` [WebContents](web-contents.md)
@@ -263,13 +265,13 @@ app.on('select-client-certificate', (event, webContents, url, list, callback) =>
 
 ### Event: 'login'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `webContents` [WebContents](web-contents.md)
-* `authenticationResponseDetails` Object
+* `authenticationResponseDetails` Objekt
   * `url` URL
-* `authInfo` Object
+* `authInfo` Objekt
   * `isProxy` Boolean
   * `scheme` String
   * `host` String
@@ -300,7 +302,7 @@ Emitted whenever there is a GPU info update.
 
 ### Event: 'gpu-process-crashed' _Deprecated_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `killed` Boolean
@@ -311,7 +313,7 @@ Emitted when the GPU process crashes or is killed.
 
 ### Event: 'renderer-process-crashed' _Deprecated_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `webContents` [WebContents](web-contents.md)
@@ -323,11 +325,11 @@ Emitted when the renderer process of `webContents` crashes or is killed.
 
 ### Event: 'render-process-gone'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `webContents` [WebContents](web-contents.md)
-* `details` Object
+* `details` Objekt
   * `reason` String - The reason the render process is gone.  Mögliche werte:
     * `clean-exit` - Process exited with an exit code of zero
     * `abnormal-exit` - Process exited with a non-zero exit code
@@ -342,10 +344,10 @@ Emitted when the renderer process unexpectedly disappears.  This is normally bec
 
 ### Event: 'child-process-gone'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
-* `details` Object
+* `details` Objekt
   * `Typ` String - Prozess-Typ. Einer der folgenden Werte:
     * `Utility`
     * `Zygote`
@@ -370,7 +372,7 @@ Emitted when the child process unexpectedly disappears. This is normally because
 
 ### Event: 'accessibility-support-changed' _macOS_ _Windows_
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `accessibilitySupportEnabled` Boolean - `true` when Chrome's accessibility support is enabled, `false` otherwise.
@@ -379,7 +381,7 @@ Emitted when Chrome's accessibility support changes. This event fires when assis
 
 ### Event: 'session-created'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `session` [Session](session.md)
 
@@ -395,7 +397,7 @@ app.on('session-created', (session) => {
 
 ### Event: 'second-instance'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `argv` String[] - An array of the second instance's command line arguments
@@ -413,60 +415,12 @@ This event is guaranteed to be emitted after the `ready` event of `app` gets emi
 
 ### Event: 'desktop-capturer-get-sources'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `event` Event
 * `webContents` [WebContents](web-contents.md)
 
 Emitted when `desktopCapturer.getSources()` is called in the renderer process of `webContents`. Calling `event.preventDefault()` will make it return empty sources.
-
-### Event: 'remote-require' _Deprecated_
-
-Rückgabewert:
-
-* `event` Event
-* `webContents` [WebContents](web-contents.md)
-* `moduleName` String
-
-Emitted when `remote.require()` is called in the renderer process of `webContents`. Calling `event.preventDefault()` will prevent the module from being returned. Ein eigener Wert kann zurückgegeben werden durch Setzen von `event.returnValue`.
-
-### Event: 'remote-get-global' _Deprecated_
-
-Rückgabewert:
-
-* `event` Event
-* `webContents` [WebContents](web-contents.md)
-* `globalName` String
-
-Emitted when `remote.getGlobal()` is called in the renderer process of `webContents`. Calling `event.preventDefault()` will prevent the global from being returned. Ein eigener Wert kann zurückgegeben werden durch Setzen von `event.returnValue`.
-
-### Event: 'remote-get-builtin' _Deprecated_
-
-Rückgabewert:
-
-* `event` Event
-* `webContents` [WebContents](web-contents.md)
-* `moduleName` String
-
-Emitted when `remote.getBuiltin()` is called in the renderer process of `webContents`. Calling `event.preventDefault()` will prevent the module from being returned. Ein eigener Wert kann zurückgegeben werden durch Setzen von `event.returnValue`.
-
-### Event: 'remote-get-current-window' _Deprecated_
-
-Rückgabewert:
-
-* `event` Event
-* `webContents` [WebContents](web-contents.md)
-
-Emitted when `remote.getCurrentWindow()` is called in the renderer process of `webContents`. Calling `event.preventDefault()` will prevent the object from being returned. Ein eigener Wert kann zurückgegeben werden durch Setzen von `event.returnValue`.
-
-### Event: 'remote-get-current-web-contents' _Deprecated_
-
-Rückgabewert:
-
-* `event` Event
-* `webContents` [WebContents](web-contents.md)
-
-Emitted when `remote.getCurrentWebContents()` is called in the renderer process of `webContents`. Calling `event.preventDefault()` will prevent the object from being returned. Ein eigener Wert kann zurückgegeben werden durch Setzen von `event.returnValue`.
 
 ## Methoden
 
@@ -557,7 +511,7 @@ Returns `String` - The current application directory.
     * `$XDG_CONFIG_HOME` oder `~/.config` in Linux
     * `~/Library/Application Support` in macOS
   * `userData` The directory for storing your app's configuration files, which by default it is the `appData` directory appended with your app's name.
-  * `cache`
+  * `Cache`
   * `temp` Temporäres Verzeichnis.
   * `exe` Die aktuell ausführbare Datei.
   * `module` Die `libchromiumcontent` Bibliothek.
@@ -597,7 +551,7 @@ On _Linux_ and _macOS_, icons depend on the application associated with file mim
 
 ### `app.setPath(name, path)`
 
-* `name` String
+* `name` Zeichenfolge
 * `path` String
 
 Overrides the `path` to a special directory or file associated with `name`. If the path specifies a directory that does not exist, an `Error` is thrown. In that case, the directory should be created with `fs.mkdirSync` or similar.
@@ -618,7 +572,7 @@ Usually the `name` field of `package.json` is a short lowercase name, according 
 
 ### `app.setName(name)`
 
-* `name` String
+* `name` Zeichenfolge
 
 Überschreibt den Namen der aktuellen Anwendung.
 
@@ -626,9 +580,9 @@ Usually the `name` field of `package.json` is a short lowercase name, according 
 
 ### `app.getLocale()`
 
-Returns `String` - The current application locale. Possible return values are documented [here](locales.md).
+Returns `String` - The current application locale, fetched using Chromium's `l10n_util` library. Possible return values are documented [here](https://source.chromium.org/chromium/chromium/src/+/master:ui/base/l10n/l10n_util.cc).
 
-To set the locale, you'll want to use a command line switch at app startup, which may be found [here](https://github.com/electron/electron/blob/master/docs/api/command-line-switches.md).
+To set the locale, you'll want to use a command line switch at app startup, which may be found [here](command-line-switches.md).
 
 **Note:** When distributing your packaged app, you have to also ship the `locales` folder.
 
@@ -655,7 +609,7 @@ Leere die zuletzt verwendete Dokumenten Liste.
 ### `app.setAsDefaultProtocolClient(protocol[, path, args])`
 
 * `protocol` String - The name of your protocol, without `://`. For example, if you want your app to handle `electron://` links, call this method with `electron` as the parameter.
-* `path` String (optional) _Windows_ - The path to the Electron executable. Defaults to `process.execPath`
+* `path` String (optional) _Windows_ - The path to the Electron executable. Standardwert ist `process.execPath`
 * `args` String[] (optional) _Windows_ - Arguments passed to the executable. Defaults to an empty array
 
 Returns `Boolean` - Whether the call succeeded.
@@ -747,6 +701,8 @@ If `categories` is `null` the previously set custom Jump List (if any) will be r
 
 **Note:** Users can remove items from custom categories, and Windows will not allow a removed item to be added back into a custom category until **after** the next successful call to `app.setJumpList(categories)`. Any attempt to re-add a removed item to a custom category earlier than that will result in the entire custom category being omitted from the Jump List. The list of removed items can be obtained using `app.getJumpListSettings()`.
 
+**Note:** The maximum length of a Jump List item's `description` property is 260 characters. Beyond this limit, the item will not be added to the Jump List, nor will it be displayed.
+
 Hier ist ein einfaches Beispiel, wie man eine eigene Jump List anlegt:
 
 ```javascript
@@ -829,7 +785,7 @@ if (!gotTheLock) {
   app.quit()
 } else {
   app.on('second-instance', (event, commandLine, workingDirectory) => {
-    // Someone tried to run a second instance, we should focus our window.{app}.
+    // Someone tried to run a second instance, we should focus our window.
     if (myWindow) {
       if (myWindow.isMinimized()) myWindow.restore()
       myWindow.focus()
@@ -882,7 +838,7 @@ Updates the current activity if its type matches `type`, merging the entries fro
 
 ### `app.setAppUserModelId(id)` _Windows_
 
-* `id` String
+* `id` Zeichenfolge
 
 Changes the [Application User Model ID][app-user-model-id] to `id`.
 
@@ -900,13 +856,43 @@ Activation policy types:
 
 ### `app.importCertificate(options, callback)` _Linux_
 
-* `options` Object
+* `options` Objekt
   * `certificate` String - Pfad zur pkcs12 Datei.
   * `password` String - Passphrase des Zertifikats.
 * `callback` Function
   * `result` Integer - Resultat des Imports.
 
 Imports the certificate in pkcs12 format into the platform certificate store. `callback` is called with the `result` of import operation, a value of `0` indicates success while any other value indicates failure according to Chromium [net_error_list](https://source.chromium.org/chromium/chromium/src/+/master:net/base/net_error_list.h).
+
+### `app.configureHostResolver(options)`
+
+* `options` Objekt
+  * `enableBuiltInResolver` Boolean (optional) - Whether the built-in host resolver is used in preference to getaddrinfo. When enabled, the built-in resolver will attempt to use the system's DNS settings to do DNS lookups itself. Enabled by default on macOS, disabled by default on Windows and Linux.
+  * `secureDnsMode` String (optional) - Can be "off", "automatic" or "secure". Configures the DNS-over-HTTP mode. When "off", no DoH lookups will be performed. When "automatic", DoH lookups will be peformed first if DoH is available, and insecure DNS lookups will be performed as a fallback. When "secure", only DoH lookups will be performed. Defaults to "automatic".
+  * `secureDnsServers` String[]&#32;(optional) - A list of DNS-over-HTTP server templates. See [RFC8484 § 3][] for details on the template format. Most servers support the POST method; the template for such servers is simply a URI. Note that for [some DNS providers][doh-providers], the resolver will automatically upgrade to DoH unless DoH is explicitly disabled, even if there are no DoH servers provided in this list.
+  * `enableAdditionalDnsQueryTypes` Boolean (optional) - Controls whether additional DNS query types, e.g. HTTPS (DNS type 65) will be allowed besides the traditional A and AAAA queries when a request is being made via insecure DNS. Has no effect on Secure DNS which always allows additional types. Standard ist true.
+
+Configures host resolution (DNS and DNS-over-HTTPS). By default, the following resolvers will be used, in order:
+
+1. DNS-over-HTTPS, if the [DNS provider supports it][doh-providers], then
+2. the built-in resolver (enabled on macOS only by default), then
+3. the system's resolver (e.g. `getaddrinfo`).
+
+This can be configured to either restrict usage of non-encrypted DNS (`secureDnsMode: "secure"`), or disable DNS-over-HTTPS (`secureDnsMode:
+"off"`). It is also possible to enable or disable the built-in resolver.
+
+To disable insecure DNS, you can specify a `secureDnsMode` of `"secure"`. If you do so, you should make sure to provide a list of DNS-over-HTTPS servers to use, in case the user's DNS configuration does not include a provider that supports DoH.
+
+```js
+app.configureHostResolver({
+  secureDnsMode: 'secure',
+  secureDnsServers: [
+    'https://cloudflare-dns.com/dns-query'
+  ]
+})
+```
+
+This API must be called after the `ready` event is emitted.
 
 ### `app.disableHardwareAcceleration()`
 
@@ -932,9 +918,9 @@ Returns [`GPUFeatureStatus`](structures/gpu-feature-status.md) - The Graphics Fe
 
 ### `app.getGPUInfo(infoType)`
 
-* `infoType` String - Can be `basic` or `complete`.
+* `infoType` String - Kann `basic` oder `complete` sein.
 
-Returns `Promise<unknown>`
+Gibt das `Promise<unknown>` zurück
 
 For `infoType` equal to `complete`: Promise is fulfilled with `Object` containing all the GPU Information as in [chromium's GPUInfo object](https://chromium.googlesource.com/chromium/src/+/4178e190e9da409b055e5dff469911ec6f6b716f/gpu/config/gpu_info.cc). This includes the version and driver information that's shown on `chrome://gpu` page.
 
@@ -979,7 +965,7 @@ Sets the counter badge for current app. Setting the count to `0` will hide the b
 
 On macOS, it shows on the dock icon. On Linux, it only works for Unity launcher.
 
-**Note:** Unity launcher requires the existence of a `.desktop` file to work, for more information please read [Desktop Environment Integration][unity-requirement].
+**Note:** Unity launcher requires a `.desktop` file to work. For more information, please read the [Unity integration documentation][unity-requirement].
 
 ### `app.getBadgeCount()` _Linux_ _macOS_
 
@@ -1059,7 +1045,7 @@ Show the app's about panel options. These options can be overridden with `app.se
 
 ### `app.setAboutPanelOptions(options)`
 
-* `options` Object
+* `options` Objekt
   * `applicationName` String (optional) - Der Name der App.
   * `applicationVersion` String (optional) - Die Version der App.
   * `copyright` String (optional) - Copyright Information.
@@ -1181,7 +1167,7 @@ An `Integer` property that returns the badge count for current app. Setting the 
 
 On macOS, setting this with any nonzero integer shows on the dock icon. On Linux, this property only works for Unity launcher.
 
-**Note:** Unity launcher requires the existence of a `.desktop` file to work, for more information please read [Desktop Environment Integration][unity-requirement].
+**Note:** Unity launcher requires a `.desktop` file to work. For more information, please read the [Unity integration documentation][unity-requirement].
 
 **Note:** On macOS, you need to ensure that your application has the permission to display notifications for this property to take effect.
 
@@ -1209,18 +1195,24 @@ A `String` which is the user agent string Electron will use as a global fallback
 
 This is the user agent that will be used when no user agent is set at the `webContents` or `session` level.  It is useful for ensuring that your entire app has the same user agent.  Set to a custom value as early as possible in your app's initialization to ensure that your overridden value is used.
 
-### `app.allowRendererProcessReuse`
-
-A `Boolean` which when `true` disables the overrides that Electron has in place to ensure renderer processes are restarted on every navigation.  The current default value for this property is `true`.
-
-The intention is for these overrides to become disabled by default and then at some point in the future this property will be removed.  This property impacts which native modules you can use in the renderer process.  For more information on the direction Electron is going with renderer process restarts and usage of native modules in the renderer process please check out this [Tracking Issue](https://github.com/electron/electron/issues/18397).
-
-### `app.runningUnderRosettaTranslation` _macOS_ _Readonly_
+### `app.runningUnderRosettaTranslation` _macOS_ _Readonly_ _Deprecated_
 
 A `Boolean` which when `true` indicates that the app is currently running under the [Rosetta Translator Environment](https://en.wikipedia.org/wiki/Rosetta_(software)).
 
 You can use this property to prompt users to download the arm64 version of your application when they are running the x64 version under Rosetta incorrectly.
 
+**Deprecated:** This property is superceded by the `runningUnderARM64Translation` property which detects when the app is being translated to ARM64 in both macOS and Windows.
+
+### `app.runningUnderARM64Translation` _Readonly_ _macOS_ _Windows_
+
+A `Boolean` which when `true` indicates that the app is currently running under an ARM64 translator (like the macOS [Rosetta Translator Environment](https://en.wikipedia.org/wiki/Rosetta_(software)) or Windows [WOW](https://en.wikipedia.org/wiki/Windows_on_Windows)).
+
+You can use this property to prompt users to download the arm64 version of your application when they are running the x64 version under Rosetta incorrectly.
+
+[doh-providers]: https://source.chromium.org/chromium/chromium/src/+/main:net/dns/public/doh_provider_entry.cc;l=31?q=%22DohProviderEntry::GetList()%22&ss=chromium%2Fchromium%2Fsrc
+
+[doh-providers]: https://source.chromium.org/chromium/chromium/src/+/main:net/dns/public/doh_provider_entry.cc;l=31?q=%22DohProviderEntry::GetList()%22&ss=chromium%2Fchromium%2Fsrc
+[RFC8484 § 3]: https://datatracker.ietf.org/doc/html/rfc8484#section-3
 [tasks]: https://msdn.microsoft.com/en-us/library/windows/desktop/dd378460(v=vs.85).aspx#tasks
 [app-user-model-id]: https://msdn.microsoft.com/en-us/library/windows/desktop/dd378459(v=vs.85).aspx
 [electron-forge]: https://www.electronforge.io/
@@ -1229,7 +1221,7 @@ You can use this property to prompt users to download the arm64 version of your 
 [LSCopyDefaultHandlerForURLScheme]: https://developer.apple.com/library/mac/documentation/Carbon/Reference/LaunchServicesReference/#//apple_ref/c/func/LSCopyDefaultHandlerForURLScheme
 [handoff]: https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Handoff/HandoffFundamentals/HandoffFundamentals.html
 [activity-type]: https://developer.apple.com/library/ios/documentation/Foundation/Reference/NSUserActivity_Class/index.html#//apple_ref/occ/instp/NSUserActivity/activityType
-[unity-requirement]: ../tutorial/desktop-environment-integration.md#unity-launcher
+[unity-requirement]: https://help.ubuntu.com/community/UnityLaunchersAndDesktopFiles#Adding_shortcuts_to_a_launcher
 [mas-builds]: ../tutorial/mac-app-store-submission-guide.md
 [Squirrel-Windows]: https://github.com/Squirrel/Squirrel.Windows
 [JumpListBeginListMSDN]: https://msdn.microsoft.com/en-us/library/windows/desktop/dd378398(v=vs.85).aspx

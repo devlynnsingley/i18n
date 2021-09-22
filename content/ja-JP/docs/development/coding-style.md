@@ -1,4 +1,4 @@
-# コーディングスタイル
+# コーディング スタイル
 
 これらは Electron のコーディングスタイルのガイドラインです。
 
@@ -17,12 +17,12 @@
 * プラットフォーム依存なコードは避けてください。
   * `path.join()` を使用してファイル名を連結します。
   * 一時ディレクトリを参照する必要がある場合は、`/tmp` ではなく `os.tmpdir()` を使用してください。
-* 関数の終わりから明示的に戻るときにただの `return` を使用します。
+* 関数の終わりから明示的に戻るときにプレーンな `return` を使用します。
   * `return null`、`return undefined`、`null` や `undefined` ではありません
 
 ## C++ と Python
 
-C++ と Python の場合、Chromium の [コーディングスタイル](https://www.chromium.org/developers/coding-style) に従います。 C++ のコードを自動的にフォーマットするのに、[clang-format](clang-format.md) が使用できます。 また、`script/cpplint.py` というスクリプトがあり、すべてのファイルが適しているかどうかを確認します。
+C++ と Python の場合、Chromium の [コーディングスタイル](https://chromium.googlesource.com/chromium/src/+/refs/heads/main/styleguide/styleguide.md) に従います。 C++ のコードを自動的にフォーマットするのに、[clang-format](clang-format.md) が使用できます。 また、`script/cpplint.py` というスクリプトがあり、すべてのファイルが適しているかどうかを確認します。
 
 我たちの使用している現在の Python のバージョンは、Python 2.7 です。
 

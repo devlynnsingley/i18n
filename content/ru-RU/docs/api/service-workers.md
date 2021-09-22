@@ -2,9 +2,9 @@
 
 > Query and receive events from a sessions active service workers.
 
-Процесс: [Основной](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
-Instances of the `ServiceWorkers` class are accessed by using `serviceWorkers` property of a `Session`.
+Экземпляры класса `ServiceWorkers` доступны через свойство `serviceWorkers` объекта `Session`.
 
 Например:
 
@@ -27,13 +27,13 @@ session.defaultSession.serviceWorkers.on('console-message', (event, messageDetai
 
 ### События экземпляра
 
-The following events are available on instances of `ServiceWorkers`:
+Для экземпляров `ServiceWorkers` доступны следующие события:
 
 #### Event: 'console-message'
 
 Возвращает:
 
-* `event` Event
+* Событие типа `event`
 * `messageDetails` Object - Information about the console message
   * `message` String - The actual console message
   * `versionId` Number - The version ID of the service worker that sent the log message
@@ -44,9 +44,19 @@ The following events are available on instances of `ServiceWorkers`:
 
 Emitted when a service worker logs something to the console.
 
+#### Event: 'registration-completed'
+
+Возвращает:
+
+* Событие типа `event`
+* `details` Object - Information about the registered service worker
+  * `scope` String - The base URL that a service worker is registered for
+
+Emitted when a service worker has been registered. Can occur after a call to [`navigator.serviceWorker.register('/sw.js')`](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/register) successfully resolves or when a Chrome extension is loaded.
+
 ### Методы экземпляра
 
-The following methods are available on instances of `ServiceWorkers`:
+В экземпляре `ServiceWorkers` доступны следующие методы:
 
 #### `serviceWorkers.getAllRunning()`
 

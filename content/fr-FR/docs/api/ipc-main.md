@@ -32,6 +32,8 @@ ipcMain.on('synchronous-message', (event, arg) => {
 
 ```javascript
 // Dans le processus de rendu (page web).
+// NB. Electron APIs are only accessible from preload, unless contextIsolation is disabled.
+// Voir https://www.electronjs.org/docs/tutorial/process-model#preload-scripts pour plus de détails.
 const { ipcRenderer } = require('electron')
 console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // affiche "pong"
 
@@ -105,6 +107,8 @@ async () => {
 ```
 
 Le `event` qui est passé comme premier argument au gestionnaire est le même que que celui passé à un event listener régulier. Il contient des informations sur lequel WebContents est la source de la demande d'appel.
+
+Errors thrown through `handle` in the main process are not transparent as they are serialized and only the `message` property from the original error is provided to the renderer process. Please refer to [#24427](https://github.com/electron/electron/issues/24427) for details.
 
 ### `ipcMain.handleOnce(channel, listener)`
 

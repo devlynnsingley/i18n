@@ -1,4 +1,4 @@
-# App内課金 (macOS)
+# App 内課金 (macOS)
 
 ## 下準備
 
@@ -55,7 +55,7 @@ inAppPurchase.on('transactions-updated', (event, transactions) => {
 
         console.log(`Receipt URL: ${receiptURL}`)
 
-        // 領収書ファイルをサーバーに送信し、有効かどうかを確認します。
+        // 領収書ファイルをサーバーに送信して、それが有効かどうかを確認します。
         // こちらを参照 https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Chapters/ValidateRemotely.html
         // ...
         // 領収書が有効であれば、プロダクトは購入されます

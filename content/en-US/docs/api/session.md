@@ -54,7 +54,8 @@ A `Session` object, the default session object of the app.
 
 > Get and set properties of a session.
 
-Process: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br />
+_This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 You can create a `Session` object in the `session` module:
 
@@ -85,8 +86,8 @@ available from next tick of the process.
 const { session } = require('electron')
 session.defaultSession.on('will-download', (event, item, webContents) => {
   event.preventDefault()
-  require('request')(item.getURL(), (data) => {
-    require('fs').writeFileSync('/somewhere', data)
+  require('got')(item.getURL()).then((response) => {
+    require('fs').writeFileSync('/somewhere', response.body)
   })
 })
 ```
@@ -101,8 +102,8 @@ Returns:
 Emitted after an extension is loaded. This occurs whenever an extension is
 added to the "enabled" set of extensions. This includes:
 
-- Extensions being loaded from `Session.loadExtension`.
-- Extensions being reloaded:
+* Extensions being loaded from `Session.loadExtension`.
+* Extensions being reloaded:
   * from a crash.
   * if the extension requested it ([`chrome.runtime.reload()`](https://developer.chrome.com/extensions/runtime#method-reload)).
 
@@ -179,7 +180,7 @@ Emitted when a hunspell dictionary file download fails.  For details
 on the failure you should collect a netlog and inspect the download
 request.
 
-#### Event: 'select-serial-port' _Experimental_
+#### Event: 'select-serial-port'
 
 Returns:
 
@@ -196,40 +197,31 @@ cancel the request.  Additionally, permissioning on `navigator.serial` can
 be managed by using [ses.setPermissionCheckHandler(handler)](#sessetpermissioncheckhandlerhandler)
 with the `serial` permission.
 
-Because this is an experimental feature it is disabled by default.  To enable this feature, you
-will need to use the `--enable-features=ElectronSerialChooser` command line switch.  Additionally
-because this is an experimental Chromium feature you will need to set `enableBlinkFeatures: 'Serial'`
-on the `webPreferences` property when opening a BrowserWindow.
-
 ```javascript
 const { app, BrowserWindow } = require('electron')
 
 let win = null
-app.commandLine.appendSwitch('enable-features', 'ElectronSerialChooser')
 
 app.whenReady().then(() => {
   win = new BrowserWindow({
     width: 800,
-    height: 600,
-    webPreferences: {
-      enableBlinkFeatures: 'Serial'
-    }
+    height: 600
   })
-  win.webContents.session.on('select-serial-port', (event, portList, callback) => {
+  win.webContents.session.on('select-serial-port', (event, portList, webContents, callback) => {
     event.preventDefault()
     const selectedPort = portList.find((device) => {
-      return device.vendorId === 0x2341 && device.productId === 0x0043
+      return device.vendorId === '9025' && device.productId === '67'
     })
     if (!selectedPort) {
       callback('')
     } else {
-      callback(result1.portId)
+      callback(selectedPort.portId)
     }
   })
 })
 ```
 
-#### Event: 'serial-port-added' _Experimental_
+#### Event: 'serial-port-added'
 
 Returns:
 
@@ -239,7 +231,7 @@ Returns:
 
 Emitted after `navigator.serial.requestPort` has been called and `select-serial-port` has fired if a new serial port becomes available.  For example, this event will fire when a new USB device is plugged in.
 
-#### Event: 'serial-port-removed' _Experimental_
+#### Event: 'serial-port-removed'
 
 Returns:
 
@@ -501,6 +493,7 @@ win.webContents.session.setCertificateVerifyProc((request, callback) => {
     * `pointerLock` - Request to directly interpret mouse movements as an input method. Click [here](https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API) to know more.
     * `fullscreen` - Request for the app to enter fullscreen mode.
     * `openExternal` - Request to open links in external applications.
+    * `unknown` - An unrecognized permission request
   * `callback` Function
     * `permissionGranted` Boolean - Allow or deny the permission.
   * `details` Object - Some properties are only available on certain permission types.
@@ -512,7 +505,9 @@ win.webContents.session.setCertificateVerifyProc((request, callback) => {
 
 Sets the handler which can be used to respond to permission requests for the `session`.
 Calling `callback(true)` will allow the permission and `callback(false)` will reject it.
-To clear the handler, call `setPermissionRequestHandler(null)`.
+To clear the handler, call `setPermissionRequestHandler(null)`.  Please note that
+you must also implement `setPermissionCheckHandler` to get complete permission handling.
+Most web APIs do a permission check and then make a permission request if the check is denied.
 
 ```javascript
 const { session } = require('electron')
@@ -528,28 +523,32 @@ session.fromPartition('some-partition').setPermissionRequestHandler((webContents
 #### `ses.setPermissionCheckHandler(handler)`
 
 * `handler` Function\<Boolean> | null
-  * `webContents` [WebContents](web-contents.md) - WebContents checking the permission.  Please note that if the request comes from a subframe you should use `requestingUrl` to check the request origin.
+  * `webContents` ([WebContents](web-contents.md) | null) - WebContents checking the permission.  Please note that if the request comes from a subframe you should use `requestingUrl` to check the request origin.  All cross origin sub frames making permission checks will pass a `null` webContents to this handler, while certain other permission checks such as `notifications` checks will always pass `null`.  You should use `embeddingOrigin` and `requestingOrigin` to determine what origin the owning frame and the requesting frame are on respectively.
   * `permission` String - Type of permission check.  Valid values are `midiSysex`, `notifications`, `geolocation`, `media`,`mediaKeySystem`,`midi`, `pointerLock`, `fullscreen`, `openExternal`, or `serial`.
   * `requestingOrigin` String - The origin URL of the permission check
   * `details` Object - Some properties are only available on certain permission types.
-    * `securityOrigin` String - The security origin of the `media` check.
-    * `mediaType` String - The type of media access being requested, can be `video`,
+    * `embeddingOrigin` String (optional) - The origin of the frame embedding the frame that made the permission check.  Only set for cross-origin sub frames making permission checks.
+    * `securityOrigin` String (optional) - The security origin of the `media` check.
+    * `mediaType` String (optional) - The type of media access being requested, can be `video`,
       `audio` or `unknown`
-    * `requestingUrl` String - The last URL the requesting frame loaded
+    * `requestingUrl` String (optional) - The last URL the requesting frame loaded.  This is not provided for cross-origin sub frames making permission checks.
     * `isMainFrame` Boolean - Whether the frame making the request is the main frame
 
 Sets the handler which can be used to respond to permission checks for the `session`.
-Returning `true` will allow the permission and `false` will reject it.
+Returning `true` will allow the permission and `false` will reject it.  Please note that
+you must also implement `setPermissionRequestHandler` to get complete permission handling.
+Most web APIs do a permission check and then make a permission request if the check is denied.
 To clear the handler, call `setPermissionCheckHandler(null)`.
 
 ```javascript
 const { session } = require('electron')
-session.fromPartition('some-partition').setPermissionCheckHandler((webContents, permission) => {
-  if (webContents.getURL() === 'some-host' && permission === 'notifications') {
-    return false // denied
+const url = require('url')
+session.fromPartition('some-partition').setPermissionCheckHandler((webContents, permission, requestingOrigin) => {
+  if (new URL(requestingOrigin).hostname === 'some-host' && permission === 'notifications') {
+    return true // granted
   }
 
-  return true
+  return false // denied
 })
 ```
 
@@ -815,6 +814,11 @@ Returns `Extension[]` - A list of all loaded extensions.
 **Note:** This API cannot be called before the `ready` event of the `app` module
 is emitted.
 
+#### `ses.getStoragePath()`
+
+A `String | null` indicating the absolute file system path where data for this
+session is persisted on disk.  For in memory sessions this returns `null`.
+
 ### Instance Properties
 
 The following properties are available on instances of `Session`:
@@ -827,6 +831,11 @@ code to the `setSpellCheckerLanguages` API that isn't in this array will result 
 #### `ses.spellCheckerEnabled`
 
 A `Boolean` indicating whether builtin spell checker is enabled.
+
+#### `ses.storagePath` _Readonly_
+
+A `String | null` indicating the absolute file system path where data for this
+session is persisted on disk.  For in memory sessions this returns `null`.
 
 #### `ses.cookies` _Readonly_
 

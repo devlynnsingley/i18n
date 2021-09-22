@@ -4,7 +4,7 @@
 
 ## 使用 `update.electronjs.org`
 
-Electron团队保留 [update.electronjs.org][]，一个免费的开源 网络服务，Electron应用可以用来自我更新。 这个服务是设计给那些满足以下标准的 Electron 应用：
+Electron 团队维护 [update.electronjs.org][]，一个免费开源的网络服务，可以让 Electron 应用使用自动更新。 这个服务是设计给那些满足以下标准的 Electron 应用：
 
 - 应用运行在 macOS 或者 Windows
 - 应用有公开的 GitHub 仓库
@@ -35,14 +35,14 @@ require('update-electron-app')()
 
 根据你的需要，你可以从下方选择：
 
-- [Hazel][hazel] – 用于私人或开源应用的更新服务器，可以在 [Now][now] 上免费部署。 它从[GitHub Releases][gh-releases]中拉取更新文件，并且利用 GitHub CDN 的强大性能。
+- [Hazel][hazel] – Update server for private or open-source apps which can be deployed for free on [Vercel][vercel]. 它从[GitHub Releases][gh-releases]中拉取更新文件，并且利用 GitHub CDN 的强大性能。
 - [Nuts][nuts]－同样使用[GitHub Releases][gh-releases], 但得在磁盘上缓存应用程序更新并支持私有存储库.
 - [electron-release-server][electron-release-server] – 提供一个用于处理发布的仪表板，并且不需要在GitHub上发布发布。
 - [Nucleus][nucleus] – 一个由Atlassian维护的 Electron 应用程序的完整更新服务器。 支持多种应用程序和渠道; 使用静态文件存储来降低服务器成本.
 
 ## 在你的应用中实施更新
 
-一旦你部署了更新服务器, 继续导入你所需要的代码模块. 下列代码可能因不同的服务器软件而变化, but it works like described when using [Hazel](https://github.com/zeit/hazel).
+一旦你部署了更新服务器, 继续导入你所需要的代码模块. 下列代码可能因不同的服务器软件而变化，但它的工作原理就像使用[Hazel][hazel]所描述的那样。
 
 **重要:** 请确保下面的代码只在打包的应用程序, 而不是开发中. 你可以使用[electron-is-dev](https://github.com/sindresorhus/electron-is-dev)检查当前环境.
 
@@ -53,13 +53,13 @@ const { app, autoUpdater, dialog } = require('electron')
 下一步, 构建更新服务器的URL并且通知[autoUpdater](../api/auto-updater.md):
 
 ```javascript
-const server = 'https://your-demandmenturl.com'
-const url = `${server}/update/${process.platform}/ ${app.getVersion()}`
+const server = 'https://your-deployment-url.com'
+const url = `${server}/update/${process.platform}/${app.getVersion()}`
 
 autoUpdater.setFeedURL({ url })
 ```
 
-作为最后一步，检查更新。 下面的示例将每分钟检查一次：
+As the final step, check for updates. The example below will check every minute:
 
 ```javascript
 setInterval(() => {
@@ -89,7 +89,7 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
 })
 ```
 
-还请确认错误是 [正在处理](../api/auto-updater.md#event-error)。 Here's an example for logging them to `stderr`:
+Also make sure that errors are [being handled](../api/auto-updater.md#event-error). 下面是将错误日志输出到`标准输出`的例子。
 
 ```javascript
 autoUpdater.on('error', message => {
@@ -98,12 +98,12 @@ autoUpdater.on('error', message => {
 })
 ```
 
-## 手动处理更新
+## Handling Updates Manually
 
-因为自动更新请求不在您的直接控制之下。 您可能发现了难以处理的情况(例如更新服务器在认证后面)。 `url` 字段确实支持文件, 这意味着你可以通过一些努力跳过该进程的服务器通信方面。 [这是一个如何工作的示例](https://github.com/electron/electron/issues/5020#issuecomment-477636990)。
+Because the requests made by Auto Update aren't under your direct control, you may find situations that are difficult to handle (such as if the update server is behind authentication). The `url` field does support files, which means that with some effort, you can sidestep the server-communication aspect of the process. [Here's an example of how this could work](https://github.com/electron/electron/issues/5020#issuecomment-477636990).
 
-[now]: https://zeit.co/now
-[hazel]: https://github.com/zeit/hazel
+[vercel]: https://vercel.com
+[hazel]: https://github.com/vercel/hazel
 [nuts]: https://github.com/GitbookIO/nuts
 [gh-releases]: https://help.github.com/articles/creating-releases/
 [electron-release-server]: https://github.com/ArekSredzki/electron-release-server

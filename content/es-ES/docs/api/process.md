@@ -2,7 +2,7 @@
 
 > Extensiones para el objeto process.
 
-Proceso: [Main](../glossary.md#main-process), [Renderer](../glossary.md#renderer-process)
+Procesos: [principal](../glossary.md#main-process), [Renderer](../glossary.md#renderer-process)
 
 El objeto `process` de Electron es heredado del [objeto `process` de Node.js](https://nodejs.org/api/process.html). Este agrega los siguientes eventos, propiedades y métodos:
 
@@ -10,28 +10,31 @@ El objeto `process` de Electron es heredado del [objeto `process` de Node.js](ht
 
 En el procesor renderer en sandbox el objeto `process` sólo contiene un subconjunto de las APIs:
 
-- `crash()`
-- `hang()`
-- `getCreationTime()`
-- `getHeapStatistics()`
-- `getBlinkMemoryInfo()`
-- `getProcessMemoryInfo()`
-- `getSystemMemoryInfo()`
-- `getSystemVersion()`
-- `getCPUUsage()`
-- `getIOCounters()`
-- `argv`
-- `execPath`
-- `env`
-- `pid`
-- `arch`
-- `platform`
-- `sandboxed`
-- `tipo`
-- `version`
-- `versions`
-- `mas`
-- `windowsStore`
+* `crash()`
+* `hang()`
+* `getCreationTime()`
+* `getHeapStatistics()`
+* `getBlinkMemoryInfo()`
+* `getProcessMemoryInfo()`
+* `getSystemMemoryInfo()`
+* `getSystemVersion()`
+* `getCPUUsage()`
+* `getIOCounters()`
+* `uptime()`
+* `argv`
+* `execPath`
+* `env`
+* `pid`
+* `arch`
+* `platform`
+* `sandboxed`
+* `contextIsolated`
+* `type`
+* `version`
+* `versions`
+* `mas`
+* `windowsStore`
+* `contextId`
 
 ## Eventos
 
@@ -39,47 +42,39 @@ En el procesor renderer en sandbox el objeto `process` sólo contiene un subconj
 
 Emitido cuando Electron ha cargado su script de inicialización interno y está empezando a carga la página web o el script principal.
 
-Puede ser utilizado por el script de precarga para agregar los símbolos globales eliminados de Node de nuevo al scope global cuando la integración de Node está desactivada:
-
-```javascript
-// preload.js
-const _setImmediate = setImmediate
-const _clearImmediate = clearImmediate
-process.once('loaded', () => {
-  global.setImmediate = _setImmediate
-  global.clearImmediate = _clearImmediate
-})
-```
-
 ## Propiedades
 
-### `process.defaultApp` _Readonly_
+### `process.defaultApp` _Solo lectura_
 
 Un `Boolean`. When app is started by being passed as parameter to the default app, this property is `true` in the main process, otherwise it is `undefined`.
 
-### `process.isMainFrame` _Readonly_
+### `process.isMainFrame` _Solo lectura_
 
-A `Boolean`, `true` when the current renderer context is the "main" renderer frame. If you want the ID of the current frame you should use `webFrame.routingId`.
+Un `Boolean`, `true` cuando el contexto actual del renderer es "main" renderer frame. Si quieres el ID del frame actual deberías usar `webFrame.routingId`.
 
-### `process.mas` _Readonly_
+### `process.mas` _Solo lectura_
 
-Un `Boolean`. For Mac App Store build, this property is `true`, for other builds it is `undefined`.
+Un `Boolean`. Para compilaciones de Mac App Store, esta propiedad es `true`, para otras compilaciones es `undefined`.
 
 ### `proceso.noAsar`
 
-A `Boolean` that controls ASAR support inside your application. Setting this to `true` will disable the support for `asar` archives in Node's built-in modules.
+Un `Boolean` que controla el soporte ASAR dentro de tu aplicación. Establecer esto a `true` desactivará el soporte para archivos `asar` en los módulos integrados de Node.
 
 ### `process.noDeprecation`
 
-Un `Boolean` que controla si las advertencias de desaprobación se imprimen o no a `stderr`. Establecer esto en `true` silenciará las advertencias de obsolescencia. Esta propiedad es usada en lugar de la linea de comando `--no-degradación`.
+Un `Boolean` que controla si las advertencias de deprecación se imprimen o no a `stderr`. Modificar esta propiedad a `true` silenciará las advertencias de depreciación. Esta propiedad es usada en lugar de la linea de comando `--no-deprecation`.
 
-### `process.resourcesPath` _Readonly_
+### `process.resourcesPath` _Solo lectura_
 
-Una `cadena` que representa la ruta de acceso al directorio de recursos.
+Un `string` que representa la ruta de acceso al directorio de recursos.
 
-### `process.sandboxed` _Readonly_
+### `process.sandboxed` _Solo lectura_
 
 Un `Boolean`. When the renderer process is sandboxed, this property is `true`, otherwise it is `undefined`.
+
+### `process.contextIsolated` _SoloLectura_
+
+Un `Boolean` que indica si el renderer context acutal tiene el `contextIsolation` activado. Es `undefined` en el main process.
 
 ### `proceso.desechoDegradación`
 
@@ -93,25 +88,29 @@ Un `Booleano` que controla si las degradaciones son enviadas a `stderr` incluyen
 
 Un `Booleano` que controla si las advertencias de procesos son enviadas a `stderr` incluyen su proceso de ubicación. Ajustando este como `verdad` se enviarán ubicaciones de pila para advertencias de procesos (incluyendo degradaciones). Esta propiedad es en vez de la línea de comando `--trace-warnings`.
 
-### `process.type` _Readonly_
+### `process.type` _Solo lectura_
 
-A `String` representing the current process's type, can be:
+Un `String` que representa el tipo de proceso actual, puede ser:
 
-* `browser` - The main process
-* `renderer` - A renderer process
-* `worker` - In a web worker
+* `browser` - El main process
+* `renderer` - Un renderer process
+* `worker` - En un web worker
 
-### `process.versions.chrome` _Readonly_
+### `process.versions.chrome` _Solo lectura_
 
 Una `cadena` representando la versión de cadena de Chrome.
 
-### `process.versions.electron` _Readonly_
+### `process.versions.electron` _Solo lectura_
 
 Una `cadena` representando la versión de cadena de Electron.
 
-### `process.windowsStore` _Readonly_
+### `process.windowsStore` _Solo lectura_
 
 Un `Boolean`. If the app is running as a Windows Store app (appx), this property is `true`, for otherwise it is `undefined`.
+
+### `process.contextId` _SoloLectura_
+
+Un `String` (opcional) que representa un único global ID del contexto JavaScript actual. Cada frame tiene su propio contexto JavaScript. Cuando el contextIsolation está activado, el isolated world además tiene un contexto JavaScript separado. Esta propiedad solo está disponible en el renderer process.
 
 ## Métodos
 
@@ -137,7 +136,7 @@ Devuelve [`IOCounters`](structures/io-counters.md)
 
 ### `process.getHeapStatistics()`
 
-Devuelve `Objecto`:
+Devuelve `Objeto`:
 
 * `totalHeapSize` Integer
 * `totalHeapSizeExecutable` Integer
@@ -149,11 +148,11 @@ Devuelve `Objecto`:
 * `peakMallocedMemory` Integer
 * `doesZapGarbage` Boolean
 
-Devuelve un objeto con estadísticas de la pila V8. Toma en cuenta que todas las estadísticas son reportadas en Kilobytes.
+Devuelve un objeto con estadísticas de la pila V8. Tome en cuenta que todas las estadísticas son reportadas en Kilobytes.
 
 ### `process.getBlinkMemoryInfo()`
 
-Devuelve `Objecto`:
+Devuelve `Objeto`:
 
 * `allocated` Integer - Tamaño de todos los objetos asignados en Kilobytes.
 * `marked` Integer - Tamaño de todos los objetos marcados en Kilobytes.
@@ -171,7 +170,7 @@ Chromium no provee el valor `residentSet` para macOS. Esto es porque macOS reali
 
 ### `process.getSystemMemoryInfo()`
 
-Devuelve `Objecto`:
+Devuelve `Objeto`:
 
 * `total` Entero - La cantidad total de memoria física en kilobytes de la que dispone el sistema.
 * `libre` entero - La cantidad de memoria que no está siendo usada por aplicaciones o caché de disco.

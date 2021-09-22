@@ -1,29 +1,29 @@
 # Build Instructions
 
-Follow the guidelines below for building Electron.
+Suivez les instructions ci-dessous pour compiler **Electron**, afin de créer une version compilée personnalisée d'Electron. For bundling and distributing your app code with the prebuilt Electron binaries, see the [application distribution][application-distribution] guide.
 
 ## Platform prerequisites
 
-Check the build prerequisites for your platform before proceeding
+Vérifiez les prérequis de build pour votre plateforme avant de continuer
 
 * [macOS](build-instructions-macos.md#prerequisites)
 * [Linux](build-instructions-linux.md#prerequisites)
 * [Windows](build-instructions-windows.md#prerequisites)
 
-## Construire des outils
+## Build Tools
 
-[outils de build d’Electron](https://github.com/electron/build-tools) une grande partie de la configuration pour compiler Electron à partir de sources avec différentes configurations et construire des cibles. Si vous souhaitez configurer l’environnement manuellement, les instructions sont énumérées ci-dessous.
+[Electron's Build Tools](https://github.com/electron/build-tools) automate much of the setup for compiling Electron from source with different configurations and build targets. If you wish to set up the environment manually, the instructions are listed below.
 
 ## GN prerequisites
 
-You'll need to install [`depot_tools`][depot-tools], the toolset used for fetching Chromium and its dependencies.
+Vous devrez installer [`depot_tools`][depot-tools], l'ensemble d'outils utilisé pour récupérer Chromium et ses dépendances.
 
-Also, on Windows, you'll need to set the environment variable `DEPOT_TOOLS_WIN_TOOLCHAIN=0`. To do so, open `Control Panel` → `System and
-Security` → `System` → `Advanced system settings` and add a system variable `DEPOT_TOOLS_WIN_TOOLCHAIN` with value `0`.  This tells `depot_tools` to use your locally installed version of Visual Studio (by default, `depot_tools` will try to download a Google-internal version that only Googlers have access to).
+De plus, sous Windows, vous devrez définir la variable d'environnement `DEPOT_TOOLS_WIN_TOOLCHAIN=0`. Pour ce faire, ouvrez `Panneau de configuration` → `Système et
+Sécurité` → `Système` → `Paramètres système avancés` et ajouter une variable système `DEPOT_TOOLS_WIN_TOOLCHAIN` avec la valeur `0`.  Cela indique au `depot_tools` d’utiliser votre version locale de Visual Studio (par défaut, `depot_tools` essaiera de télécharger une version interne de Google uniquement accessible à ses utilisateurs).
 
-### Mise en place du cache git
+### Setting up the git cache
 
-Si vous prévoyez de vérifier Electron plus d’une fois (par exemple, pour avoir plusieurs répertoires parallèles vérifiés à différentes branches), en utilisant le cache git va accélérer les appels ultérieurs vers `gclient`. Pour ce faire, définissez une variable `GIT_CACHE_PATH` 'environnement :
+If you plan on checking out Electron more than once (for example, to have multiple parallel directories checked out to different branches), using the git cache will speed up subsequent calls to `gclient`. To do this, set a `GIT_CACHE_PATH` environment variable:
 
 ```sh
 $ export GIT_CACHE_PATH="${HOME}/.git_cache"
@@ -31,7 +31,7 @@ $ mkdir -p "${GIT_CACHE_PATH}"
 # This will use about 16G.
 ```
 
-## Getting the code
+## Obtenir le code
 
 ```sh
 $ mkdir electron && cd electron
@@ -40,7 +40,7 @@ $ gclient sync --with_branch_heads --with_tags
 # This will take a while, go get a coffee.
 ```
 
-> Instead of `https://github.com/electron/electron`, you can use your own fork here (something like `https://github.com/<username>/electron`).
+> Au lieu de `https://github.com/electron/electron`, vous pouvez utiliser votre propre fork ici (quelque chose comme `https://github.com/<username>/electron`).
 
 ### A note on pulling/pushing
 
@@ -73,7 +73,7 @@ $ export CHROMIUM_BUILDTOOLS_PATH=`pwd`/buildtools
 $ gn gen out/Testing --args="import(\"//electron/build/args/testing.gn\") $GN_EXTRA_ARGS"
 ```
 
-Or on Windows (without the optional argument):
+Ou sous Windows (sans l'argument optionnel) :
 
 ```sh
 $ cd src
@@ -100,7 +100,7 @@ $ gn gen out/Release --args="import(\"//electron/build/args/release.gn\") $GN_EX
 
 **To build, run `ninja` with the `electron` target:** Nota Bene: This will also take a while and probably heat up your lap.
 
-For the testing configuration:
+Pour la configuration de test :
 
 ```sh
 $ ninja -C out/Testing electron
@@ -126,7 +126,7 @@ $ ./out/Testing/electron
 
 ### Livraison
 
-On linux, first strip the debugging and symbol information:
+Sous Linux, supprimez d'abord les informations de débogage et de symbole :
 
 ```sh
 electron/script/strip-binaries.py -d out/Release
@@ -154,7 +154,7 @@ Not all combinations of source and target CPU/OS are supported by Chromium.
 | Windows x64 | Windows x86   | Automatically tested |
 | Linux x64   | Linux x86     | Automatically tested |
 
-If you test other combinations and find them to work, please update this document :)
+Si vous testez d'autres combinaisons et trouvez qu'elles fonctionnent, veuillez mettre à jour ce document :)
 
 See the GN reference for allowable values of [`target_os`][target_os values] and [`target_cpu`][target_cpu values].
 
@@ -167,7 +167,7 @@ set ELECTRON_BUILDING_WOA=1
 gclient sync -f --with_branch_heads --with_tags
 ```
 
-Or (if using PowerShell):
+Ou (si vous utilisez PowerShell) :
 
 ```powershell
 $env:ELECTRON_BUILDING_WOA=1
@@ -184,7 +184,7 @@ To run the tests, you'll first need to build the test modules against the same v
 $ ninja -C out/Testing third_party/electron_node:headers
 ```
 
-You can now [run the tests](testing.md#unit-tests).
+Vous pouvez maintenant [exécuter les tests](testing.md#unit-tests).
 
 If you're debugging something, it can be helpful to pass some extra flags to the Electron binary:
 
@@ -193,7 +193,7 @@ $ npm run test -- \
   --enable-logging -g 'BrowserWindow module'
 ```
 
-## Sharing the git cache between multiple machines
+## Partage du cache git entre plusieurs machines
 
 It is possible to share the gclient git cache with other machines by exporting it as SMB share on linux, but only one process/machine can be using the cache at a time. The locks created by git-cache script will try to prevent this, but it may not work perfectly in a network.
 
@@ -203,9 +203,9 @@ On Windows, SMBv2 has a directory cache that will cause problems with the git ca
 HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Lanmanworkstation\Parameters\DirectoryCacheLifetime
 ```
 
-to 0. More information: https://stackoverflow.com/a/9935126
+à 0. Plus d'informations : https://stackoverflow.com/a/9935126
 
-This can be set quickly in powershell (ran as administrator):
+Cela peut être défini rapidement dans powershell (exécuté en tant qu'administrateur) :
 
 ```powershell
 New-ItemProperty -Path "HKLM:\System\CurrentControlSet\Services\Lanmanworkstation\Parameters" -Name DirectoryCacheLifetime -Value 0 -PropertyType DWORD -Force
@@ -213,7 +213,7 @@ New-ItemProperty -Path "HKLM:\System\CurrentControlSet\Services\Lanmanworkstatio
 
 ## Résolution de problème
 
-### synchronisation gclient se plaint de rebase
+### gclient sync complains about rebase
 
 If `gclient sync` is interrupted the git tree may be left in a bad state, leading to a cryptic message when running `gclient sync` in the future:
 
@@ -232,9 +232,11 @@ $ cd electron
 $ gclient sync -f
 ```
 
-### I'm being asked for a username/password for chromium-internal.googlesource.com
+### On me demande de saisir mes nom d'utilisateur et mot de passe pour chromium-internal.googlesource.com
 
-If you see a prompt for `Username for 'https://chrome-internal.googlesource.com':` when running `gclient sync` on Windows, it's probably because the `DEPOT_TOOLS_WIN_TOOLCHAIN` environment variable is not set to 0. Open `Control Panel` → `System and Security` → `System` → `Advanced system settings` and add a system variable `DEPOT_TOOLS_WIN_TOOLCHAIN` with value `0`.  This tells `depot_tools` to use your locally installed version of Visual Studio (by default, `depot_tools` will try to download a Google-internal version that only Googlers have access to).
+Si vous voyez une invite pour `nom d'utilisateur pour 'https://chrome-internal.googlesource. om':` lorsque vous exécutez `gclient sync` sous Windows, c'est probablement parce que la variable d'environnement `DEPOT_TOOLS_WIN_TOOLCHAIN` n'est pas définie à 0. Ouvrez `Control Panel` → `System and Security` → `System` → `Advanced system settings` et ajoutez une variable système `DEPOT_TOOLS_WIN_TOOLCHAIN` avec comme valeur `0`.  Cela indique au `depot_tools` d’utiliser votre version locale de Visual Studio (par défaut, `depot_tools` essaiera de télécharger une version interne de Google uniquement accessible à ses utilisateurs).
+
+[application-distribution]: ../tutorial/application-distribution.md
 
 [depot-tools]: https://commondatastorage.googleapis.com/chrome-infra-docs/flat/depot_tools/docs/html/depot_tools_tutorial.html#_setting_up
 

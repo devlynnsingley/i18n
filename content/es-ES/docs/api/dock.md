@@ -2,7 +2,7 @@
 
 > Controla tu aplicación en el dock de macOS
 
-Proceso: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 El siguiente ejemplo muestra como rebotar tu ícono en el dock.
 
@@ -39,13 +39,13 @@ Rebota la apilación de descargas si el archivo de camino está dentro de la car
 
 #### `dock.setBadge(text)` _macOS_
 
-* `texto` String
+* `texto` Cadena
 
 Establece la cadena para ser mostrada en el área de insignia del punto.
 
 #### `dock.getBadge()` _macOS_
 
-Devuelve `Cadena` - La insignia cadena del punto.
+Devuelve `String` - La insignia cadena del punto.
 
 #### `dock.hide()` _macOS_
 

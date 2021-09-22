@@ -2,7 +2,7 @@
 
 > Realiza requisições HTTP/HTTPS.
 
-Processo: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 `ClientRequest` implementa a interface [Writable Stream](https://nodejs.org/api/stream.html#stream_writable_streams) e deste modo um [EventEmitter][event-emitter].
 
@@ -43,21 +43,21 @@ const request = net.request({
 
 Retorna:
 
-* `response` IncomingMessage - Um objeto representando a resposta HTTP.
+* `response` [IncomingMessage](incoming-message.md) - An object representing the HTTP response message.
 
 #### Evento: 'login'
 
 Retorna:
 
-* `authInfo` Object
+* Objeto `authInfo`
   * `isProxy` Boolean
   * `scheme` String
   * `host` String
   * `port` Integer
   * `realm` String
 * `callback` Function
-  * `username` String (optional)
-  * `password` String (optional)
+  * `username` String (opcional)
+  * `password` String (opcional)
 
 Emitido quando um proxy de autenticação está solicitando as credenciais de usuário.
 
@@ -117,7 +117,7 @@ Retorna:
 
 Emitted when the server returns a redirect response (e.g. 301 Moved Permanently). Calling [`request.followRedirect`](#requestfollowredirect) will continue with the redirection.  If this event is handled, [`request.followRedirect`](#requestfollowredirect) must be called **synchronously**, otherwise the request will be cancelled.
 
-### Propriedades de Instância
+### Propriedades da Instância
 
 #### `request.chunkedEncoding`
 
@@ -138,7 +138,7 @@ Certain headers are restricted from being set by apps. These headers are listed 
 
 * `Content-Length`
 * `Host`
-* `Trailer` or `Te`
+* `Trailer` ou `Te`
 * `Upgrade`
 * `Cookie2`
 * `Keep-Alive`
@@ -171,7 +171,7 @@ Adds a chunk of data to the request body. The first write operation may cause th
 #### `request.end([chunk][, encoding][, callback])`
 
 * `chunk` (String | Buffer) (optional)
-* `encoding` String (optional)
+* `encoding` String (opcional)
 * `callback` Function (optional)
 
 Sends the last chunk of the request data. Subsequent write or end operations will not be allowed. The `finish` event is emitted just after the end operation.

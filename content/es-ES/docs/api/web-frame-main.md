@@ -2,7 +2,7 @@
 
 > Control web pages and iframes.
 
-Proceso: [Main](../glossary.md#main-process)
+Proceso: [principal](../glossary.md#main-process)</0>
 
 The `webFrameMain` module can be used to lookup frames across existing [`WebContents`](web-contents.md) instances. Navigation events are the common use case.
 
@@ -61,13 +61,19 @@ Returns `WebFrameMain | undefined` - A frame with the given process and routing 
 
 ## Clase: WebFrameMain
 
-Proceso: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
+
+### Eventos de Instancia
+
+#### Evento: 'dom-ready'
+
+Emitted when the document is loaded.
 
 ### Métodos de Instancia
 
 #### `frame.executeJavaScript(code[, userGesture])`
 
-* `codigo` String
+* `code` String
 * `userGesture` Boolean (opcional) - Predeterminado es `falso`.
 
 Returns `Promise<unknown>` - A promise that resolves with the result of the executed code or is rejected if execution throws or results in a rejected promise.
@@ -85,7 +91,7 @@ Devuelve `boolean` - Si la recarga fue iniciada correctamente. Solo resulta en `
 * `channel` Cadena
 * `...args` any[]
 
-Envía un mensaje asíncrono al renderer process a través de `channel` junto con los argumentos. Los argumentos serán serializados con la \[Structured Clone Algorithm\]\[SCA\], al igual que [`postMessage`][], así que las cadenas de prototipos no serán incluidas. El envío de funciones, promesas, símbolos, WeakMaps o WeakSets lanzará una excepción.
+Envía un mensaje asíncrono al render process a través de `channel`, junto con los argumentos. Los argumentos serán serializados con la \[Structured Clone Algorithm\]\[SCA\], al igual que [`postMessage`][], así que las cadenas de prototipos no serán incluidas. El envío de funciones, promesas, símbolos, WeakMaps o WeakSets lanzará una excepción.
 
 El proceso de renderizado puede manejar el mensaje escuchando el `canal` con el módulo [`ipcRenderer`](ipc-renderer.md).
 
@@ -102,18 +108,18 @@ Los objetos `MessagePortMain` transferidos estarán disponible en el renderer pr
 Por ejemplo:
 
 ```js
-// Proceso Principal
+// Main process
 const { port1, port2 } = new MessageChannelMain()
 webContents.mainFrame.postMessage('port', { message: 'hello' }, [port1])
 
-// Proceso Renderer 
+// Renderer process
 ipcRenderer.on('port', (e, msg) => {
   const [port] = e.ports
   // ...
 })
 ```
 
-### Propiedades de Instancia
+### Propiedades de la instancia
 
 #### `frame.url` _Readonly_
 
@@ -154,3 +160,9 @@ Un `Integer` que representa el `pid` del proceso interno de Chromium al cual per
 #### `frame.routingId` _Readonly_
 
 An `Integer` representing the unique frame id in the current renderer process. Las instancias distintas de `WebFrameMain` que se refieren al mimo frame subyacente tendrán el mismo `routingId`.
+
+#### `frame.visibilityState` _SoloLectura_
+
+A `string` representing the [visibility state](https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilityState) of the frame.
+
+See also how the [Page Visibility API](browser-window.md#page-visibility) is affected by other Electron APIs.

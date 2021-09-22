@@ -4,29 +4,23 @@
 
 ## FAQ
 
-Есть вопросы, которые довольно часто задаваются. Проверьте это перед созданием задачи:
+Есть вопросы, которые довольно часто задаваются. Проверьте это перед созданием проблемы:
 
 * [FAQ по Electron](faq.md)
 
 ## Руководство
 
-### Быстрый старт
+### Начало работы
 
-* [Краткое руководство по запуску](tutorial/quick-start.md)
-  * [Требования](tutorial/quick-start.md#prerequisites)
-  * [Создать базовое приложение](tutorial/quick-start.md#create-a-basic-application)
-  * [Запустите приложение](tutorial/quick-start.md#run-your-application)
-  * [Пакет и распространение приложения](tutorial/quick-start.md#package-and-distribute-the-application)
+* [Введение](tutorial/introduction.md)
+* [Руководство для начинающих](tutorial/quick-start.md)
+* [Моделирование процесса](tutorial/process-model.md)
 
-### Изучение основ
+### Изучите основы
 
-* [Electron's Process Model](tutorial/quick-start.md#application-architecture)
-  * [Main и Renderer процессы](tutorial/quick-start.md#main-and-renderer-processes)
-  * [Electron API](tutorial/quick-start.md#electron-api)
-  * [Node.js API](tutorial/quick-start.md#nodejs-api)
 * Добавление функционала в Ваше приложение
   * [Notification (Оповещения)](tutorial/notifications.md)
-  * [Recent Documents](tutorial/recent-documents.md)
+  * [Недавние документы](tutorial/recent-documents.md)
   * [Прогресс приложения](tutorial/progress-bar.md)
   * [Пользовательское меню macOS](tutorial/macos-dock.md)
   * [Пользовательские задачи Windows](tutorial/windows-taskbar.md)
@@ -34,10 +28,10 @@
   * [Горячие клавиши](tutorial/keyboard-shortcuts.md)
   * [Оффлайн/Онлайн обнаружение](tutorial/online-offline-events.md)
   * [Представленный файл для macOS BrowserWindows](tutorial/represented-file.md)
-  * [Нативное перетаскивание файла](tutorial/native-file-drag-drop.md)
+  * [Нативное перемещение файла](tutorial/native-file-drag-drop.md)
   * [Закадровый рендеринг](tutorial/offscreen-rendering.md)
-  * [Dark Mode](tutorial/dark-mode.md)
-  * [Веб-встраивание в Electron](tutorial/web-embeds.md)
+  * [Темный режим](tutorial/dark-mode.md)
+  * [Встраивание веб в Electron](tutorial/web-embeds.md)
 * [Макеты и CLI](tutorial/boilerplates-and-clis.md)
   * [Макеты против CLI](tutorial/boilerplates-and-clis.md#boilerplate-vs-cli)
   * [electron-forge](tutorial/boilerplates-and-clis.md#electron-forge)
@@ -45,24 +39,26 @@
   * [electron-react-boilerplate](tutorial/boilerplates-and-clis.md#electron-react-boilerplate)
   * [Другие инструменты и макеты](tutorial/boilerplates-and-clis.md#other-tools-and-boilerplates)
 
-### Advanced steps
+### Advanced topics
 
 * Архитектура приложения
   * [Использование нативных модулей Node.js](tutorial/using-native-node-modules.md)
   * [Performance Strategies](tutorial/performance.md)
-  * [Security Strategies](tutorial/security.md)
+  * [Стратегии безопасности](tutorial/security.md)
+  * [Dima@mail.ru ](tutorial/sandbox.md)
 * [Доступность](tutorial/accessibility.md)
   * [Включение функций специальных возможностей вручную](tutorial/accessibility.md#manually-enabling-accessibility-features)
 * [Тестирование и отладка](tutorial/application-debugging.md)
   * [Отладка главного процесса](tutorial/debugging-main-process.md)
-  * [Debugging with Visual Studio Code](tutorial/debugging-vscode.md)
+  * [Отладка с кодом Visual Studio](tutorial/debugging-vscode.md)
   * [Использование Selenium и WebDriver](tutorial/using-selenium-and-webdriver.md)
   * [Тестирование с помощью систем непрерывной интеграции (Travis, Jenkins)](tutorial/testing-on-headless-ci.md)
   * [Расширение DevTools](tutorial/devtools-extension.md)
-  * [Автоматическое тестирование с помощью собственного драйвера](tutorial/automated-testing-with-a-custom-driver.md)
+  * [Автоматическое тестирование с помощью специального драйвера](tutorial/automated-testing-with-a-custom-driver.md)
+  * [REPL](tutorial/repl.md)
 * [Распространение](tutorial/application-distribution.md)
   * [Поддерживаемые платформы](tutorial/support.md#supported-platforms)
-  * [Цифровая подпись](tutorial/code-signing.md)
+  * [Подписывание кода](tutorial/code-signing.md)
   * [Mac App Store](tutorial/mac-app-store-submission-guide.md)
   * [Windows Store](tutorial/windows-store-guide.md)
   * [Snapcraft](tutorial/snapcraft.md)
@@ -77,13 +73,13 @@
 Эти индивидуальные руководства расширят темы, обсуждаемые выше.
 
 * [Установка Electron](tutorial/installation.md)
-  * [Полномочия](tutorial/installation.md#proxies)
-  * [Пользовательские зеркала и кэши](tutorial/installation.md#custom-mirrors-and-caches)
+  * [Прокси](tutorial/installation.md#proxies)
+  * [Пользовательские зеркала и кеши](tutorial/installation.md#custom-mirrors-and-caches)
   * [Устранение проблем](tutorial/installation.md#troubleshooting)
 * Отзыв разработчика Electron Releases &
   * [Политика контроля версиями](tutorial/electron-versioning.md)
   * [Графики выпуска](tutorial/electron-timelines.md)
-* [Тестирование Widevine CDM](tutorial/testing-widevine-cdm.md)
+* [Testing Widevine CDM](tutorial/testing-widevine-cdm.md)
 
 ---
 
@@ -112,22 +108,25 @@
 * [BrowserView](api/browser-view.md)
 * [BrowserWindow](api/browser-window.md)
 * [contentTracing](api/content-tracing.md)
-* [диалоговые окна](api/dialog.md)
+* [dialog](api/dialog.md)
 * [globalShortcut](api/global-shortcut.md)
 * [inAppPurchase](api/in-app-purchase.md)
 * [ipcMain](api/ipc-main.md)
 * [Menu](api/menu.md)
 * [MenuItem](api/menu-item.md)
+* [MessageChannelMain](api/message-channel-main.md)
+* [MessagePortMain](api/message-port-main.md)
 * [net](api/net.md)
 * [netLog](api/net-log.md)
 * [nativeTheme (Родная тема)](api/native-theme.md)
 * [Notification (Оповещения)](api/notification.md)
-* [powerMonitor (Мониторинг питания)](api/power-monitor.md)
+* [powerMonitor](api/power-monitor.md)
 * [powerSaveBlocker](api/power-save-blocker.md)
 * [protocol](api/protocol.md)
 * [screen](api/screen.md)
 * [session](api/session.md)
-* [системные настройки](api/system-preferences.md)
+* [ShareMenu](api/share-menu.md)
+* [systemPreferences](api/system-preferences.md)
 * [TouchBar](api/touch-bar.md)
 * [Tray](api/tray.md)
 * [webContents](api/web-contents.md)

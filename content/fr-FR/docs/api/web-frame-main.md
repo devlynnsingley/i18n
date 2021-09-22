@@ -61,7 +61,13 @@ Returns `WebFrameMain | undefined` - A frame with the given process and routing 
 
 ## Class: WebFrameMain
 
-Processus : [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
+
+### Événements d’instance
+
+#### Événement : 'dom-ready'
+
+Emitted when the document is loaded.
 
 ### Méthodes d’instance
 
@@ -154,3 +160,9 @@ An `Integer` representing the Chromium internal `pid` of the process which owns 
 #### `frame.routingId` _Readonly_
 
 An `Integer` representing the unique frame id in the current renderer process. Distinct `WebFrameMain` instances that refer to the same underlying frame will have the same `routingId`.
+
+#### `frame.visibilityState` _Lecture seule_
+
+A `string` representing the [visibility state](https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilityState) of the frame.
+
+See also how the [Page Visibility API](browser-window.md#page-visibility) is affected by other Electron APIs.

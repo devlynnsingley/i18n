@@ -2,11 +2,11 @@
 
 > Create a label in the touch bar for native macOS applications
 
-Prozess: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### `new TouchBarLabel(options)`
 
-* `options` Object
+* `options` Objekt
   * `label` String (optional) - Text to display.
   * `accessibilityLabel` String (optional) - A short description of the button for use by screenreaders like VoiceOver.
   * `textColor` String (optional) - Hex color of text, i.e `#ABCDEF`.

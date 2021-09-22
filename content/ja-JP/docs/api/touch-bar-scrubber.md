@@ -2,7 +2,7 @@
 
 > スクラバー (スクロールできるセレクタ) を作成します。
 
-プロセス: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### `new TouchBarScrubber(options)`
 
@@ -14,7 +14,7 @@
     * `highlightedIndex` Integer - ユーザがタッチしたアイテムのインデックス.
   * `selectedStyle` String (任意) - 選択したアイテムのスタイル。 `background`、`outline`、`none` のいずれかにできます。 省略値は `none` です。
   * `overlayStyle` String (任意) - 選択したオーバーレイアイテムのスタイル。 `background`、`outline`、`none` のいずれかにできます。 省略値は `none` です。
-  * `showArrowButtons` Boolean (任意) - 省略値は、`false` になります。
+  * `showArrowButtons` Boolean (任意) - 矢印ボタンを表示するかどうか。 省略値は `false` で、`items` が空でない場合にのみ表示されます。
   * `mode` String (任意) - `fixed` か `free` にできます。 省略値は `free` です。
   * `continuous` Boolean (任意) - 省略値は、`true` になります。
 

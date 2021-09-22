@@ -6,7 +6,7 @@ Processo: [Main](../glossary.md#main-process)
 
 **See also: [A detailed guide about how to implement updates in your application](../tutorial/updates.md).**
 
-`autoUpdater` is an [EventEmitter][event-emitter].
+`autoUpdater` é um [EventEmitter][event-emitter].
 
 ## Avisos de plataforma
 
@@ -28,7 +28,7 @@ When using [electron-winstaller][installer-lib] or [electron-forge][electron-for
 
 The installer generated with Squirrel will create a shortcut icon with an [Application User Model ID][app-user-model-id] in the format of `com.squirrel.PACKAGE_ID.YOUR_EXE_WITHOUT_DOT_EXE`, examples are `com.squirrel.slack.Slack` and `com.squirrel.code.Code`. Você deve usar o mesmo ID para sua aplicação com a API `app.setAppUserModelId`, caso contrário, o Windows não será capaz de fixar sua aplicação corretamente na barra de tarefas.
 
-Ao contrário do Squirrel.Mac, o Windows pode hospedar atualizações em S3 ou qualquer outro arquivo estático de hospedagem. You can read the documents of [Squirrel.Windows][squirrel-windows] to get more details about how Squirrel.Windows works.
+Like Squirrel.Mac, Windows can host updates on S3 or any other static file host. You can read the documents of [Squirrel.Windows][squirrel-windows] to get more details about how Squirrel.Windows works.
 
 ## Eventos
 
@@ -38,7 +38,7 @@ O objeto `autoUpdater` emite os seguintes eventos:
 
 Retorna:
 
-* `error` Error
+* Erro `error`
 
 Emitido quando há um erro durante a atualização.
 
@@ -96,6 +96,8 @@ Returns `String` - The current update feed URL.
 ### `autoUpdater.checkForUpdates()`
 
 Pergunta para o servidor se há alguma atualização. Você precisa chamar o `setFeedURL` antes de usar esta API.
+
+**Note:** If an update is available it will be downloaded automatically. Calling `autoUpdater.checkForUpdates()` twice will download the update two times.
 
 ### `autoUpdater.quitAndInstall()`
 

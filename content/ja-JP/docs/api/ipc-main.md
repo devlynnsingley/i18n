@@ -32,6 +32,8 @@ ipcMain.on('synchronous-message', (event, arg) => {
 
 ```javascript
 // レンダラープロセス（ウェブページ）
+// 備考: Electron の API は、contextIsolation が無効でない限りプリロードからのみアクセスできます。
+// 詳細は https://www.electronjs.org/docs/tutorial/process-model#preload-scripts をご参照ください。
 const { ipcRenderer } = require('electron')
 console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // "pong"を表示
 
@@ -103,6 +105,8 @@ async () => {
 ```
 
 ハンドラーの最初の引数として渡される `event` は、通常のイベントリスナーに渡されるものと同じです。 どの WebContents が呼び出しリクエスト元であるかに関する情報が含まれています。
+
+メインプロセスの `handle` から投げられたエラーはシリアライズされ、元のエラーからの `message` プロパティのみがレンダラープロセスに提供されるため、非透過的です。 詳細は [#24427](https://github.com/electron/electron/issues/24427) をご参照ください。
 
 ### `ipcMain.handleOnce(channel, listener)`
 

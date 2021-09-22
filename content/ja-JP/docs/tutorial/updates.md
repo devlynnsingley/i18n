@@ -1,6 +1,6 @@
-# アプリケーションを更新する
+# アプリケーションの更新
 
-Electronアプリケーションを更新する方法がいくつかあります。 最も簡単で、公式にサポートされているものは、ビルトインの[Squirrel](https://github.com/Squirrel) フレームワークとElectronの [autoUpdater](../api/auto-updater.md) モジュールの利用します。
+Electron アプリケーションを更新する方法はいくつかあります。 最も簡単で、公式にサポートされているものは、組み込みの [Squirrel](https://github.com/Squirrel) フレームワークと Electron の [autoUpdater](../api/auto-updater.md) モジュールの利用です。
 
 ## `update.electronjs.org`の使用
 
@@ -35,14 +35,14 @@ require('update-electron-app')()
 
 ニーズに応じて、次のいずれかから選択できます。
 
-- [Hazel][hazel] – [今すぐ][now]に無料でデプロイできるプライベートまたはオープンソースのアプリ用にサーバーを更新します。 それは [GitHub Releases][gh-releases] から引き出され、GitHub の CDN の力を活用します。
+- [Hazel][hazel] – [Vercel][vercel] 上に無料デプロイできる、非公開またはオープンソースのアプリのための更新サーバーです。 それは [GitHub Releases][gh-releases] から引き出され、GitHub の CDN の力を活用します。
 - [Nuts][nuts] – [GitHub Releases][gh-releases] も使用しますが、アプリの更新をディスクにキャッシュし、プライベートリポジトリをサポートします。
 - [electron-release-server][electron-release-server] – リリースを処理するためのダッシュボードを提供します。リリースを GitHub で作成する必要はありません。
 - [Nucleus][nucleus] – Atlassian がメンテナンスしている Electron アプリのための完全なアップデートサーバー。 複数のアプリケーションとチャンネルをサポートします。サーバーのコストを最小限に抑えるために静的ファイルストアを使用します。
 
 ## アプリケーションでの更新の実装
 
-アップデートサーバをデプロイしたら、コードに必要なモジュールをインポートします。 次のコードはサーバソフトウェアによって異なる場合がありますが、[Hazel](https://github.com/zeit/hazel) を使用したときの説明のように機能します。
+アップデートサーバをデプロイしたら、コードに必要なモジュールをインポートします。 次のコードはサーバソフトウェアによって異なる場合がありますが、[Hazel][hazel] を使用したときの説明のように機能します。
 
 **重要:** 以下のコードは、開発中ではなく、パッケージ化されたアプリでのみ実行されるようにしてください。 [electron-is-dev](https://github.com/sindresorhus/electron-is-dev) を使って環境をチェックすることができます。
 
@@ -89,7 +89,7 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
 })
 ```
 
-エラーが [処理されている](../api/auto-updater.md#event-error) ことも確認してください。 これは `stderr` にログを出力するための例です。
+エラーが [ハンドリングされている](../api/auto-updater.md#event-error) ことも確認してください。 これは `stderr` にログを出力するための例です。
 
 ```javascript
 autoUpdater.on('error', message => {
@@ -98,12 +98,12 @@ autoUpdater.on('error', message => {
 })
 ```
 
-## 手動で更新を処理する
+## 更新を手動でハンドリング
 
-自動更新によって行われた要求は、あなたの直接制御下にありませんので。 処理が困難な状況(更新サーバーが認証の背後にある場合など)を見つけることができます。 `url` フィールドはファイルをサポートします。つまり、何らかの労力をかけると、プロセスのサーバー通信の側面を避けることができます。 [これがどのように機能するかの例を示します](https://github.com/electron/electron/issues/5020#issuecomment-477636990)。
+自動更新によるリクエストは直接管理されていないため、対応が難しい状況が発生することがあります (更新サーバーが認証下にある場合など)。 `url` フィールドはファイルをサポートしていますので、工夫次第でサーバーとの通信を回避できます。 [こちらにその動作例があります](https://github.com/electron/electron/issues/5020#issuecomment-477636990)。
 
-[now]: https://zeit.co/now
-[hazel]: https://github.com/zeit/hazel
+[vercel]: https://vercel.com
+[hazel]: https://github.com/vercel/hazel
 [nuts]: https://github.com/GitbookIO/nuts
 [gh-releases]: https://help.github.com/articles/creating-releases/
 [electron-release-server]: https://github.com/ArekSredzki/electron-release-server

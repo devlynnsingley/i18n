@@ -52,7 +52,7 @@ app.whenReady().then(() => {
 
 ### イベント: 'display-added'
 
-戻り値:
+戻り値：
 
 * `event` Event
 * `newDisplay` [Display](structures/display.md)
@@ -61,7 +61,7 @@ app.whenReady().then(() => {
 
 ### イベント: 'display-removed'
 
-戻り値:
+戻り値：
 
 * `event` Event
 * `oldDisplay` [Display](structures/display.md)
@@ -70,7 +70,7 @@ app.whenReady().then(() => {
 
 ### イベント: 'display-metrics-changed'
 
-戻り値:
+戻り値：
 
 * `event` Event
 * `display` [Display](structures/display.md)
@@ -87,6 +87,8 @@ app.whenReady().then(() => {
 戻り値 [`Point`](structures/point.md)
 
 マウスポインタの現在の絶対位置。
+
+**注:** 戻り値は DIP ポイント単位です。画面の物理ポイント単位ではありません。
 
 ### `screen.getPrimaryDisplay()`
 

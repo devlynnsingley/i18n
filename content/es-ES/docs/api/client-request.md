@@ -2,7 +2,7 @@
 
 > Hace solicitudes HTTP/HTTPS.
 
-Proceso: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 `Peticiones del cliente` implementa la interfaz de [corriente de escritura](https://nodejs.org/api/stream.html#stream_writable_streams) y por lo tanto es un [emitidor de eventos][event-emitter].
 
@@ -13,9 +13,9 @@ Proceso: [Main](../glossary.md#main-process)
   * `url` String (opcional) - La URL de la solicitud. Debe ser proporcionada de forma absoluta con el esquema del protocolo especificado como http o https.
   * `session` Session (opcional) - La instancia de [`Session`](session.md) con la cual la solicitud esta asociada.
   * `partición` Cadena (opcional) - el nombre de la [`partición`](session.md) en la cual está asociada la solicitud. Por defecto es la cadena vacía. The `session` option supersedes `partition`. De esta manera si una `sesión` está explícitamente especificada, `partición` es ignorada.
-  * `credentials` String (optional) - Can be `include` or `omit`. Whether to send [credentials](https://fetch.spec.whatwg.org/#credentials) with this request. If set to `include`, credentials from the session associated with the request will be used. If set to `omit`, credentials will not be sent with the request (and the `'login'` event will not be triggered in the event of a 401). This matches the behavior of the [fetch](https://fetch.spec.whatwg.org/#concept-request-credentials-mode) option of the same name. If this option is not specified, authentication data from the session will be sent, and cookies will not be sent (unless `useSessionCookies` is set).
+  * `credentials` String (opcional) - Puede ser `include` o `omit`. Whether to send [credentials](https://fetch.spec.whatwg.org/#credentials) with this request. If set to `include`, credentials from the session associated with the request will be used. If set to `omit`, credentials will not be sent with the request (and the `'login'` event will not be triggered in the event of a 401). This matches the behavior of the [fetch](https://fetch.spec.whatwg.org/#concept-request-credentials-mode) option of the same name. If this option is not specified, authentication data from the session will be sent, and cookies will not be sent (unless `useSessionCookies` is set).
   * `useSessionCookies` Boolean (opcional) - Si enviar cookies con esta solicitud desde la sesión poporcionada. If `credentials` is specified, this option has no effect. Por defecto es `false`.
-  * `protocol` String (optional) - Can be `http:` or `https:`. The protocol scheme in the form 'scheme:'. Por defecto 'http:'.
+  * `protocol` String (opcional) - Puede ser `http:` o `https:`. The protocol scheme in the form 'scheme:'. Por defecto 'http:'.
   * `host` Cadena (opcional) - El servidor central proporcionado como una concatenación de nombres de anfitrión y el número de puerto "nombre del host:puerto".
   * `nombre de anfitrión` Cadena (opcional) - el nombre del servidor central.
   * `Puerto` Entero (opcional) - el número de puerto listado en el servidor.
@@ -43,7 +43,7 @@ const request = net.request({
 
 Devuelve:
 
-* `respuesta` IncomingMessage - Un objeto representando el mensaje de respuesta de HTTP.
+* `response` [IncomingMessage](incoming-message.md) - An object representing the HTTP response message.
 
 #### Evento:'login'
 
@@ -63,8 +63,8 @@ Emitido cuando un proxy de autenticación requiere las credenciales del usuario.
 
 Se espera que la función `retrollamada` sea llamada de vuelta con las credenciales del usuario:
 
-* `username` Cadena
-* `contraseña` Cadena
+* `username` String
+* `password` String
 
 ```JavaScript
 request.on('login', (authInfo, callback) => {
@@ -86,11 +86,11 @@ request.on('login', (authInfo, callback) => {
 })
 ```
 
-#### Evento: "terminado"
+#### Evento: "Finish"
 
 Emitido justo antes de que el último paquete de los datos de la `solicitud` haya sido escrito en el objeto `solicitud`.
 
-#### Evento: "abortar"
+#### Evento: "abort"
 
 Emitido cuando la `request` es abortada. El evento `abort` no será lanzado si la `request` ya está cerrada.
 
@@ -106,7 +106,7 @@ Emitido cuando el módulo `net` falla en emitir una solicitud de red. Típicamen
 
 Emitido cuando el último evento en la transacción solicitud-respuesta HTTP. El evento `cerrar` indica que ningún otro evento será emitido en los objetos `solicitud` o `respuesta`.
 
-#### Evento: "redirigir"
+#### Evento: "redirect"
 
 Devuelve:
 
@@ -117,11 +117,11 @@ Devuelve:
 
 Emitido cuando el servidor devuelve una respuesta redirect (por ejemplo 301 Moved Permanently). Llamar a [`request.followRedirect`](#requestfollowredirect) continuará con la redirección.  Si este evento es manejado, [`request.followRedirect`](#requestfollowredirect) debe ser llamado **synchronously**, de otra manera la solicitud será cancelada.
 
-### Propiedades de Instancia
+### Propiedades de la instancia
 
 #### `request.chunkedEncoding`
 
-Un `Booleano` especificando cuando la solicitud usará el la codificación de transferencia del paquete HTTP o no. Por defecto es false. La propiedad es de lectura y escritura, sin embargo puede ser configurada antes de la primera operación de escritura debido a que el encabezado HTTP no se ha puesto en el hilo. Tratar de configurar la propiedad `codificación empaquetada` después de la primera escritura arrojará un error.
+Un `Booleano` especificando cuando la solicitud usará el la codificación de transferencia del paquete HTTP o no. Por defecto es falso. La propiedad es de lectura y escritura, sin embargo puede ser configurada antes de la primera operación de escritura debido a que el encabezado HTTP no se ha puesto en el hilo. Tratar de configurar la propiedad `codificación empaquetada` después de la primera escritura arrojará un error.
 
 Utilizar codificación empaquetada es fuertemente recomendado si no necesita enviar una solicitud grande dado que lo datos serán transmitidos en paquetes pequeños en lugar de ser cargados internamente en la memoria de proceso de Electron.
 
@@ -186,7 +186,7 @@ Continues any pending redirection. Can only be called during a `'redirect'` even
 
 #### `request.getUploadProgress()`
 
-Devuelve `Objecto`:
+Devuelve `Objeto`:
 
 * `active` Boolean - Whether the request is currently active. If this is false no other properties will be set
 * `started` Boolean - Whether the upload has started. If this is false both `current` and `total` will be set to 0.

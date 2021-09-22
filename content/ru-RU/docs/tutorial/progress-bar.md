@@ -1,52 +1,90 @@
-# Индикатор прогресса в меню задач (Windows, macOS, Unity)
+# Taskbar Progress Bar (Windows & macOS)
 
 ## Обзор
 
-A progress bar enables a window to provide progress information to the user without the need of switching to the window itself.
+Progress bar позволяет окну предоставлять информацию о прогрессе пользователю без необходимости переключения на само окно.
 
-On Windows, you can use a taskbar button to display a progress bar.
+В Windows вы можете использовать кнопку панели задач для отображения progress bar.
 
-![Windows Progress Bar][1]
+!\[Windows Progress Bar\]\[https://cloud.githubusercontent.com/assets/639601/5081682/16691fda-6f0e-11e4-9676-49b6418f1264.png\]
 
-On macOS, the progress bar will be displayed as a part of the dock icon.
+На macOS progress bar будет отображаться как часть dock icon.
 
-![macOS Progress Bar][2]
+![macOS Progress Bar](../images/macos-progress-bar.png)
 
-On Linux, the Unity graphical interface also has a similar feature that allows you to specify the progress bar in the launcher.
+На Linux графический интерфейс Unity также имеет аналогичную функцию, которая вам указать планку прогресса в пусковой установке.
 
-![Linux Progress Bar][3]
+![Linux Progress Bar](../images/linux-progress-bar.png)
 
-> NOTE: on Windows, each window can have its own progress bar, whereas on macOS and Linux (Unity) there can be only one progress bar for the application.
+> ПРИМЕЧАНИЕ: на Windows, каждое окно может иметь свой собственный планку прогресса, в то время как на macOS и Linux (Unity) может быть только одна планка прогресса для приложения.
 
 ----
 
-All three cases are covered by the same API - the [`setProgressBar()`][setprogressbar] method available on an instance of `BrowserWindow`. To indicate your progress, call this method with a number between `0` and `1`. For example, if you have a long-running task that is currently at 63% towards completion, you would call it as `setProgressBar(0.63)`.
+Все три случая охватываются одним и тем же API - [`setProgressBar()`][setprogressbar] методом, доступным на экземпляре `BrowserWindow`. Чтобы указать свой прогресс, позвоните в этот метод с номером между `0` и `1`. Например, если у вас есть давняя задача, которая в настоящее время 63% к завершению, вы назвали бы ее как `setProgressBar(0.63)`.
 
-Setting the parameter to negative values (e.g. `-1`) will remove the progress bar, whereas setting it to values greater than `1` (e.g. `2`) will switch the progress bar to indeterminate mode (Windows-only -- it will clamp to 100% otherwise). In this mode, a progress bar remains active but does not show an actual percentage. Use this mode for situations when you do not know how long an operation will take to complete.
+Setting the parameter to negative values (e.g. `-1`) will remove the progress bar. Setting it to a value greater than `1` will indicate an indeterminate progress bar in Windows or clamp to 100% in other operating systems. An indeterminate progress bar remains active but does not show an actual percentage, and is used for situations when you do not know how long an operation will take to complete.
 
 Просмотрите [документацию по API для большего количества опций и режимов][setprogressbar].
 
 ## Пример
 
-Начиная с рабочего приложения из [Quick Start Guide](quick-start.md), добавьте следующие строки в файл `main.js`:
+In this example, we add a progress bar to the main window that increments over time using Node.js timers.
 
 ```javascript fiddle='docs/fiddles/features/progress-bar'
-const { BrowserWindow } = require('electron')
-const win = new BrowserWindow()
+const { app, BrowserWindow } = require('electron')
 
-win.setProgressBar(0.5)
+let progressInterval
+
+function createWindow () {
+  const win = new BrowserWindow({
+    width: 800,
+    height: 600
+  })
+
+  win.loadFile('index.html')
+
+  const INCREMENT = 0.03
+  const INTERVAL_DELAY = 100 // ms
+
+  let c = 0
+  progressInterval = setInterval(() => {
+    // update progress bar to next value
+    // values between 0 and 1 will show progress, >1 will show indeterminate or stick at 100%
+    win.setProgressBar(c)
+
+    // increment or reset progress bar
+    if (c < 2) c += INCREMENT
+    else c = 0
+  }, INTERVAL_DELAY)
+}
+
+app.whenReady().then(createWindow)
+
+// before the app is terminated, clear both timers
+app.on('before-quit', () => {
+  clearInterval(progressInterval)
+})
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
+
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow()
+  }
+})
 ```
 
-After launching the Electron application, you should see the bar in the dock (macOS) or taskbar (Windows, Unity), indicating the progress percentage you just defined.
+After launching the Electron application, the dock (macOS) or taskbar (Windows, Unity) should show a progress bar that starts at zero and progresses through 100% to completion. It should then show indeterminate (Windows) or pin to 100% (other operating systems) briefly and then loop.
 
 ![macOS dock progress bar](../images/dock-progress-bar.png)
 
-For macOS, the progress bar will also be indicated for your application when using [Mission Control](https://support.apple.com/en-us/HT204100):
+Для macOS планка прогресса также будет указана для вашей приложения использовании [Mission Control](https://support.apple.com/en-us/HT204100):
 
 ![Mission Control Progress Bar](../images/mission-control-progress-bar.png)
 
-[1]: https://cloud.githubusercontent.com/assets/639601/5081682/16691fda-6f0e-11e4-9676-49b6418f1264.png
-[2]: ../images/macos-progress-bar.png
-[3]: ../images/linux-progress-bar.png
 [setprogressbar]: ../api/browser-window.md#winsetprogressbarprogress-options
 [setprogressbar]: ../api/browser-window.md#winsetprogressbarprogress-options

@@ -12,7 +12,7 @@ Vous pouvez également essayer de télécharger Electron directement depuis [ele
 
 La version Chrome d'Electron est généralement mise à jour entre une et deux semaines après qu'une nouvelle mise à jour stable de Chrome soit disponible. Cette estimation n'est toutefois pas garantie et dépend de l'effort nécessaire pour faire la mise à jour.
 
-Seul le canal stable de Chrome est utilisé. Si un correctif important est dans le canal bêta ou développeur , nous le rétroporterons.
+Seul le canal stable de Chrome est utilisé. If an important fix is in beta or dev channel, we will back-port it.
 
 Pour plus d'informations, veuillez voir [l'introduction à la sécurité](tutorial/security.md).
 
@@ -24,9 +24,9 @@ Les nouvelles fonctionnalités de Node.js sont généralement ajoutées dans les
 
 ## Comment partager les données entre les pages web ?
 
-Pour partager des données entre les pages web (les processus de rendu), le moyen le plus simple est d'utiliser les APIs HTML5 qui sont déjà disponibles dans les navigateurs. Good candidates are [Storage API][storage], [`localStorage`][local-storage], [`sessionStorage`][session-storage], and [IndexedDB][indexed-db].
+Pour partager des données entre les pages web (les processus de rendu), le moyen le plus simple est d'utiliser les APIs HTML5 qui sont déjà disponibles dans les navigateurs. Les bons candidats sont [API Storage][storage], [`localStorage`][local-storage], [`sessionStorage`][session-storage] et [IndexedDB][indexed-db].
 
-Vous pouvez également utiliser les primitives IPC fournies par Electron. Pour partager des données entre le processus principal et le moteur de rendu, vous pouvez utiliser les modules [`ipcMain`](api/ipc-main.md) et [`ipcRenderer`](api/ipc-renderer.md). Pour communiquer directement entre les pages web, vous pouvez envoyer un [`Port Messagerie`][message-port] de l'une à l'autre, éventuellement via le processus principal en utilisant [`ipcRenderer. ostMessage()`](api/ipc-renderer.md#ipcrendererpostmessagechannel-message-transfer). La communication ultérieure sur les ports de message est directe et ne détache pas à travers le processus principal.
+Alternatively, you can use the IPC primitives that are provided by Electron. To share data between the main and renderer processes, you can use the [`ipcMain`](api/ipc-main.md) and [`ipcRenderer`](api/ipc-renderer.md) modules. To communicate directly between web pages, you can send a [`MessagePort`][message-port] from one to the other, possibly via the main process using [`ipcRenderer.postMessage()`](api/ipc-renderer.md#ipcrendererpostmessagechannel-message-transfer). Subsequent communication over message ports is direct and does not detour through the main process.
 
 ## La fenêtre/icône de mon application a disparu au bout de quelques minutes.
 
@@ -37,7 +37,7 @@ Si vous rencontrez ce problème, les articles suivants peuvent s'avérer utiles�
 * [Gestion de la mémoire][memory-management]
 * [Portée des variables][variable-scope]
 
-Si vous voulez une solution rapide, vous pouvez mettre les variables en globale en changeant votre code de ceci :
+Si vous voulez une solution rapide, vous pouvez mettre les variables en globale en changeant votre code comme celui-ci :
 
 ```javascript
 const { app, Tray } = require('electron')
@@ -104,11 +104,11 @@ Il est très probable que vous utilisez le module dans le mauvais processus. Par
 
 Si [sub-pixel anti-aliasing](https://alienryderflex.com/sub_pixel/) est désactivé sur les écrans LCD les polices peuvent être floues. Exemple . Exemple :
 
-![Exemple de rendu de sous-pixel][]
+![subpixel rendering example][]
 
 L'anticrénelage des sous-pixels nécessite un fond non transparent pour la fenêtre contenant les glyphes d'une police d'écriture. (Voir [cette issue](https://github.com/electron/electron/issues/6344#issuecomment-420371918) pour plus d'infos).
 
-Pour atteindre cet objectif, définissez l'arrière-plan du constructeur pour [BrowserWindow][browser-window]:
+To achieve this goal, set the background in the constructor for [BrowserWindow][browser-window]:
 
 ```javascript
 const { BrowserWindow } = require('electron')
@@ -117,7 +117,7 @@ const win = new BrowserWindow({
 })
 ```
 
-The effect is visible only on (some?) LCD screens. Même si vous ne voyez pas de différence, certains de vos utilisateurs peuvent le faire. Il est préférable de toujours définir le contexte de cette manière, à moins que vous n'ayez des raisons de ne pas le faire.
+L'effet n'est visible que sur (certains?) Écrans LCD. Even if you don't see a difference, some of your users may. It is best to always set the background this way, unless you have reasons not to do so.
 
 Veuillez noter que simplement paramétrer la couleur de fond avec le CSS ne donnera pas l'effet souhaité.
 
@@ -129,4 +129,4 @@ Veuillez noter que simplement paramétrer la couleur de fond avec le CSS ne donn
 [indexed-db]: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
 [message-port]: https://developer.mozilla.org/en-US/docs/Web/API/MessagePort
 [browser-window]: api/browser-window.md
-[Exemple de rendu de sous-pixel]: images/subpixel-rendering-screenshot.gif
+[subpixel rendering example]: images/subpixel-rendering-screenshot.gif

@@ -1,12 +1,12 @@
-# Chrome Extension Support
+# Chrome 扩展支持
 
-Electron supports a subset of the [Chrome Extensions API][chrome-extensions-api-index], primarily to support DevTools extensions and Chromium-internal extensions, but it also happens to support some other extension capabilities.
+Electron 支持 [Chrome 扩展API][chrome-extensions-api-index]的子集， 主要是支持 DevTools 扩展和 Chromium-internal 扩展，但它同时也支持一些其他扩展能。
 
-> **Note:** Electron does not support arbitrary Chrome extensions from the store, and it is a **non-goal** of the Electron project to be perfectly compatible with Chrome's implementation of Extensions.
+> **注意**：Electron 不支持商店中的任意 Chrome 扩展，Electron 项目的目标**不是**与 Chrome 的扩展实现完全兼容。
 
-## Loading extensions
+## 加载扩展
 
-Electron only supports loading unpacked extensions (i.e., `.crx` files do not work). Extensions are installed per-`session`. To load an extension, call [`ses.loadExtension`](session.md#sesloadextensionpath-options):
+Electron 只支持加载未打包的扩展 (即不能使用 `.crx` 文件)。 插件会被安装到每一个`会话`。 要加载扩展，请调用 [`ses.loadextension`](session.md#sesloadextensionpath-options)：
 
 ```js
 const { session } = require('electron')
@@ -16,47 +16,47 @@ session.loadExtension('path/to/unpacked/extension').then(({ id }) => {
 })
 ```
 
-Loaded extensions will not be automatically remembered across exits; if you do not call `loadExtension` when the app runs, the extension will not be loaded.
+加载的扩展将不会被自动记住；如果在应用程序运行时未调用 `loadExtension`，则不会加载扩展。
 
-Note that loading extensions is only supported in persistent sessions. Attempting to load an extension into an in-memory session will throw an error.
+注意，仅能在持久 session 中加载扩展。 尝试将扩展加载到内存 session 中会出现错误。
 
-See the [`session`](session.md) documentation for more information about loading, unloading, and querying active extensions.
+有关加载、卸载和查询活动扩展的更多信息，请查阅 [`session`](session.md) 文档。
 
-## Supported Extensions APIs
+## 支持的扩展 API
 
-We support the following extensions APIs, with some caveats. Other APIs may additionally be supported, but support for any APIs not listed here is provisional and may be removed.
+我们支持以下扩展 API，并需要注意一些警告。 其他API可能会得到额外支持，但对此处未列出的任何API的支持都是临时的，可能会被删除。
 
 ### `chrome.devtools.inspectedWindow`
 
-All features of this API are supported.
+支持这些 API 的所有功能。
 
 ### `chrome.devtools.network`
 
-All features of this API are supported.
+支持这些 API 的所有功能。
 
 ### `chrome.devtools.panels`
 
-All features of this API are supported.
+支持这些 API 的所有功能。
 
 ### `chrome.extension`
 
-The following properties of `chrome.extension` are supported:
+支持 `chrome.extension` 的以下属性：
 
 - `chrome.extension.lastError`
 
-The following methods of `chrome.extension` are supported:
+支持 `chrome.extension` 的以下方法：
 
 - `chrome.extension.getURL`
 - `chrome.extension.getBackgroundPage`
 
 ### `chrome.runtime`
 
-The following properties of `chrome.runtime` are supported:
+支持 `chrome.runtime` 的以下属性：
 
 - `chrome.runtime.lastError`
 - `chrome.runtime.id`
 
-The following methods of `chrome.runtime` are supported:
+支持 `chrome.runtime` 的以下方法：
 
 - `chrome.runtime.getBackgroundPage`
 - `chrome.runtime.getManifest`
@@ -64,8 +64,9 @@ The following methods of `chrome.runtime` are supported:
 - `chrome.runtime.getURL`
 - `chrome.runtime.connect`
 - `chrome.runtime.sendMessage`
+- `chrome.runtime.reload`
 
-The following events of `chrome.runtime` are supported:
+支持 `chrome.runtime` 的以下事件：
 
 - `chrome.runtime.onStartup`
 - `chrome.runtime.onInstalled`
@@ -76,20 +77,20 @@ The following events of `chrome.runtime` are supported:
 
 ### `chrome.storage`
 
-Only `chrome.storage.local` is supported; `chrome.storage.sync` and `chrome.storage.managed` are not.
+仅支持 `chrome.storage.local` ； `chrome.storage.sync` 和 `chrome.storage.manage.manage` 不支持。
 
 ### `chrome.tabs`
 
-The following methods of `chrome.tabs` are supported:
+支持 `chrome.tab` 的以下方法：
 
 - `chrome.tabs.sendMessage`
 - `chrome.tabs.executeScript`
 
-> **Note:** In Chrome, passing `-1` as a tab ID signifies the "currently active tab". Since Electron has no such concept, passing `-1` as a tab ID is not supported and will raise an error.
+> **注意：** 在 Chrome 中，通过 `-1` 作为标签ID表示“当前活动的标签”。 因为 Electron 没有这样的概念，通过 `-1` 作为选项卡ID不支持而且会报错。
 
 ### `chrome.management`
 
-The following methods of `chrome.management` are supported:
+支持 `chrome.management` 的以下方法：
 
 - `chrome.management.getAll`
 - `chrome.management.get`
@@ -101,7 +102,7 @@ The following methods of `chrome.management` are supported:
 
 ### `chrome.webRequest`
 
-All features of this API are supported.
+支持这些 API 的所有功能。
 
 > **注意：** 如果有冲突需要处理，Electron 的 [`webRequest`](web-request.md) 模块将优先于 `chrome.web` 。
 

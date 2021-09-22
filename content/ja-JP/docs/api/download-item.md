@@ -2,7 +2,7 @@
 
 > リモートソースからのファイルのダウンロードを制御します。
 
-プロセス: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 `DownloadItem` は [EventEmitter][event-emitter] を継承しており、Electron でのダウンロードアイテムを表します。 これは `Session` クラスの `will-download` イベントで使用されており、ユーザーがダウンロードアイテムを制御できるようにします。
 
@@ -39,7 +39,7 @@ win.webContents.session.on('will-download', (event, item, webContents) => {
 
 #### イベント: 'updated'
 
-戻り値:
+戻り値：
 
 * `event` Event
 * `state` String - `progressing` か `interrupted` にできます。
@@ -53,7 +53,7 @@ win.webContents.session.on('will-download', (event, item, webContents) => {
 
 #### イベント: 'done'
 
-戻り値:
+戻り値：
 
 * `event` Event
 * `state` String - `completed`、`cancelled` か `interrupted` にできます。

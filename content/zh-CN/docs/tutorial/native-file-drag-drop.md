@@ -1,4 +1,4 @@
-# 原生文件拖放
+# 原生文件拖 & 放
 
 ## 概览
 
@@ -8,27 +8,46 @@
 
 ## 示例
 
-从 [Quick Start Guide](quick-start.md) 示例的应用程序开始，将以下行添加到 `index.html` 文件：
+一个演示如何动态创建要从窗口中拖出的文件的示例。
+
+### Preload.js
+
+在 `preload.js` 中使用 [`contextBridge`][] 注入方法 `window.electron.startDrag(...)` 将向主进程发送IPC消息。
+
+```js
+const { contextBridge, ipcRenderer } = require('electron')
+const path = require('path')
+
+contextBridge.exposeInMainWorld('electron', {
+  startDrag: (fileName) => {
+    ipcRenderer.send('ondragstart', path.join(process.cwd(), fileName))
+  }
+})
+```
+
+### Index.html
+
+添加一个可拖动元素到 `index.html`, 并引用你的渲染器脚本：
 
 ```html
-<a href="#" id="drag">拖动我</a>
+<div style="border:2px solid black;border-radius:3px;padding:5px;display:inline-block" draggable="true" id="drag">拖动我</div>
 <script src="renderer.js"></script>
 ```
 
-并将以下内容添加到 `renderer.js` 文件：
+### Renderer.js
+
+在 `renderer.js` 通过调用通过上述 [`contextBridge`][] 添加的方法来设置渲染器进程处理拖动事件。
 
 ```javascript
-const { ipcRenderer } = require('electron')
-
-document.getElementById('drag').ondragstart = (事件) => }
+document.getElementById('drag').ondragstart = (event) => {
   event.preventDefault()
-  ipcRender.send('ondragstart', '/absolute/path/to/the/item')
+  window.electron.startDrag('drag-and-drop.md')
 }
 ```
 
-上面的代码指示渲染进程处理 `ondragstart` 事件并将信息转发到主进程。
+### Main.js
 
-在主进程中(`main.js` 文件)，将收到的事件扩展到正在拖动的文件和图标：
+在主进程中(`main.js` 文件)，将收到的事件带上文件路径和图标扩展到正在拖动的文件：
 
 ```javascript fiddle='docs/fiddles/features/drag-and-drop'
 const { ipcMain } = require('electron')
@@ -43,4 +62,6 @@ ipcMain.on('ondragstart', (event, filePath) => {
 
 启动 Electron 应用程序后，尝试将该项从 BrowserWindow 拖放到桌面上。 在本指南中，本项是位于项目根目录下的 Markdown 文件：
 
-![拖动](../images/drag-and-drop.gif)
+![拖放](../images/drag-and-drop.gif)
+
+[`contextBridge`]: ../api/context-bridge.md

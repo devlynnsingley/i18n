@@ -6,7 +6,7 @@ Esta página define algunos términos que comúnmente se utilizan en el desarrol
 
 ASAR significa formato de archivo de Shell de Atom. Un archivo de [asar][asar] es un simple formato tipo `tar` que concatena archivos en un solo archivo. Electron puede leer archivos arbitrarios de él sin desempacar el archivo entero.
 
-El formato ASAR se creó principalmente para mejorar el rendimiento en Windows... TODO
+The ASAR format was created primarily to improve performance on Windows... POR HACER
 
 ### CRT
 
@@ -22,11 +22,11 @@ Método de entrada del editor. Un programa que permite a los usuarios introducir
 
 ### IDL
 
-Idioma de descripción de la interfaz. Escribe firmas de funciones y tipos de datos en un formato que se puede utilizar para generar interfaces en Java, C++, JavaScript, etc.
+Interface description language. Write function signatures and data types in a format that can be used to generate interfaces in Java, C++, JavaScript, etc.
 
 ### IPC
 
-El IPC significa la comunicación entre procesos. Electron uses IPC to send serialized JSON messages between the [main][] and [renderer][] processes.
+IPC stands for Inter-Process Communication. Electron utiliza IPC para enviar los mensajes JSON serializados entre los procesos [main][] y [renderer][].
 
 ### libchromiumcontent
 
@@ -36,7 +36,7 @@ Una biblioteca compartida que incluye el [módulo de contenido de Chromium][] y 
 
 ### proceso principal
 
-The main process, commonly a file named `main.js`, is the entry point to every Electron app. It controls the life of the app, from open to close. También maneja elementos nativos como el menú, barra de menú, bandeja, etc. The main process is responsible for creating each new renderer process in the app. The full Node API is built in.
+The main process, commonly a file named `main.js`, is the entry point to every Electron app. Controla la vida de la aplicación, de abierto a cerrado. También maneja elementos nativos como el menú, barra de menú, bandeja, etc. The main process is responsible for creating each new renderer process in the app. La API completa de Node está integrada.
 
 El archivo de proceso principal de cada aplicación se especifica en la propiedad `main` en `package.json`. Así es como `electron` sabe qué archivo ejecutar al inicio.
 
@@ -46,7 +46,7 @@ Véase también: [proceso](#process), [proceso de renderizado](#renderer-process
 
 ### MAC
 
-Acrónimo para la App Store de Apple. For details on submitting your app to the MAS, see the [Mac App Store Submission Guide][].
+Acrónimo para la App Store de Apple. Para más detalles sobre el envío de su aplicación al MAS, consulte la [Guía de envíos de Mac App Store][].
 
 ### Mojo
 
@@ -54,7 +54,7 @@ Un sistema IPC para la comunicación intra - o inter-proceso, y eso es important
 
 Ver https://chromium.googlesource.com/chromium/src/+/master/mojo/README.md
 
-### módulos nativos
+### Módulos nativos
 
 Los módulos nativos (también llamados [addons][] en Node.js) son módulos escritos en C o C++ que pueden ser cargados en Node.js o Electron mediante la función require() y utilizarlos como si fueran un módulo ordinario de Node.js. Son usados principalmente para ofrecer una interfaz entre JavaScript corriendo en Node.js y las librerías C/C++.
 
@@ -68,7 +68,7 @@ Nullsoft Scriptable Install System es un instalador basado en secuencias de coma
 
 ### OSR
 
-OSR (representación fuera de pantalla) puede utilizarse para cargar una página pesada en segundo plano en y luego mostrarla después (será mucho más rápido). Te permite renderizar la página sin mostrarla en pantalla.
+OSR (Off-screen rendering) can be used for loading heavy page in background and then displaying it after (it will be much faster). It allows you to render page without showing it on screen.
 
 ### process
 
@@ -80,7 +80,7 @@ Véase también: [proceso principal](#main-process), [proceso de renderizado](#r
 
 ### proceso de renderizado
 
-The renderer process is a browser window in your app. Unlike the main process, there can be multiple of these and each is run in a separate process. También se pueden ocultar.
+El renderer process es una ventana de navegador en tu aplicación. Unlike the main process, there can be multiple of these and each is run in a separate process. They can also be hidden.
 
 En los navegadores normales, las páginas web generalmente se ejecutan en espacio aislado y no se les permite el acceso a recursos nativos. Los usuarios de la Electron, sin embargo, tienen el poder de utilizar Node.js APIs en las páginas web permitiendo interacciones inferiores de nivel de sistema operativo.
 
@@ -88,21 +88,21 @@ Véase también: [proceso](#process), [proceso principal](#main-process)
 
 ### Squirrel
 
-Ardilla es un marco de código abierto que permite a aplicaciones de Electron actualizar automáticamente como se liberan nuevas versiones. Ver el [autoUpdater][] API para información sobre cómo empezar con Squirrel.
+Squirrel es un marco de código abierto que permite a aplicaciones de Electron actualizar automáticamente como se liberan nuevas versiones. Ver el [autoUpdater][] API para información sobre cómo empezar con Squirrel.
 
 ### entorno
 
 Este término que se originó en la comunidad Unix, donde "userland" o "userspace" se refiere a programas que se ejecutan afuera del kernel del sistema operativo. Más recientemente, el término se ha popularizado en la comunidad Node y npm para distinguir entre las características disponibles en el "núcleo Node" versus los paqutes publicados por el registro npm por la comunidad de "usuarios" mucho más grande.
 
-Como nodo, Electron se centra en tener un pequeño conjunto de APIs que proporcionan a todas las primitivas necesarias para el desarrollo de aplicaciones de escritorio multiplataformas. Esta filosofía de diseño permite Electron a seguir siendo una herramienta flexible sin ser excesivamente prescriptivas sobre cómo deben utilizarse. Userland permite a los usuarios crear y compartir herramientas que proporcionen funcionalidad adicional además de lo que está disponible en el "núcleo".
+Como Node, Electron se centra en tener un pequeño conjunto de APIs que proporcionan a todas las primitivas necesarias para el desarrollo de aplicaciones de escritorio multiplataformas. Esta filosofía de diseño permite Electron a seguir siendo una herramienta flexible sin ser excesivamente prescriptivas sobre cómo deben utilizarse. Userland permite a los usuarios crear y compartir herramientas que proporcionen funcionalidad adicional además de lo que está disponible en el "núcleo".
 
 ### V8
 
-V8 es el motor JavaScript de código abierto de Google. Está escrito en C++ y se utiliza en Google Chrome. V8 puede ejecutarse autónomamente, o puede ser embebido en cualquier aplicación de C++.
+V8 is Google's open source JavaScript engine. It is written in C++ and is used in Google Chrome. V8 can run standalone, or can be embedded into any C++ application.
 
 Electrón forma V8 como parte de Chromium y luego apunta el Nodo ese V8 cuando lo está formando.
 
-Los números de versión de V8 siempre corresponden a los de Google Chrome. Chrome 59 incluye V8 5.9, Chrome 58 incluye V8 5.8, etc.
+V8's version numbers always correspond to those of Google Chrome. Chrome 59 includes V8 5.9, Chrome 58 includes V8 5.8, etc.
 
 - [v8.dev](https://v8.dev/)
 - [nodejs.org/api/v8.html](https://nodejs.org/api/v8.html)
@@ -117,7 +117,7 @@ Los números de versión de V8 siempre corresponden a los de Google Chrome. Chro
 [autoUpdater]: api/auto-updater.md
 [módulo de contenido de Chromium]: https://www.chromium.org/developers/content-module
 [electron-builder]: https://github.com/electron-userland/electron-builder
-[Mac App Store Submission Guide]: tutorial/mac-app-store-submission-guide.md
+[Guía de envíos de Mac App Store]: tutorial/mac-app-store-submission-guide.md
 [main]: #main-process
 [renderer]: #renderer-process
 [Usando Módulos de Nodo Nativos]: tutorial/using-native-node-modules.md

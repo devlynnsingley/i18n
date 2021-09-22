@@ -61,7 +61,13 @@ main()
 
 ## クラス: WebFrameMain
 
-プロセス: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
+
+### インスタンスイベント
+
+#### イベント: 'dom-ready'
+
+Emitted when the document is loaded.
 
 ### インスタンスメソッド
 
@@ -70,7 +76,7 @@ main()
 * `code` String
 * `userGesture` Boolean (任意) - 省略値は `false`。
 
-戻り値 `Promise<unknown>` - 実行されたコードの結果で resolve されるか、実行でスロー又は reject された結果の場合に reject される Promise。
+戻り値 `Promise<unknown>` - Promise 型で、コードの実行結果で解決され、実行で例外の送出または実行結果が拒否された Promise の場合は拒否されます。
 
 ページ内の `code` を評価します。
 
@@ -99,7 +105,7 @@ main()
 
 転送された `MessagePortMain` オブジェクトは、レンダラープロセスで発生したイベントの `ports` プロパティにアクセスすれば利用できます。 レンダラーに着くと、それらはネイティブの DOM `MessagePort` オブジェクトになります。
 
-例:
+以下がその例です。
 
 ```js
 // メインプロセス
@@ -154,3 +160,9 @@ ipcRenderer.on('port', (e, msg) => {
 #### `frame.routingId` _読み出し専用_
 
 現在のレンダラープロセスでの一意なフレーム ID を表す `Integer`。 同じ基底フレームを参照する `WebFrameMain` インスタンスすべては、それぞれ同じ `routingId` になります。
+
+#### `frame.visibilityState` _読み出し専用_
+
+`string` 型で、そのフレームの [可視性の状態](https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilityState) を表します。
+
+[Page 可視性 API](browser-window.md#page-visibility) が他の Electron API から受ける影響についてもご覧ください。

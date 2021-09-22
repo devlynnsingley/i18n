@@ -1,11 +1,11 @@
-# Objeto CustomScheme
+# CustomScheme Object
 
-* `esquema` String - Esquemas personalizados a ser registrados con opciones.
-* `privileges` Object (opcional)
-  * `estándar` Boolean (opcional) - Predeterminado falso.
-  * `estándar` Boolean (opcional) - Predeterminado falso.
-  * `bypassCSP` Boolean (opcional) - Predeterminado falso.
-  * `allowServiceWorkers` Boolean (opcional) - Predeterminado falso.
-  * `supportFetchAPI` Boolean (opcional) - Predeterminado falso.
-  * `corsEnabled` Boolean (opcional) - Predeterminado falso.
-  * `Stream` Boolean (opcional) - Por defecto false.
+* `scheme` String - Custom schemes to be registered with options.
+* `privileges` Object (optional)
+  * `standard` Boolean (optional) - Default false.
+  * `secure` Boolean (optional) - Default false.
+  * `bypassCSP` Boolean (optional) - Default false.
+  * `allowServiceWorkers` Boolean (optional) - Default false.
+  * `supportFetchAPI` Boolean (optional) - Default false.
+  * `corsEnabled` Boolean (optional) - Default false.
+  * `stream` Boolean (optional) - Default false.

@@ -25,7 +25,7 @@ Le module `session` dispose des méthodes suivantes :
 ### `session.fromPartition(partition[, options])`
 
 * `partition` String
-* `options` Object (optional)
+* `options` Object (facultatif)
   * `cache` Boolean - Si vous voulez activer le cache.
 
 Retourne `Session` - Une instance de session de la chaîne de caractères `partition`. Quand il y a une `Session` existante avec la même `partition`, elle sera retournée; sinon une nouvelle instance `Session` sera créée avec `options`.
@@ -46,7 +46,7 @@ Un objet `Session`, l'objet d'une session par défaut de l'application.
 
 > Les propriétés getter et setter d'une session.
 
-Processus : [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 Vous pouvez créer un objet `Session` avec le module `session` :
 
@@ -64,7 +64,7 @@ Les événements suivants sont disponibles pour les instances de `Session` :
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `item` [DownloadItem](download-item.md)
 * `webContents` [WebContents](web-contents.md)
 
@@ -76,8 +76,8 @@ Faire appel à `Event.preventDefault ()` annule le téléchargement et `item` ne
 const { session } = require('electron')
 session.defaultSession.on('will-download', (event, item, webContents) => {
   event.preventDefault()
-  require('request')(item.getURL(), (data) => {
-    require('fs').writeFileSync('/somewhere', data)
+  require('got')(item.getURL()).then((response) => {
+    require('fs').writeFileSync('/somewhere', response.body)
   })
 })
 ```
@@ -86,13 +86,13 @@ session.defaultSession.on('will-download', (event, item, webContents) => {
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `extension` [Extension](structures/extension.md)
 
-Émis après le chargement d’une extension. Cela se produit chaque fois qu’une extension ajoutée à l’ensemble d’extensions « activées ». This includes:
+Émis après le chargement d’une extension. Cela se produit chaque fois qu’une extension ajoutée à l’ensemble d’extensions « activées ». Ceci comprend :
 
-- Extensions chargées à partir `session.loadExtension`.
-- Extensions rechargées :
+* Extensions chargées à partir `session.loadExtension`.
+* Extensions rechargées :
   * à partir d'un plantage.
   * si l'extension l'a demandée ([`chrome.runtime.reload()`](https://developer.chrome.com/extensions/runtime#method-reload)).
 
@@ -100,16 +100,16 @@ Retourne :
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `extension` [Extension](structures/extension.md)
 
-Emitted after an extension is unloaded. This occurs when `Session.removeExtension` is called.
+Emitted after an extension is unloaded. Cela se produit lorsque `Session.removeExtension` est appelée.
 
 #### Event: 'extension-ready'
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `extension` [Extension](structures/extension.md)
 
 Emitted after an extension is loaded and all necessary browser state is initialized to support the start of the extension's background page.
@@ -118,53 +118,53 @@ Emitted after an extension is loaded and all necessary browser state is initiali
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `preconnectUrl` String - L'URL demandée pour la préconnexion par le moteur de rendu .
 * `allowCredentials` Booléen - Vrai si le moteur de rendu demande que la connexion inclue les informations d'identification (voir la [spec](https://w3c.github.io/resource-hints/#preconnect) pour plus de détails.)
 
 Émis lorsqu'un processus de rendu demande de préconnexion à une URL, généralement à cause de un hint[ressource ](https://w3c.github.io/resource-hints/).
 
-#### Event: 'spellcheck-dictionary-initialized'
+#### Événement : 'spellcheck-dictionary-initialized'
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `languageCode` String - The language code of the dictionary file
 
 Emitted when a hunspell dictionary file has been successfully initialized. This occurs after the file has been downloaded.
 
-#### Event: 'spellcheck-dictionary-download-begin'
+#### Événement : 'spellcheck-dictionary-download-begin'
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `languageCode` String - The language code of the dictionary file
 
 Emitted when a hunspell dictionary file starts downloading
 
-#### Event: 'spellcheck-dictionary-download-success'
+#### Événement : 'spellcheck-dictionary-download-success'
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `languageCode` String - The language code of the dictionary file
 
 Emitted when a hunspell dictionary file has been successfully downloaded
 
-#### Event: 'spellcheck-dictionary-download-failure'
+#### Événement : 'spellcheck-dictionary-download-failure'
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `languageCode` String - The language code of the dictionary file
 
 Emitted when a hunspell dictionary file download fails.  For details on the failure you should collect a netlog and inspect the download request.
 
-#### Event: 'select-serial-port' _Experimental_
+#### Event: 'select-serial-port'
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `portList` [SerialPort[]](structures/serial-port.md)
 * `webContents` [WebContents](web-contents.md)
 * `callback` Function
@@ -172,55 +172,49 @@ Retourne :
 
 Emitted when a serial port needs to be selected when a call to `navigator.serial.requestPort` is made. `callback` should be called with `portId` to be selected, passing an empty string to `callback` will cancel the request.  Additionally, permissioning on `navigator.serial` can be managed by using [ses.setPermissionCheckHandler(handler)](#sessetpermissioncheckhandlerhandler) with the `serial` permission.
 
-Because this is an experimental feature it is disabled by default.  To enable this feature, you will need to use the `--enable-features=ElectronSerialChooser` command line switch.  Additionally because this is an experimental Chromium feature you will need to set `enableBlinkFeatures: 'Serial'` on the `webPreferences` property when opening a BrowserWindow.
-
 ```javascript
 const { app, BrowserWindow } = require('electron')
 
 let win = null
-app.commandLine.appendSwitch('enable-features', 'ElectronSerialChooser')
 
 app.whenReady().then(() => {
   win = new BrowserWindow({
     width: 800,
-    height: 600,
-    webPreferences: {
-      enableBlinkFeatures: 'Serial'
-    }
+    height: 600
   })
-  win.webContents.session.on('select-serial-port', (event, portList, callback) => {
+  win.webContents.session.on('select-serial-port', (event, portList, webContents, callback) => {
     event.preventDefault()
     const selectedPort = portList.find((device) => {
-      return device.vendorId === 0x2341 && device.productId === 0x0043
+      return device.vendorId === '9025' && device.productId === '67'
     })
     if (!selectedPort) {
       callback('')
     } else {
-      callback(result1.portId)
+      callback(selectedPort.portId)
     }
   })
 })
 ```
 
-#### Event: 'serial-port-added' _Experimental_
+#### Event: 'serial-port-added'
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `port` [SerialPort](structures/serial-port.md)
 * `webContents` [WebContents](web-contents.md)
 
-Emitted after `navigator.serial.requestPort` has been called and `select-serial-port` has fired if a new serial port becomes available.  For example, this event will fire when a new USB device is plugged in.
+Emitted after `navigator.serial.requestPort` has been called and `select-serial-port` has fired if a new serial port becomes available.  Par exemple, cet événement se déclenchera lorsqu'un nouveau périphérique USB est branché.
 
-#### Event: 'serial-port-removed' _Experimental_
+#### Event: 'serial-port-removed'
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `port` [SerialPort](structures/serial-port.md)
 * `webContents` [WebContents](web-contents.md)
 
-Emitted after `navigator.serial.requestPort` has been called and `select-serial-port` has fired if a serial port has been removed.  For example, this event will fire when a USB device is unplugged.
+Emitted after `navigator.serial.requestPort` has been called and `select-serial-port` has fired if a serial port has been removed.  Par exemple, cet événement se déclenchera lorsqu'un périphérique USB est débranché.
 
 ### Méthodes d’instance
 
@@ -238,10 +232,10 @@ Efface le cache HTTP de la session.
 
 #### `ses.clearStorageData([options])`
 
-* `options` Object (optional)
+* `options` Object (facultatif)
   * `origin` String (facultatif) - Doit suivre la représentation de `window.location.origin` `scheme://host:port`.
-  * `storages` String[] (facultatif) - Les types de stockage à effacer, peuvent contenir : `appcache`, `cookies`, `filesystem`, `indexdb`, `localstorage`, `shadercache`, `websql`, `serviceworkers`, `cachestorage`. If not specified, clear all storage types.
-  * `quotas` String[] (optional) - The types of quotas to clear, can contain: `temporary`, `persistent`, `syncable`. If not specified, clear all quotas.
+  * `storages` String[] (facultatif) - Les types de stockage à effacer, peuvent contenir : `appcache`, `cookies`, `filesystem`, `indexdb`, `localstorage`, `shadercache`, `websql`, `serviceworkers`, `cachestorage`. Si ce n'est pas spécifié, effacez tous les types de stockage.
+  * `quotas` String[] (optional) - The types of quotas to clear, can contain: `temporary`, `persistent`, `syncable`. S'il n'est pas spécifié, effacez tous les quotas.
 
 Returns `Promise<void>` - resolves when the storage data has been cleared.
 
@@ -255,8 +249,8 @@ Writes any unwritten DOMStorage data to disk.
   * `mode` String (optional) - The proxy mode. Should be one of `direct`, `auto_detect`, `pac_script`, `fixed_servers` or `system`. If it's unspecified, it will be automatically determined based on other specified options.
     * `direct` In direct mode all connections are created directly, without any proxy involved.
     * `auto_detect` In auto_detect mode the proxy configuration is determined by a PAC script that can be downloaded at http://wpad/wpad.dat.
-    * `pac_script` In pac_script mode the proxy configuration is determined by a PAC script that is retrieved from the URL specified in the `pacScript`. This is the default mode if `pacScript` is specified.
-    * `fixed_servers` In fixed_servers mode the proxy configuration is specified in `proxyRules`. This is the default mode if `proxyRules` is specified.
+    * `pac_script` In pac_script mode the proxy configuration is determined by a PAC script that is retrieved from the URL specified in the `pacScript`. C'est le mode par défaut si `pacScript` est spécifié.
+    * `fixed_servers` En mode fixed_servers, la configuration du proxy est spécifiée dans `proxyRules`. Il s'agit du mode par défaut si `proxyRules` est spécifié.
     * `system` In system mode the proxy configuration is taken from the operating system. Note that the system mode is different from setting no proxy configuration. In the latter case, Electron falls back to the system settings only if no command-line options influence the proxy configuration.
   * `pacScript` String (optional) - The URL associated with the PAC file.
   * `proxyRules` String (optional) - Rules indicating which proxies to use.
@@ -296,13 +290,13 @@ Le `proxyBypassRules` est une liste de règles séparées par des virgules, comm
 
    Correspond à tous les noms d'hôte qui correspondent au pattern HOSTNAME_PATTERN.
 
-   Exemples: "foobar.com", "*foobar.com", "*.foobar.com", "*foobar.com:99", "https://x.*.y.com:99"
+   Examples: "foobar.com", "*foobar.com", "*.foobar.com", "*foobar.com:99", "https://x.*.y.com:99"
 
 * `"." HOSTNAME_SUFFIX_PATTERN [ ":" PORT ]`
 
    Correspond à un suffixe de domaine particulier.
 
-   Examples: ".google.com", ".com", "http://.google.com"
+   Exemples: ".google.com", ".com", "http://.google.com"
 
 * `[ SCHEME "://" ] IP_LITERAL [ ":" PORT ]`
 
@@ -328,18 +322,18 @@ Returns `Promise<String>` - Resolves with the proxy information for `url`.
 
 #### `ses.forceReloadProxyConfig()`
 
-Returns `Promise<void>` - Resolves when the all internal states of proxy service is reset and the latest proxy configuration is reapplied if it's already available. The pac script will be fetched from `pacScript` again if the proxy mode is `pac_script`.
+Returns `Promise<void>` - Resolves when the all internal states of proxy service is reset and the latest proxy configuration is reapplied if it's already available. Le script pac sera à nouveau extrait de `pacScript` si le mode proxy est `pac_script`.
 
 #### `ses.setDownloadPath(path)`
 
-* `path` String - Emplacement de téléchargement.
+* `path` String - The download location.
 
 Sets download saving directory. By default, the download directory will be the `Downloads` under the respective app folder.
 
 #### `ses.enableNetworkEmulation(options)`
 
-* `options` Object
-  * `offline` Boolean (optional) - Whether to emulate network outage. Par défaut, est faux.
+* Objet `options`
+  * `offline` Boolean (optional) - Whether to emulate network outage. Defaults to false.
   * `latency` Double (optional) - RTT in ms. Defaults to 0 which will disable latency throttling.
   * `downloadThroughput` Double (optional) - Download rate in Bps. Defaults to 0 which will disable download throttling.
   * `uploadThroughput` Double (optional) - Upload rate in Bps. Defaults to 0 which will disable upload throttling.
@@ -360,9 +354,9 @@ window.webContents.session.enableNetworkEmulation({ offline: true })
 
 #### `ses.preconnect(options)`
 
-* `options` Object
+* Objet `options`
   * `url` String - URL for preconnect. Only the origin is relevant for opening the socket.
-  * `numSockets` Number (optional) - number of sockets to preconnect. Must be between 1 and 6. 1 par défaut.
+  * `numSockets` Number (optional) - number of sockets to preconnect. Must be between 1 and 6. Defaults to 1.
 
 Preconnects the given number of sockets to an origin.
 
@@ -427,6 +421,7 @@ win.webContents.session.setCertificateVerifyProc((request, callback) => {
     * `pointerLock` - Request to directly interpret mouse movements as an input method. Cliquez [ici](https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API) pour en savoir plus.
     * `fullscreen` - Demande de l'application pour passer en mode plein écran.
     * `openExternal` - Request to open links in external applications.
+    * `unknown` - An unrecognized permission request
   * `callback` Function
     * `permissionGranted` Boolean - Allow or deny the permission.
   * `details` Object - Some properties are only available on certain permission types.
@@ -435,7 +430,7 @@ win.webContents.session.setCertificateVerifyProc((request, callback) => {
     * `requestingUrl` String - The last URL the requesting frame loaded
     * `isMainFrame` Boolean - Whether the frame making the request is the main frame
 
-Sets the handler which can be used to respond to permission requests for the `session`. Calling `callback(true)` will allow the permission and `callback(false)` will reject it. To clear the handler, call `setPermissionRequestHandler(null)`.
+Sets the handler which can be used to respond to permission requests for the `session`. Calling `callback(true)` will allow the permission and `callback(false)` will reject it. Pour effacer le gestionnaire, appelez `setPermissionRequestHandler(null)`.  Please note that you must also implement `setPermissionCheckHandler` to get complete permission handling. Most web APIs do a permission check and then make a permission request if the check is denied.
 
 ```javascript
 const { session } = require('electron')
@@ -451,25 +446,27 @@ session.fromPartition('some-partition').setPermissionRequestHandler((webContents
 #### `ses.setPermissionCheckHandler(handler)`
 
 * `handler` Function\<Boolean> | null
-  * `webContents` [WebContents](web-contents.md) - WebContents checking the permission.  Please note that if the request comes from a subframe you should use `requestingUrl` to check the request origin.
+  * `webContents` ([WebContents](web-contents.md) | null) - WebContents checking the permission.  Please note that if the request comes from a subframe you should use `requestingUrl` to check the request origin.  Toutes les frames de cross origin effectuant des vérifications de permission passeront un `null` webContents à ce gestionnaire, alors que certaines autres vérifications de permissions, telles que `notifications` , passeront toujours `null`.  You should use `embeddingOrigin` and `requestingOrigin` to determine what origin the owning frame and the requesting frame are on respectively.
   * `permission` String - Type of permission check.  Valid values are `midiSysex`, `notifications`, `geolocation`, `media`,`mediaKeySystem`,`midi`, `pointerLock`, `fullscreen`, `openExternal`, or `serial`.
   * `requestingOrigin` String - The origin URL of the permission check
   * `details` Object - Some properties are only available on certain permission types.
-    * `securityOrigin` String - The security origin of the `media` check.
-    * `mediaType` String - The type of media access being requested, can be `video`, `audio` or `unknown`
-    * `requestingUrl` String - The last URL the requesting frame loaded
+    * `embeddingOrigin` String (optional) - The origin of the frame embedding the frame that made the permission check.  Only set for cross-origin sub frames making permission checks.
+    * `securityOrigin` String (optional) - The security origin of the `media` check.
+    * `mediaType` String (optional) - The type of media access being requested, can be `video`, `audio` or `unknown`
+    * `requestingUrl` String (optional) - The last URL the requesting frame loaded.  This is not provided for cross-origin sub frames making permission checks.
     * `isMainFrame` Boolean - Whether the frame making the request is the main frame
 
-Sets the handler which can be used to respond to permission checks for the `session`. Returning `true` will allow the permission and `false` will reject it. Pour effacer le gestionnaire, appelez `setPermissionCheckHandler(null)`.
+Sets the handler which can be used to respond to permission checks for the `session`. Returning `true` will allow the permission and `false` will reject it.  Please note that you must also implement `setPermissionRequestHandler` to get complete permission handling. Most web APIs do a permission check and then make a permission request if the check is denied. Pour effacer le gestionnaire, appelez `setPermissionCheckHandler(null)`.
 
 ```javascript
 const { session } = require('electron')
-session.fromPartition('some-partition').setPermissionCheckHandler((webContents, permission) => {
-  if (webContents.getURL() === 'some-host' && permission === 'notifications') {
-    return false // denied
+const url = require('url')
+session.fromPartition('some-partition').setPermissionCheckHandler((webContents, permission, requestingOrigin) => {
+  if (new URL(requestingOrigin).hostname === 'some-host' && permission === 'notifications') {
+    return true // granted
   }
 
-  return true
+  return false // denied
 })
 ```
 
@@ -517,8 +514,8 @@ Renvoie `String` - L'utilisateur de cette session.
 #### `ses.setSSLConfig(config)`
 
 * `config` Object
-  * `minVersion` String (optional) - Can be `tls1`, `tls1.1`, `tls1.2` or `tls1.3`. The minimum SSL version to allow when connecting to remote servers. Defaults to `tls1`.
-  * `maxVersion` String (optional) - Can be `tls1.2` or `tls1.3`. The maximum SSL version to allow when connecting to remote servers. Defaults to `tls1.3`.
+  * `minVersion` String (optional) - Can be `tls1`, `tls1.1`, `tls1.2` or `tls1.3`. The minimum SSL version to allow when connecting to remote servers. `tls1` par défaut.
+  * `maxVersion` String (optional) - Can be `tls1.2` or `tls1.3`. The maximum SSL version to allow when connecting to remote servers. Par défaut, `tls1.3`.
   * `disabledCipherSuites` Integer[] (optional) - List of cipher suites which should be explicitly prevented from being used in addition to those disabled by the net built-in policy. Supported literal forms: 0xAABB, where AA is `cipher_suite[0]` and BB is `cipher_suite[1]`, as defined in RFC 2246, Section 7.4.1.2. Unrecognized but parsable cipher suites in this form will not return an error. Ex: To disable TLS_RSA_WITH_RC4_128_MD5, specify 0x0004, while to disable TLS_ECDH_ECDSA_WITH_RC4_128_SHA, specify 0xC002. Note that TLSv1.3 ciphers cannot be disabled using this mechanism.
 
 Sets the SSL configuration for the session. All subsequent network requests will use the new configuration. Existing network connections (such as WebSocket connections) will not be terminated, but old sockets in the pool will not be reused for new connections.
@@ -539,7 +536,7 @@ Initiates a download of the resource at `url`. The API will generate a [Download
 
 #### `ses.createInterruptedDownload(options)`
 
-* `options` Object
+* Objet `options`
   * `path` String - Chemin d'accès absolu pour le téléchargement.
   * `urlChain` String[] - Chaîne de caractère complète de l'URL du téléchargement.
   * `type` String (facultatif)
@@ -622,7 +619,7 @@ Returns `Boolean` - Whether the word was successfully removed from the custom di
 #### `ses.loadExtension(path[, options])`
 
 * `path` String - Path to a directory containing an unpacked Chrome extension
-* `options` Object (optional)
+* `options` Object (facultatif)
   * `allowFileAccess` Boolean - Whether to allow the extension to read local files over `file://` protocol and inject content scripts into `file://` pages. This is required e.g. for loading devtools extensions on `file://` URLs. Par défaut, faux.
 
 Returns `Promise<Extension>` - resolves when the extension is loaded.
@@ -676,11 +673,15 @@ Returns `Extension[]` - A list of all loaded extensions.
 
 **Remarque :** Cette API ne peut pas être appelée avant que l'événement `prêt` du module `app` ne soit émis.
 
+#### `ses.getStoragePath()`
+
+A `String | null` indicating the absolute file system path where data for this session is persisted on disk.  For in memory sessions this returns `null`.
+
 ### Propriétés d'instance
 
 Les propriétés suivantes sont disponibles pour les instances de `Session` :
 
-#### `ses.availableSpellCheckerLanguages` _Readonly_
+#### `ses.availableSpellCheckerLanguages` _Lecture seule_
 
 A `String[]` array which consists of all the known available spell checker languages.  Providing a language code to the `setSpellCheckerLanguages` API that isn't in this array will result in an error.
 
@@ -688,13 +689,17 @@ A `String[]` array which consists of all the known available spell checker langu
 
 A `Boolean` indicating whether builtin spell checker is enabled.
 
+#### `ses.storagePath` _Lecture seule_
+
+A `String | null` indicating the absolute file system path where data for this session is persisted on disk.  For in memory sessions this returns `null`.
+
 #### `ses.cookies` _Readonly_
 
 Un objet [`Cookies`](cookies.md) pour cette session.
 
-#### `ses.serviceWorkers` _Readonly_
+#### `ses.serviceWorkers` _Lecture seule_
 
-A [`ServiceWorkers`](service-workers.md) object for this session.
+Un objet [`ServiceWorkers`](service-workers.md) pour cette session.
 
 #### `ses.webRequest` _Readonly_
 

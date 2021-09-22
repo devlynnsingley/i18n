@@ -52,17 +52,19 @@ Setzt das Maximum und Minimum pinch-to-zoom Level.
 > **NOTE**: Visual zoom is disabled by default in Electron. To re-enable it, call:
 > 
 > ```js
-webFrame.setVisualZoomLevelLimits(1, 3)
-```
+> webFrame.setVisualZoomLevelLimits(1, 3)
+> ```
+
+> **NOTE**: Visual zoom only applies to pinch-to-zoom behavior. Cmd+/-/0 zoom shortcuts are controlled by the 'zoomIn', 'zoomOut', and 'resetZoom' MenuItem roles in the application Menu. To disable shortcuts, manually [define the Menu](./menu.md#examples) and omit zoom roles from the definition.
 
 ### `webFrame.setSpellCheckProvider(language, provider)`
 
 * `language` String
-* `provider` Object
-  * `spellCheck` Function
-    * `words` String[]
+* `provider` Objekt
+  * `spellCheck` Funktion
+    * `words` Zeichenkette[]
     * `callback` Function
-      * `misspeltWords` String[]
+      * `misspeltWords` Zeichenkette[]
 
 Sets a provider for spell checking in input fields and text areas.
 
@@ -116,7 +118,7 @@ Füge `text` in das fokusierte Element ein.
 
 ### `webFrame.executeJavaScript(code[, userGesture, callback])`
 
-* `code` String
+* `code` Zeichenkette
 * `userGesture` Boolean (optional) - Default is `false`.
 * `callback` Function (optional) - Called after script has been executed. Unless the frame is suspended (e.g. showing a modal alert), execution will be synchronous and the callback will be invoked before the method returns. For compatibility with an older version of this method, the error parameter is second.
   * `result` Any
@@ -150,7 +152,7 @@ Note that when the execution of script fails, the returned promise will not reje
 ### `webFrame.setIsolatedWorldInfo(worldId, info)`
 
 * `worldId` Integer - The ID of the world to run the javascript in, `0` is the default world, `999` is the world used by Electrons `contextIsolation` feature. Chrome extensions reserve the range of IDs in `[1 << 20, 1 << 29)`. You can provide any integer here.
-* `info` Object
+* `info` Objekt
   * `securityOrigin` String (optional) - Security origin for the isolated world.
   * `csp` String (optional) - Content Security Policy for the isolated world.
   * `name` String (optional) - Name for isolated world. Useful in devtools.
@@ -205,7 +207,7 @@ Returns `WebFrame` - The frame element in `webFrame's` document selected by `sel
 
 ### `webFrame.findFrameByName(name)`
 
-* `name` String
+* `name` Zeichenfolge
 
 Returns `WebFrame` - A child of `webFrame` with the supplied `name`, `null` would be returned if there's no such frame or if the frame is not in the current renderer process.
 

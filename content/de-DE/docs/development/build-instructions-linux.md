@@ -1,8 +1,8 @@
 # Build Anweisungen (Linux)
 
-Follow the guidelines below for building Electron on Linux.
+Follow the guidelines below for building **Electron itself** on Linux, for the purposes of creating custom Electron binaries. For bundling and distributing your app code with the prebuilt Electron binaries, see the [application distribution][application-distribution] guide.
 
-## Vorrausetzungen
+## Prerequisites
 
 * At least 25GB disk space and 8GB RAM.
 * Python 2.7.x. Some distributions like CentOS 6.x still use Python 2.6.x so you may need to check your Python version with `python -V`.
@@ -82,7 +82,7 @@ $ gn gen out/Testing --args='import(...) target_cpu="arm"'
 
 ## Building
 
-Siehe [Build Instruktionen: GN](build-instructions-gn.md)
+See [Build Instructions: GN](build-instructions-gn.md)
 
 ## Problemlösungen
 
@@ -94,7 +94,7 @@ Prebuilt `clang` will try to link to `libtinfo.so.5`. Depending on the host arch
 $ sudo ln -s /usr/lib/libncurses.so.5 /usr/lib/libtinfo.so.5
 ```
 
-## Erweiterte Themen
+## Advanced topics
 
 The default building configuration is targeted for major desktop Linux distributions. To build for a specific distribution or device, the following information may help you.
 
@@ -111,3 +111,5 @@ $ gn gen out/Testing --args='import("//electron/build/args/testing.gn") clang_ba
 ### Using compilers other than `clang`
 
 Building Electron with compilers other than `clang` is not supported.
+
+[application-distribution]: ../tutorial/application-distribution.md

@@ -1,4 +1,4 @@
-# Zwischenablage (clipboard)
+# clipboard
 
 > Ausführung von Kopier- und Einfüge-Operationen von der Zwischenablage des Betriebssystems.
 
@@ -17,7 +17,7 @@ console.log(clipboard.readText('selection'))
 
 Das `clipboard` Modul besitzt die folgenden Methoden:
 
-**Note:** Experimental APIs are marked as such and could be removed in future.
+**Notiz:** Experimentelle Schnittstellen sind mit "Experimentell" markiert und könnten in der Zukunft wegfallen.
 
 ### `clipboard.readText([type])`
 
@@ -181,7 +181,7 @@ console.log(formats)
 // [ 'text/plain', 'text/html' ]
 ```
 
-### `clipboard.has(format[, type])` _Experimental_
+### `clipboard.has(format[, type])` _Experimentell_
 
 * `format` String
 * `type` String (optional) - Can be `selection` or `clipboard`; default is 'clipboard'. `selection` ist nur unter Linux verfügbar.
@@ -193,16 +193,18 @@ const { clipboard } = require('electron')
 
 const hasFormat = clipboard.has('<p>selection</p>')
 console.log(hasFormat)
-// 'true' or 'false
+// 'true' or 'false'
 ```
 
-### `clipboard.read(format)` _Experimental_
+### `clipboard.read(format)` _Experimentell_
 
 * `format` String
 
 Gibt den `String` zurück - Liest den `format` Typ von der Zwischenablage.
 
-### `clipboard.readBuffer(format)` _Experimental_
+`format` should contain valid ASCII characters and have `/` separator. `a/c`, `a/bc` are valid formats while `/abc`, `abc/`, `a/`, `/a`, `a` are not valid.
+
+### `clipboard.readBuffer(format)` _Experimentell_
 
 * `format` String
 
@@ -212,15 +214,15 @@ Gibt den `Buffer` zurück - Liest den `format` Typ von der Zwischenablage.
 const { clipboard } = require('electron')
 
 const buffer = Buffer.from('this is binary', 'utf8')
-clipboard.writeBuffer('public.utf8-plain-text', buffer)
+clipboard.writeBuffer('public/utf8-plain-text', buffer)
 
-const ret = clipboard.readBuffer('public.utf8-plain-text')
+const ret = clipboard.readBuffer('public/utf8-plain-text')
 
 console.log(buffer.equals(out))
 // true
 ```
 
-### `clipboard.writeBuffer(format, buffer[, type])` _Experimental_
+### `clipboard.writeBuffer(format, buffer[, type])` _Experimentell_
 
 * `format` String
 * `buffer` Puffer
@@ -232,7 +234,7 @@ Schreibt den `buffer` mit dem angegebenen `format` in die Zwischenablage.
 const { clipboard } = require('electron')
 
 const buffer = Buffer.from('writeBuffer', 'utf8')
-clipboard.writeBuffer('public.utf8-plain-text', buffer)
+clipboard.writeBuffer('public/utf8-plain-text', buffer)
 ```
 
 ### `clipboard.write(data[, type])`

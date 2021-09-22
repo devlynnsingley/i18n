@@ -2,7 +2,7 @@
 
 > Interceptar y modificar el contenido de una solicitud en varias etapas de su ciclo de vida.
 
-Proceso: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 Instancias de la clase `WebRequest` son accesibles usando la propiedad `webRequest` de una `Session`.
 
@@ -19,7 +19,7 @@ Un ejemplo de añadir encabezados `User-Agent` a las solicitudes:
 ```javascript
 const { session } = require('electron')
 
-// Modificar el user agent para todas las consultas de las siguientes urls.
+// Modify the user agent for all requests to the following urls.
 const filter = {
   urls: ['https://*.github.com/*', '*://electron.github.io']
 }
@@ -36,8 +36,7 @@ Lo siguientes métodos están disponibles en instancias de `WebRequest`:
 
 #### `webRequest.onBeforeRequest([filter, ]listener)`
 
-* `filter` Object (optional)
-  * `urls` String[] - Array de patrones de URL que será utilizado para filtrar las consultas que no cumplen los patrones de URL.
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
   * `details` Object
     * `id` Íntegro
@@ -46,8 +45,8 @@ Lo siguientes métodos están disponibles en instancias de `WebRequest`:
     * `webContentsId` Entero (opcional)
     * `webContents` WebContents (opcional)
     * `frame` WebFrameMain (opcional)
-    * `resourceType` String
-    * `referrer` Cadena
+    * `resourceType` String - Can be `mainFrame`, `subFrame`, `stylesheet`, `script`, `image`, `font`, `object`, `xhr`, `ping`, `cspReport`, `media`, `webSocket` or `other`.
+    * `referrer` String
     * `fecha y hora` Doble
     * `uploadData` [UploadData[]](structures/upload-data.md)
   * `callback` Función
@@ -78,8 +77,7 @@ Algunos ejemplos de `urls` válidas:
 
 #### `webRequest.onBeforeSendHeaders([filter, ]listener)`
 
-* `filter` Object (optional)
-  * `urls` String[] - Array de patrones de URL que será utilizado para filtrar las consultas que no cumplen los patrones de URL.
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
   * `details` Object
     * `id` Íntegro
@@ -88,8 +86,8 @@ Algunos ejemplos de `urls` válidas:
     * `webContentsId` Entero (opcional)
     * `webContents` WebContents (opcional)
     * `frame` WebFrameMain (opcional)
-    * `resourceType` String
-    * `referrer` Cadena
+    * `resourceType` String - Can be `mainFrame`, `subFrame`, `stylesheet`, `script`, `image`, `font`, `object`, `xhr`, `ping`, `cspReport`, `media`, `webSocket` or `other`.
+    * `referrer` String
     * `fecha y hora` Doble
     * `requestHeaders` Record<string, string>
   * `callback` Función
@@ -103,8 +101,7 @@ El `callback` ha de ser llamado con un objeto `response`.
 
 #### `webRequest.onSendHeaders([filter, ]listener)`
 
-* `filter` Object (optional)
-  * `urls` String[] - Array de patrones de URL que será utilizado para filtrar las consultas que no cumplen los patrones de URL.
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
   * `details` Object
     * `id` Íntegro
@@ -113,8 +110,8 @@ El `callback` ha de ser llamado con un objeto `response`.
     * `webContentsId` Entero (opcional)
     * `webContents` WebContents (opcional)
     * `frame` WebFrameMain (opcional)
-    * `resourceType` String
-    * `referrer` Cadena
+    * `resourceType` String - Can be `mainFrame`, `subFrame`, `stylesheet`, `script`, `image`, `font`, `object`, `xhr`, `ping`, `cspReport`, `media`, `webSocket` or `other`.
+    * `referrer` String
     * `fecha y hora` Doble
     * `requestHeaders` Record<string, string>
 
@@ -122,8 +119,7 @@ El`oyente` Será llamado con `listener(details)` justo antes que una solicitud v
 
 #### `webRequest.onHeadersReceived([filter, ]listener)`
 
-* `filter` Object (optional)
-  * `urls` String[] - Array de patrones de URL que será utilizado para filtrar las consultas que no cumplen los patrones de URL.
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
   * `details` Object
     * `id` Íntegro
@@ -132,12 +128,11 @@ El`oyente` Será llamado con `listener(details)` justo antes que una solicitud v
     * `webContentsId` Entero (opcional)
     * `webContents` WebContents (opcional)
     * `frame` WebFrameMain (opcional)
-    * `resourceType` String
-    * `referrer` Cadena
+    * `resourceType` String - Can be `mainFrame`, `subFrame`, `stylesheet`, `script`, `image`, `font`, `object`, `xhr`, `ping`, `cspReport`, `media`, `webSocket` or `other`.
+    * `referrer` String
     * `fecha y hora` Doble
     * `linea de estatus` Cadena
     * `Estatus de código` entero
-    * `requestHeaders` Record<string, string>
     * `responseHeaders` Record<string, string[]> (opcional)
   * `callback` Función
     * `headersReceivedResponse` Object
@@ -151,8 +146,7 @@ El `callback` ha de ser llamado con un objeto `response`.
 
 #### `webRequest.onResponseStarted([filter, ]listener)`
 
-* `filter` Object (optional)
-  * `urls` String[] - Array de patrones de URL que será utilizado para filtrar las consultas que no cumplen los patrones de URL.
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
   * `details` Object
     * `id` Íntegro
@@ -161,8 +155,8 @@ El `callback` ha de ser llamado con un objeto `response`.
     * `webContentsId` Entero (opcional)
     * `webContents` WebContents (opcional)
     * `frame` WebFrameMain (opcional)
-    * `resourceType` String
-    * `referrer` Cadena
+    * `resourceType` String - Can be `mainFrame`, `subFrame`, `stylesheet`, `script`, `image`, `font`, `object`, `xhr`, `ping`, `cspReport`, `media`, `webSocket` or `other`.
+    * `referrer` String
     * `fecha y hora` Doble
     * `responseHeaders` Record<string, string[]> (opcional)
     * `Desde Cache` Booleano - Indica cuando al respuesta fue obtenida desde la memoria caché.
@@ -173,8 +167,7 @@ El `oyente` será cancelado con `listener(details)` cuando se reciba el primer b
 
 #### `webRequest.onBeforeRedirect([filter, ]listener)`
 
-* `filter` Object (optional)
-  * `urls` String[] - Array de patrones de URL que será utilizado para filtrar las consultas que no cumplen los patrones de URL.
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
   * `details` Object
     * `id` Íntegro
@@ -183,8 +176,8 @@ El `oyente` será cancelado con `listener(details)` cuando se reciba el primer b
     * `webContentsId` Entero (opcional)
     * `webContents` WebContents (opcional)
     * `frame` WebFrameMain (opcional)
-    * `resourceType` String
-    * `referrer` Cadena
+    * `resourceType` String - Can be `mainFrame`, `subFrame`, `stylesheet`, `script`, `image`, `font`, `object`, `xhr`, `ping`, `cspReport`, `media`, `webSocket` or `other`.
+    * `referrer` String
     * `fecha y hora` Doble
     * `redirectURL` String
     * `Estatus de código` entero
@@ -197,8 +190,7 @@ El `oyente` Será cancelado con `listener(details)` cuando la redirección del s
 
 #### `webRequest.onCompleted([filter, ]listener)`
 
-* `filter` Object (optional)
-  * `urls` String[] - Array de patrones de URL que será utilizado para filtrar las consultas que no cumplen los patrones de URL.
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
   * `details` Object
     * `id` Íntegro
@@ -207,8 +199,8 @@ El `oyente` Será cancelado con `listener(details)` cuando la redirección del s
     * `webContentsId` Entero (opcional)
     * `webContents` WebContents (opcional)
     * `frame` WebFrameMain (opcional)
-    * `resourceType` String
-    * `referrer` Cadena
+    * `resourceType` String - Can be `mainFrame`, `subFrame`, `stylesheet`, `script`, `image`, `font`, `object`, `xhr`, `ping`, `cspReport`, `media`, `webSocket` or `other`.
+    * `referrer` String
     * `fecha y hora` Doble
     * `responseHeaders` Record<string, string[]> (opcional)
     * `Desde cache` Booleano
@@ -220,8 +212,7 @@ El `listener` será llamado con `listener(details)` cuando una petición es comp
 
 #### `webRequest.onErrorOccurred([filter, ]listener)`
 
-* `filter` Object (optional)
-  * `urls` String[] - Array de patrones de URL que será utilizado para filtrar las consultas que no cumplen los patrones de URL.
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
   * `details` Object
     * `id` Íntegro
@@ -230,8 +221,8 @@ El `listener` será llamado con `listener(details)` cuando una petición es comp
     * `webContentsId` Entero (opcional)
     * `webContents` WebContents (opcional)
     * `frame` WebFrameMain (opcional)
-    * `resourceType` String
-    * `referrer` Cadena
+    * `resourceType` String - Can be `mainFrame`, `subFrame`, `stylesheet`, `script`, `image`, `font`, `object`, `xhr`, `ping`, `cspReport`, `media`, `webSocket` or `other`.
+    * `referrer` String
     * `fecha y hora` Doble
     * `Desde cache` Booleano
     * `error` Cadena - la descripción del error.

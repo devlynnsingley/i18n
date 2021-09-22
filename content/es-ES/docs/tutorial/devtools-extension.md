@@ -1,6 +1,6 @@
-# Extensión de Chrome DevTools
+# Extensión de herramientas de desarrollo
 
-Electron soporta [Chrome DevTools extensions][devtools-extension], el cual puede ser usado para extender la habilidad de las herramientas de desarrollo de Chrome para depurar web frameworks populares.
+Electron soporta [Chrome DevTools extensions][devtools-extension], las cuales pueden ser usadas para extender las funcionalidades de las herramientas de desarrollo de Chrome para depurar web frameworks populares.
 
 ## Cargando una extensión DevTools con herramientas
 
@@ -29,7 +29,7 @@ Usando el [React Developer Tools][react-devtools] como un ejemplo:
     const path = require('path')
     const os = require('os')
 
-    // en macOS
+    // on macOS
     const reactDevToolsPath = path.join(
       os.homedir(),
       '/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.9.0_0'

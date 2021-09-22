@@ -1,6 +1,4 @@
-# dock do MacOS
-
-## Visão Geral
+# Dock (macOS)
 
 Electron possui API's para configurar ícones de aplicativos no dock do macOS. A macOS-only API exists to create a custom dock menu, but Electron also uses the app dock icon as the entry point for cross-platform features like [recent documents][recent-documents] and [application progress][progress-bar].
 
@@ -10,14 +8,23 @@ __Menu do Dock do Terminal.app:__
 
 ![Menu do Dock][3]
 
-Para definir seu menu personalizado do dock, você precisa usar o [`app.dock.setMenu`](../api/dock.md#docksetmenumenu-macos) API, que só está disponível no macOS.
+To set your custom dock menu, you need to use the [`app.dock.setMenu`](../api/dock.md#docksetmenumenu-macos) API, which is only available on macOS.
 
 ## Exemplo
 
-Começando com um aplicativo de trabalho do [Guia de início rápido](quick-start.md), atualize o `main.js` arquivo com as seguintes linhas:
+Starting with a working application from the [Quick Start Guide](quick-start.md), update the `main.js` file with the following lines:
 
 ```javascript fiddle='docs/fiddles/features/macos-dock-menu'
-const { app, Menu } = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
+
+function createWindow () {
+  const win = new BrowserWindow({
+    width: 800,
+    height: 600,
+  })
+
+  win.loadFile('index.html')
+}
 
 const dockMenu = Menu.buildFromTemplate([
   {
@@ -34,13 +41,28 @@ const dockMenu = Menu.buildFromTemplate([
 ])
 
 app.whenReady().then(() => {
-  app.dock.setMenu(dockMenu)
+  if (process.platform === 'darwin') {
+    app.dock.setMenu(dockMenu)
+  }
+}).then(createWindow)
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
 })
+
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow()
+  }
+})
+
 ```
 
-Após iniciar o aplicativo Electron, clique com o botão direito no ícone do aplicativo. Você deve ver o menu personalizado que você acabou de definir:
+After launching the Electron application, right click the application icon. You should see the custom menu you just defined:
 
-![Menu dock do macOS](../images/macos-dock-menu.png)
+![macOS dock menu](../images/macos-dock-menu.png)
 
 [3]: https://cloud.githubusercontent.com/assets/639601/5069962/6032658a-6e9c-11e4-9953-aa84006bdfff.png
 [recent-documents]: ./recent-documents.md

@@ -58,18 +58,25 @@ Force l'espace disque maximum à utiliser par le cache disque, en octets.
 
 Enables caller stack logging for the following APIs (filtering events):
 
-- `desktopCapturer.getSources()` / `desktop-capturer-get-sources`
-- `remote.require()` / `remote-require`
-- `remote.getGlobal()` / `remote-get-builtin`
-- `remote.getBuiltin()` / `remote-get-global`
-- `remote.getCurrentWindow()` / `remote-get-current-window`
-- `remote.getCurrentWebContents()` / `remote-get-current-web-contents`
+* `desktopCapturer.getSources()` / `desktop-capturer-get-sources`
 
-### --enable-logging
+### --enable-logging[=file]
 
-Envoie les traces de Chromium à la console.
+Prints Chromium's logging to stderr (or a log file).
 
-Ce commutateur ne peut pas être utilisé dans `app.commandLine.appendSwitch` car il est pris en compte avant que l'app utilisateur soit chargée, mais vous pouvez activer la variable d'environnement `ELECTRON_ENABLE_LOGGING` pour obtenir le même résultat.
+The `ELECTRON_ENABLE_LOGGING` environment variable has the same effect as passing `--enable-logging`.
+
+Passing `--enable-logging` will result in logs being printed on stderr. Passing `--enable-logging=file` will result in logs being saved to the file specified by `--log-file=...`, or to `electron_debug.log` in the user-data directory if `--log-file` is not specified.
+
+> **Note:** On Windows, logs from child processes cannot be sent to stderr. Logging to a file is the most reliable way to collect logs on Windows.
+
+See also `--log-file`, `--log-level`, `--v`, and `--vmodule`.
+
+### --force-fieldtrials=`trials`
+
+Les essais sur le terrain doivent être activés ou désactivés de force.
+
+For example: `WebRTC-Audio-Red-For-Opus/Enabled/`
 
 ### --host-rules=`rules`
 
@@ -110,17 +117,33 @@ Consultez la documentation [Node.js][node-cli] ou exécutez `node --help` dans v
 
 Permet de mettre une langue personnalisée.
 
+### --log-file=`path`
+
+If `--enable-logging` is specified, logs will be written to the given path. The parent directory must exist.
+
+Setting the `ELECTRON_LOG_FILE` environment variable is equivalent to passing this flag. If both are present, the command-line switch takes precedence.
+
 ### --log-net-log=`path`
 
 Permet que les événements réseau net log soient sauvés et les écrit dans `path`.
 
+### --log-level=`N`
+
+Sets the verbosity of logging when used together with `--enable-logging`. `N` should be one of [Chrome's LogSeverities][severities].
+
+Note that two complimentary logging mechanisms in Chromium -- `LOG()` and `VLOG()` -- are controlled by different switches. `--log-level` controls `LOG()` messages, while `--v` and `--vmodule` control `VLOG()` messages. So you may want to use a combination of these three switches depending on the granularity you want and what logging calls are made by the code you're trying to watch.
+
+See [Chromium Logging source][logging] for more information on how `LOG()` and `VLOG()` interact. Loosely speaking, `VLOG()` can be thought of as sub-levels / per-module levels inside `LOG(INFO)` to control the firehose of `LOG(INFO)` data.
+
+See also `--enable-logging`, `--log-level`, `--v`, and `--vmodule`.
+
 ### --no-proxy-server
 
-Don't use a proxy server and always make direct connections. Overrides any other proxy server flags that are passed.
+N'utilisez pas de serveur proxy et établissez toujours des connexions directes. Overrides any other proxy server flags that are passed.
 
 ### --no-sandbox
 
-Disables Chromium sandbox, which is now enabled by default. Should only be used for testing.
+Désactive le [bac à sable](https://www.chromium.org/developers/design-documents/sandbox) Chromium. Force le processus de rendu et les processus d'assistance Chromium à s'exécuter sans bac à sable. Ne doit être utilisé que pour les tests.
 
 ### --proxy-bypass-list=`hosts`
 
@@ -153,6 +176,8 @@ Gives the default maximal active V-logging level; 0 is the default. Normally pos
 
 Ce commutateur ne fonctionne que si `--enable-logging` est également fourni.
 
+See also `--enable-logging`, `--log-level`, and `--vmodule`.
+
 ### --vmodule=`pattern`
 
 Permet que les niveaux maximum par module de V-logging puisse dépasser la valeur donnée par `--v`. Exemple : `my_module=2,foo*=3` would change the logging level for all code in source files `my_module.*` and `foo*.*`.
@@ -160,6 +185,8 @@ Permet que les niveaux maximum par module de V-logging puisse dépasser la valeu
 Tout pattern contenant un slash ou un anti-slash sera testé pour tout le chemin et pas seulement le module. Exemple : `*/foo/bar/*=2` would change the logging level for all code in the source files under a `foo/bar` directory.
 
 Ce commutateur ne fonctionne que si `--enable-logging` est également fourni.
+
+See also `--enable-logging`, `--log-level`, and `--v`.
 
 ### --force_high_performance_gpu
 
@@ -183,13 +210,13 @@ Aliased to `--debug-brk=[host:]port`.
 
 ### --inspect-port=[host:]port
 
-Set the `host:port` to be used when the inspector is activated. Utile lors de l’activation de l’inspecteur en envoyant le signal SIGUSR1. Default host is `127.0.0.1`.
+Set the `host:port` to be used when the inspector is activated. Utile lors de l’activation de l’inspecteur en envoyant le signal SIGUSR1. L'hôte par défaut est `127.0.0.1`.
 
 Aliased to `--debug-port=[host:]port`.
 
 ### --inspect[=[host:]port]
 
-Activate inspector on `host:port`. Default is `127.0.0.1:9229`.
+Activate inspector on `host:port`. Par défaut la valeur est `127.0.0.1:9229`.
 
 V8 inspector integration allows tools such as Chrome DevTools and IDEs to debug and profile Electron instances. The tools attach to Electron instances via a TCP port and communicate using the [Chrome DevTools Protocol](https://chromedevtools.github.io/devtools-protocol/).
 
@@ -208,5 +235,7 @@ Par défaut, l'url du websocket de l'inspecteur est disponible dans stderr et da
 [ready]: app.md#event-ready
 [play-silent-audio]: https://github.com/atom/atom/pull/9485/files
 [debugging-main-process]: ../tutorial/debugging-main-process.md
+[logging]: https://source.chromium.org/chromium/chromium/src/+/master:base/logging.h
 [node-cli]: https://nodejs.org/api/cli.html
 [node-cli]: https://nodejs.org/api/cli.html
+[severities]: https://source.chromium.org/chromium/chromium/src/+/master:base/logging.h?q=logging::LogSeverity&ss=chromium

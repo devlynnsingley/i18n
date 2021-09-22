@@ -8,7 +8,7 @@ Ce module ne peut pas être utilisé tant que l'événement `prêt` du module `a
 
 `screen` est un [EventEmitter][event-emitter].
 
-**Note:** In the renderer / DevTools, `window.screen` is a reserved DOM property, so writing `let { screen } = require('electron')` will not work.
+**Remarque :** Dans le renderer / DevTools, `window.screen` est une propriété réservée au DOM, alors écrire `let { screen } = require('electron')` ne fonctionnera pas.
 
 Un exemple de création d'une fenêtre qui prendra tout l'écran :
 
@@ -54,7 +54,7 @@ Le module `screen` émet les événements suivants :
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `newDisplay` [Display](structures/display.md)
 
 Émis lorsque `newDisplay` a été ajouté.
@@ -63,7 +63,7 @@ Retourne :
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `oldDisplay` [Display](structures/display.md)
 
 Émis lorsque `oldDisplay` a été retiré.
@@ -72,7 +72,7 @@ Retourne :
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `display` [Display](structures/display.md)
 * `changedMetrics` String[]
 
@@ -87,6 +87,8 @@ Le module `screen` dispose des méthodes suivantes :
 Retourne [`Point`](structures/point.md)
 
 La position absolue du pointeur de la souris.
+
+**Note:** The return value is a DIP point, not a screen physical point.
 
 ### `screen.getPrimaryDisplay()`
 

@@ -1,10 +1,12 @@
+# Tray
+
 ## 系统托盘
 
 > 添加图标和上下文菜单到系统通知区
 
 进程：[主进程](../glossary.md#main-process)
 
-`Tray` 是一个 [EventEmitter][event-emitter].
+`Tray`是一个[EventEmitter][event-emitter].
 
 ```javascript
 const { app, Menu, Tray } = require('electron')
@@ -240,7 +242,7 @@ Returns `Boolean` - Whether double click events will be ignored.
 
 * `选项` 对象
   * `icon` ([NativeImage](native-image.md) | String) (optional) - Icon to use when `iconType` is `custom`.
-  * `iconType` String (optional) - Can be `none`, `info`, `warning`, `error` or `custom`. Default is `custom`.
+  * `iconType` String (optional) - Can be `none`, `info`, `warning`, `error` or `custom`. 默认值为 `custom`.
   * `title` String
   * `content` String
   * `largeIcon` Boolean (optional) - The large version of the icon should be used. 默认值为 `true`。 Maps to [`NIIF_LARGE_ICON`][NIIF_LARGE_ICON].

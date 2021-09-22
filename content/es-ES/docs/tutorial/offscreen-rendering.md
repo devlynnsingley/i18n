@@ -1,4 +1,4 @@
-# Renderización fuera de pantalla
+# Representación fuera de la pantalla
 
 ## Descripción general
 
@@ -16,7 +16,7 @@ Offscreen rendering te permite obtener el contenido de un `BrowserWindow` en un 
 
 #### GPU acelerado
 
-La renderización acelerada por GPU significa que la GPU se usa para la composición. Por eso, el frame ha de ser copiado desde la GPU lo cual requiere mas recursos, por lo tanto este modo es mas lento que el dispositivo de salida de Software. El beneficio de este modo es que las animaciones WebGL y 3D CSS son compatibles.
+La renderización acelerada por GPU significa que la GPU se usa para la composición. Por eso, el frame ha de ser copiado desde la GPU lo cual requiere mas recursos, por lo tanto este modo es mas lento que el dispositivo de salida de Software. The benefit of this mode is that WebGL and 3D CSS animations are supported.
 
 #### Dispositivo de salida de software
 
@@ -25,8 +25,6 @@ Este modo usa un dispositivo de salida por Software para renderizar en la CPU, a
 Para habilitar este modo, la aceleración de la GPU ha de ser deshabilitada llamando a la API [`app.disableHardwareAcceleration()`][disablehardwareacceleration].
 
 ## Ejemplo
-
-Comenzando con una aplicación funcional de la [Guía de inicio rápido](quick-start.md), agregue las siguientes líneas al archivo `main.js`:
 
 ```javascript fiddle='docs/fiddles/features/offscreen-rendering'
 const { app, BrowserWindow } = require('electron')
@@ -47,6 +45,6 @@ app.whenReady().then(() => {
 })
 ```
 
-Después de lanzar la aplicación Electron, navegue al directorio de trabajo de la aplicación.
+After launching the Electron application, navigate to your application's working folder, where you'll find the rendered image.
 
 [disablehardwareacceleration]: ../api/app.md#appdisablehardwareacceleration

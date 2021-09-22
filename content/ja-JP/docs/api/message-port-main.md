@@ -8,7 +8,9 @@
 
 ## Class: MessagePortMain
 
-プロセス: [Main](../glossary.md#main-process)
+> メインプロセス内でチャンネルメッセージングをするためのポートインターフェイスです。
+
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### インスタンスメソッド
 
@@ -31,7 +33,7 @@
 
 #### イベント: 'message'
 
-戻り値:
+戻り値：
 
 * `messageEvent` Object
   * `data` any

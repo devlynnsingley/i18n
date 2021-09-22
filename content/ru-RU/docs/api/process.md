@@ -10,46 +10,37 @@
 
 В песочнице графический объект `process` содержит только подмножество API:
 
-- `crash() - Падение`
-- `hang() - Зависание`
-- `getCreationTime() - Время создания`
-- `getHeapStatistics() - Статистика кучи (распределяемой памяти)`
-- `getBlinkMemoryInfo() - Информация о памяти Blink`
-- `getProcessMemoryInfo() - Сведения о памяти процесса`
-- `getSystemMemoryInfo() - Информация о системной памяти`
-- `getSystemVersion() - Версия системы`
-- `getCPUUsage() - Использование процессора`
-- `getIOCounters() - Счетчики IO`
-- `argv`
-- `execPath`
-- `env`
-- `pid`
-- `arch`
-- `platform`
-- `sandboxed - Запущена ли песочница`
-- `type`
-- `версия`
-- `versions - Список с версиями и их зависимостями`
-- `mas - Является ли сборкой Mac App Store`
-- `windowsStore - Является ли приложением Windows Store (appx)`
+* `crash() - Падение`
+* `hang() - Зависание`
+* `getCreationTime() - Время создания`
+* `getHeapStatistics() - Статистика кучи (распределяемой памяти)`
+* `getBlinkMemoryInfo() - Информация о памяти Blink`
+* `getProcessMemoryInfo() - Сведения о памяти процесса`
+* `getSystemMemoryInfo() - Информация о системной памяти`
+* `getSystemVersion() - Версия системы`
+* `getCPUUsage() - Использование процессора`
+* `getIOCounters() - Счетчики IO`
+* `uptime()`
+* `argv`
+* `execPath`
+* `env`
+* `pid`
+* `arch`
+* `platform`
+* `sandboxed - Запущена ли песочница`
+* `contextIsolated`
+* `тип`
+* `версия`
+* `versions - Список с версиями и их зависимостями`
+* `mas - Является ли сборкой Mac App Store`
+* `windowsStore - Является ли приложением Windows Store (appx)`
+* `contextId`
 
 ## События
 
 ### Событие: 'loaded'
 
 Срабатывает, когда Electron загрузил свой скрипт внутренней инициализации и начинает загружать веб-страницу или основной скрипт.
-
-Это событие может использоваться preload скриптом, чтобы вернуть удаленные Node global symbols в глобальную область видимости, когда node integration выключен:
-
-```javascript
-// preload.js
-const _setImmediate = setImmediate
-const _clearImmediate = clearImmediate
-process.once('loaded', () => {
-  global.setImmediate = _setImmediate
-  global.clearImmediate = _clearImmediate
-})
-```
 
 ## Свойства
 
@@ -71,7 +62,7 @@ A `Boolean` that controls ASAR support inside your application. Setting this to 
 
 ### `process.noDeprecation`
 
-`Boolean` который управляет тем, будут ли предупреждения об устаревании выводиться в `stderr` или нет. Установка в `true` заглушит предупреждения об устаревании. Это свойство используется вместо флага командной строки `--no-deprecation`.
+`Boolean`. Контролирует будут ли неодобряющие предупреждения выводиться в `stderr`. Установка в `true` заглушит неодобряющие предупреждения. Это свойство используется вместо флага командной строки `--no-deprecation`.
 
 ### `process.resourcesPath` _Только чтение_
 
@@ -80,6 +71,10 @@ A `Boolean` that controls ASAR support inside your application. Setting this to 
 ### `process.sandboxed` _Только чтение_
 
 A `Boolean`. When the renderer process is sandboxed, this property is `true`, otherwise it is `undefined`.
+
+### `process.contextIsolated` _Только чтение_
+
+A `Boolean` that indicates whether the current renderer context has `contextIsolation` enabled. It is `undefined` in the main process.
 
 ### `process.throwDeprecation`
 
@@ -112,6 +107,10 @@ A `String` representing the current process's type, can be:
 ### `process.windowsStore` _Только чтение_
 
 A `Boolean`. If the app is running as a Windows Store app (appx), this property is `true`, for otherwise it is `undefined`.
+
+### `process.contextId` _Только чтение_
+
+A `String` (optional) representing a globally unique ID of the current JavaScript context. Each frame has its own JavaScript context. When contextIsolation is enabled, the isolated world also has a separate JavaScript context. This property is only available in the renderer process.
 
 ## Методы
 
@@ -175,8 +174,8 @@ Chromium не предоставляет значение `residentSet` для m
 
 * `total` Integer - Общий объем физической памяти в килобайтах, доступный системе.
 * `free` Integer - Общий объем памяти, не используемый приложениями или дисковым кэшем.
-* `swapTotal` Integer _Windows_ _Linux_ - The total amount of swap memory in Kilobytes available to the system.
-* `swapFree` Integer _Windows_ _Linux_ - The free amount of swap memory in Kilobytes available to the system.
+* `swapTotal` Integer _Windows_ _Linux_ - Общий объем памяти подкачки в килобайтах, доступной системе.
+* `swapFree` Integer _Windows_ _Linux_ - Свободный объем памяти подкачки в килобайтах, доступный системе.
 
 Returns an object giving memory usage statistics about the entire system. Note that all statistics are reported in Kilobytes.
 
@@ -198,7 +197,7 @@ console.log(version)
 
 ### `process.takeHeapSnapshot(filePath)`
 
-* `filePath` String - Путь к выходному файлу.
+* `filePath` String - Path to the output file.
 
 Возвращает `Boolean`, который указывает успешно ли создан снимок.
 

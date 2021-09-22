@@ -2,11 +2,11 @@
 
 > Create a color picker in the touch bar for native macOS applications
 
-Prozess: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### `new TouchBarColorPicker(options)`
 
-* `options` Object
+* `options` Objekt
   * `availableColors` String[] (optional) - Array of hex color strings to appear as possible colors to select.
   * `selectedColor` String (optional) - The selected hex color in the picker, i.e `#ABCDEF`.
   * `change` Function (optional) - Function to call when a color is selected.

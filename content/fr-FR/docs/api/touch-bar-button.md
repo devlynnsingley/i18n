@@ -2,18 +2,18 @@
 
 > Créer un bouton dans la touch bar pour les applications native macOS
 
-Processus : [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### `new TouchBarButton(options)`
 
-* `options` Object
+* Objet `options`
   * `label` String (facultatif) - Texte du bouton.
   * `accessibilityLabel` String (optional) - A short description of the button for use by screenreaders like VoiceOver.
   * `backgroundColor` String (facultatif) - Couleur de fond hexadécimal du bouton, c.-à-d. `#ABCDEF`.
   * `icon` [NativeImage](native-image.md) | String(facultatif) - Icône du bouton.
-  * `iconPosition` String (facultatif) -Peut être `left`, `right` ou `overlay`. Defaults to `overlay`.
+  * `iconPosition` String (facultatif) -Peut être `left`, `right` ou `overlay`. Par défaut, `overlay`.
   * `click` Function (facultatif) - Fonction à appeler lorsque le bouton est cliqué.
-  * `enabled` Boolean (optional) - Whether the button is in an enabled state.  La valeur par défaut est `true`.
+  * `enabled` Boolean (optional) - Whether the button is in an enabled state.  La valeur par défaut est `vraie`.
 
 When defining `accessibilityLabel`, ensure you have considered macOS [best practices](https://developer.apple.com/documentation/appkit/nsaccessibilitybutton/1524910-accessibilitylabel?language=objc).
 
@@ -39,7 +39,7 @@ A `NativeImage` representing the button's current icon. Changing this value imme
 
 #### `touchBarButton.iconPosition`
 
-A `String` - Can be `left`, `right` or `overlay`.  Defaults to `overlay`.
+A `String` - Can be `left`, `right` or `overlay`.  Par défaut, `overlay`.
 
 #### `touchBarButton.enabled`
 

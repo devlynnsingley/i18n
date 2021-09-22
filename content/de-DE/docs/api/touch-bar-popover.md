@@ -2,11 +2,11 @@
 
 > Create a popover in the touch bar for native macOS applications
 
-Prozess: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### `new TouchBarPopover(options)`
 
-* `options` Object
+* `options` Objekt
   * `label` String (optional) - Popover button text.
   * `icon` [NativeImage](native-image.md) (optional) - Popover button icon.
   * `items` [TouchBar](touch-bar.md) - Items to display in the popover.

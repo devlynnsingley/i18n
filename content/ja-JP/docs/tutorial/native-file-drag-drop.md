@@ -8,27 +8,46 @@
 
 ## サンプル
 
-[クイックスタートガイド](quick-start.md) の作業用アプリケーションから始めることにして、 `index.html` ファイルに以下の行を追加します。
+この例では、実行時にファイルを作成し、ウィンドウ外へとドラッグできるようにする方法を示します。
 
-```html
-<a href="#" id="drag"></a>
-<script src="renderer.js"></script> をドラッグ
+### Preload.js
+
+`preload.js` では、[`contextBridge`][] を使用してメインプロセスに IPC メッセージを送信するメソッド `window.electron.startDrag(...)` を注入します。
+
+```js
+const { contextBridge, ipcRenderer } = require('electron')
+const path = require('path')
+
+contextBridge.exposeInMainWorld('electron', {
+  startDrag: (fileName) => {
+    ipcRenderer.send('ondragstart', path.join(process.cwd(), fileName))
+  }
+})
 ```
 
-そして、 `renderer.js` ファイルに次の行を追加します。
+### Index.html
+
+`index.html` にドラッグ可能な要素を追加し、レンダラースクリプトを読むようにします。
+
+```html
+<div style="border:2px solid black;border-radius:3px;padding:5px;display:inline-block" draggable="true" id="drag">Drag me</div>
+<script src="renderer.js"></script>
+```
+
+### Renderer.js
+
+`renderer.js` ではレンダラープロセスを設定します。上記の [`contextBridge`][] で追加したメソッドを呼び出す形で、ドラッグイベントを処理します。
 
 ```javascript
-const { ipcRenderer } = require('electron')
-
 document.getElementById('drag').ondragstart = (event) => {
   event.preventDefault()
-  ipcRenderer.send('ondragstart', '/absolute/path/to/the/item')
+  window.electron.startDrag('drag-and-drop.md')
 }
 ```
 
-上記のコードはレンダラープロセスに `ondragstart` イベント を処理し、情報をメインプロセスに転送するように指示します。
+### Main.js
 
-メインプロセス (`main.js` ファイル) で、以下のように受信したイベントへドラッグしているファイルのパスとアイコンを追加します。
+メインプロセス (`main.js`ファイル) で受信したイベントを、以下のようにドラッグされたファイルのパスとアイコンへと展開します。
 
 ```javascript fiddle='docs/fiddles/features/drag-and-drop'
 const { ipcMain } = require('electron')
@@ -43,4 +62,6 @@ ipcMain.on('ondragstart', (event, filePath) => {
 
 Electron アプリケーションを起動したら、BrowserWindow 上の アイテムをデスクトップへドラッグ & ドロップしてみてください。 このガイドでは、そのアイテムはプロジェクトのルートにある Markdown ファイルとなっています。
 
-![ドラッグ＆ドロップ](../images/drag-and-drop.gif)
+![ドラッグアンドドロップ](../images/drag-and-drop.gif)
+
+[`contextBridge`]: ../api/context-bridge.md

@@ -43,7 +43,7 @@ Sous Windows, vous pouvez également charger les icônes `ICO` à partir de chem
   * 64x64 (200% DPI scale)
   * 256x256
 
-Check the *Size requirements* section in [this article][icons].
+Consultez la section *Taille requise* dans [cet article][icons].
 
 ## Images à haute résolution
 
@@ -128,7 +128,7 @@ console.log(image)
 ### `nativeImage.createFromBitmap(buffer, options)`
 
 * `buffer` [Buffer][buffer]
-* `options` Object
+* Objet `options`
   * `width` Integer
   * `height` Integer
   * `scaleFactor` Double (facultatif) - 1.0 par défaut.
@@ -140,14 +140,14 @@ Creates a new `NativeImage` instance from `buffer` that contains the raw bitmap 
 ### `nativeImage.createFromBuffer(buffer[, options])`
 
 * `buffer` [Buffer][buffer]
-* `options` Object (optional)
+* `options` Object (facultatif)
   * `width` Integer (optional) - Required for bitmap buffers.
   * `height` Integer (optional) - Required for bitmap buffers.
   * `scaleFactor` Double (facultatif) - 1.0 par défaut.
 
 Retourne `NativeImage`
 
-Creates a new `NativeImage` instance from `buffer`. Tries to decode as PNG or JPEG first.
+Crée une nouvelle instance `NativeImage` à partir de `buffer`. Tries to decode as PNG or JPEG first.
 
 ### `nativeImage.createFromDataURL(dataURL)`
 
@@ -184,7 +184,7 @@ where `SYSTEM_IMAGE_NAME` should be replaced with any value from [this list](htt
 
 > Natively wrap images such as tray, dock, and application icons.
 
-Processus : [Main](../glossary.md#main-process), [Renderer](../glossary.md#renderer-process)
+Process: [Main](../glossary.md#main-process), [Renderer](../glossary.md#renderer-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### Méthodes d’instance
 
@@ -192,7 +192,7 @@ The following methods are available on instances of the `NativeImage` class:
 
 #### `image.toPNG([options])`
 
-* `options` Object (optional)
+* `options` Object (facultatif)
   * `scaleFactor` Double (facultatif) - 1.0 par défaut.
 
 Retourne `Buffer` - Un [tampon][buffer] qui contient les données encodées `PNG` de l'image.
@@ -205,21 +205,21 @@ Retourne `Buffer` - Un [tampon][buffer] qui contient les données encodées en `
 
 #### `image.toBitmap([options])`
 
-* `options` Object (optional)
+* `options` Object (facultatif)
   * `scaleFactor` Double (facultatif) - 1.0 par défaut.
 
 Retourne `Buffer` - Un [tampon][buffer] qui contient une copie des données du pixel brut bitmap de l'image.
 
 #### `image.toDataURL([options])`
 
-* `options` Object (optional)
+* `options` Object (facultatif)
   * `scaleFactor` Double (facultatif) - 1.0 par défaut.
 
 Retourne `String` - L'URL des données de l'image.
 
 #### `image.getBitmap([options])`
 
-* `options` Object (optional)
+* `options` Object (facultatif)
   * `scaleFactor` Double (facultatif) - 1.0 par défaut.
 
 Retourne `Buffer` - Un [tampon][buffer] qui contient les données brutes des pixels bitmap de l'image.
@@ -262,7 +262,7 @@ Retourne `NativeImage` - L'image recadrée.
 
 #### `image.resize(options)`
 
-* `options` Object
+* Objet `options`
   * `width` Integer (optional) - Defaults to the image's width.
   * `height` Integer (facultatif) - La hauteur de l'image par défaut.
   * `Qualité` String (facultatif) - La qualité souhaitée de l'image de retaille. Les valeurs possibles sont `good`, `better`, ou `best`. La valeur par défaut est `meilleur`. Ces valeurs expriment un compromis qualité/vitesse souhaité. They are translated into an algorithm-specific method that depends on the capabilities (CPU, GPU) of the underlying platform. It is possible for all three methods to be mapped to the same algorithm on a given platform.
@@ -285,7 +285,7 @@ Returns `Float[]` - An array of all scale factors corresponding to representatio
 
 #### `image.addRepresentation(options)`
 
-* `options` Object
+* Objet `options`
   * `scaleFactor` Double - The scale factor to add the image representation for.
   * `largeur` Integer (facultatif) - 0 par défaut. Required if a bitmap buffer is specified as `buffer`.
   * `height` Integer (facultatif) - 0 par défaut. Required if a bitmap buffer is specified as `buffer`.

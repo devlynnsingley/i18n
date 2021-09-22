@@ -2,7 +2,7 @@
 
 > Intercept and modify the contents of a request at various stages of its lifetime.
 
-Prozess: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 Instances of the `WebRequest` class are accessed by using the `webRequest` property of a `Session`.
 
@@ -30,23 +30,22 @@ session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback
 }){ requestHeaders: details.requestHeaders }
 ```
 
-### Instanz Methoden
+### Beispiel Methoden
 
 Die folgenden Methoden sind verfügbar in Instanzen von `WebRequest`:
 
 #### `webRequest.onBeforeRequest([filter, ]listener)`
 
-* `filter` Object (optional)
-  * `urls` String[] - Array mit URL Patterns welche requests herausfiltern die nicht dem URL Pattern entsprechen.
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
-  * `details` Object
+  * `details` Objekt
     * `id` Integer
     * `url` String
     * `method` String
     * `webContentsId` Integer (optional)
     * `webContents` WebContents (optional)
     * `frame` WebFrameMain (optional)
-    * `resourceType` String
+    * `resourceType` String - Can be `mainFrame`, `subFrame`, `stylesheet`, `script`, `image`, `font`, `object`, `xhr`, `ping`, `cspReport`, `media`, `webSocket` or `other`.
     * `referrer` String
     * `timestamp` Double
     * `uploadData` [UploadData[]](structures/upload-data.md)
@@ -78,17 +77,16 @@ Some examples of valid `urls`:
 
 #### `webRequest.onBeforeSendHeaders([filter, ]listener)`
 
-* `filter` Object (optional)
-  * `urls` String[] - Array mit URL Patterns welche requests herausfiltern die nicht dem URL Pattern entsprechen.
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
-  * `details` Object
+  * `details` Objekt
     * `id` Integer
     * `url` String
     * `method` String
     * `webContentsId` Integer (optional)
     * `webContents` WebContents (optional)
     * `frame` WebFrameMain (optional)
-    * `resourceType` String
+    * `resourceType` String - Can be `mainFrame`, `subFrame`, `stylesheet`, `script`, `image`, `font`, `object`, `xhr`, `ping`, `cspReport`, `media`, `webSocket` or `other`.
     * `referrer` String
     * `timestamp` Double
     * `requestHeaders` Record<string, string>
@@ -103,17 +101,16 @@ The `callback` has to be called with a `response` object.
 
 #### `webRequest.onSendHeaders([filter, ]listener)`
 
-* `filter` Object (optional)
-  * `urls` String[] - Array mit URL Patterns welche requests herausfiltern die nicht dem URL Pattern entsprechen.
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
-  * `details` Object
+  * `details` Objekt
     * `id` Integer
     * `url` String
     * `method` String
     * `webContentsId` Integer (optional)
     * `webContents` WebContents (optional)
     * `frame` WebFrameMain (optional)
-    * `resourceType` String
+    * `resourceType` String - Can be `mainFrame`, `subFrame`, `stylesheet`, `script`, `image`, `font`, `object`, `xhr`, `ping`, `cspReport`, `media`, `webSocket` or `other`.
     * `referrer` String
     * `timestamp` Double
     * `requestHeaders` Record<string, string>
@@ -122,22 +119,20 @@ The `listener` will be called with `listener(details)` just before a request is 
 
 #### `webRequest.onHeadersReceived([filter, ]listener)`
 
-* `filter` Object (optional)
-  * `urls` String[] - Array mit URL Patterns welche requests herausfiltern die nicht dem URL Pattern entsprechen.
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
-  * `details` Object
+  * `details` Objekt
     * `id` Integer
     * `url` String
     * `method` String
     * `webContentsId` Integer (optional)
     * `webContents` WebContents (optional)
     * `frame` WebFrameMain (optional)
-    * `resourceType` String
+    * `resourceType` String - Can be `mainFrame`, `subFrame`, `stylesheet`, `script`, `image`, `font`, `object`, `xhr`, `ping`, `cspReport`, `media`, `webSocket` or `other`.
     * `referrer` String
     * `timestamp` Double
     * `statusLine` String
     * `statusCode` Integer
-    * `requestHeaders` Record<string, string>
     * `responseHeaders` Record<string, string[]> (optional)
   * `callback` Function
     * `headersReceivedResponse` Object
@@ -151,17 +146,16 @@ The `callback` has to be called with a `response` object.
 
 #### `webRequest.onResponseStarted([filter, ]listener)`
 
-* `filter` Object (optional)
-  * `urls` String[] - Array mit URL Patterns welche requests herausfiltern die nicht dem URL Pattern entsprechen.
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
-  * `details` Object
+  * `details` Objekt
     * `id` Integer
     * `url` String
     * `method` String
     * `webContentsId` Integer (optional)
     * `webContents` WebContents (optional)
     * `frame` WebFrameMain (optional)
-    * `resourceType` String
+    * `resourceType` String - Can be `mainFrame`, `subFrame`, `stylesheet`, `script`, `image`, `font`, `object`, `xhr`, `ping`, `cspReport`, `media`, `webSocket` or `other`.
     * `referrer` String
     * `timestamp` Double
     * `responseHeaders` Record<string, string[]> (optional)
@@ -173,17 +167,16 @@ The `listener` will be called with `listener(details)` when first byte of the re
 
 #### `webRequest.onBeforeRedirect([filter, ]listener)`
 
-* `filter` Object (optional)
-  * `urls` String[] - Array mit URL Patterns welche requests herausfiltern die nicht dem URL Pattern entsprechen.
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
-  * `details` Object
+  * `details` Objekt
     * `id` Integer
     * `url` String
     * `method` String
     * `webContentsId` Integer (optional)
     * `webContents` WebContents (optional)
     * `frame` WebFrameMain (optional)
-    * `resourceType` String
+    * `resourceType` String - Can be `mainFrame`, `subFrame`, `stylesheet`, `script`, `image`, `font`, `object`, `xhr`, `ping`, `cspReport`, `media`, `webSocket` or `other`.
     * `referrer` String
     * `timestamp` Double
     * `redirectURL` String
@@ -197,17 +190,16 @@ The `listener` will be called with `listener(details)` when a server initiated r
 
 #### `webRequest.onCompleted([filter, ]listener)`
 
-* `filter` Object (optional)
-  * `urls` String[] - Array mit URL Patterns welche requests herausfiltern die nicht dem URL Pattern entsprechen.
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
-  * `details` Object
+  * `details` Objekt
     * `id` Integer
     * `url` String
     * `method` String
     * `webContentsId` Integer (optional)
     * `webContents` WebContents (optional)
     * `frame` WebFrameMain (optional)
-    * `resourceType` String
+    * `resourceType` String - Can be `mainFrame`, `subFrame`, `stylesheet`, `script`, `image`, `font`, `object`, `xhr`, `ping`, `cspReport`, `media`, `webSocket` or `other`.
     * `referrer` String
     * `timestamp` Double
     * `responseHeaders` Record<string, string[]> (optional)
@@ -220,17 +212,16 @@ The `listener` will be called with `listener(details)` when a request is complet
 
 #### `webRequest.onErrorOccurred([filter, ]listener)`
 
-* `filter` Object (optional)
-  * `urls` String[] - Array mit URL Patterns welche requests herausfiltern die nicht dem URL Pattern entsprechen.
+* `filter` [WebRequestFilter](structures/web-request-filter.md) (optional)
 * `listener` Function | null
-  * `details` Object
+  * `details` Objekt
     * `id` Integer
     * `url` String
     * `method` String
     * `webContentsId` Integer (optional)
     * `webContents` WebContents (optional)
     * `frame` WebFrameMain (optional)
-    * `resourceType` String
+    * `resourceType` String - Can be `mainFrame`, `subFrame`, `stylesheet`, `script`, `image`, `font`, `object`, `xhr`, `ping`, `cspReport`, `media`, `webSocket` or `other`.
     * `referrer` String
     * `timestamp` Double
     * `fromCache` Boolean

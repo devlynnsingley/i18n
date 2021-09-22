@@ -2,7 +2,7 @@
 
 > Crea un botón en la barra táctil para aplicaciones macOS nativas
 
-Proceso: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### `new TouchBarButton(options)`
 
@@ -11,13 +11,13 @@ Proceso: [Main](../glossary.md#main-process)
   * `accessibilityLabel` String (opcional) - Una breve descripción del botón para su uso por lectores de pantalla como VoiceOver.
   * `Color del fondo` Cadena (opcional) - Color del fondo en formato hex, ejemplo: `#ABCDEF`.
   * `icon` [NativeImage](native-image.md) | String (opcional) - Icono del botón.
-  * `posición del ícono` Cadena (opcional) - Puede ser `izquierda`, `derecha` o `superpuesto`. Defaults to `overlay`.
+  * `posición del ícono` Cadena (opcional) - Puede ser `izquierda`, `derecha` o `superpuesto`. Por defecto es `overlay`.
   * `click` Función (opcional) - Función a llamar cuando se hace click en el fondo.
   * `enabled` Boolean (optional) - Whether the button is in an enabled state.  Por defecto es `true`.
 
 Al definir `accessibilityLabel`, asegúrese de que ha considerado las [mejores prácticas](https://developer.apple.com/documentation/appkit/nsaccessibilitybutton/1524910-accessibilitylabel?language=objc) de macOS.
 
-### Propiedades de Instancia
+### Propiedades de la instancia
 
 Las siguientes propiedades están disponibles en las instancias de `TouchBarButton`:
 
@@ -35,11 +35,11 @@ A `String` hex code representing the button's current background color. Changing
 
 #### `touchBarButton.icon`
 
-A `NativeImage` representing the button's current icon. Changing this value immediately updates the button in the touch bar.
+Un `NativeImage` que representa el icono del botón actual. Changing this value immediately updates the button in the touch bar.
 
 #### `touchBarButton.iconPosition`
 
-A `String` - Can be `left`, `right` or `overlay`.  Defaults to `overlay`.
+A `String` - Can be `left`, `right` or `overlay`.  Por defecto es `overlay`.
 
 #### `touchBarButton.enabled`
 

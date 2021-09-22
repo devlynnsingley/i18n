@@ -1,4 +1,4 @@
-# ExtensionInfo Objekt
+# ExtensionInfo Object
 
-* `name` String
+* `name` Zeichenfolge
 * `version` String

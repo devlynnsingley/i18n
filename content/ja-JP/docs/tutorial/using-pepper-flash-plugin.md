@@ -1,5 +1,5 @@
-# Pepper Flash プラグインを使用する
+# Pepper Flash プラグイン
 
-Chrome がサポートを削除したため、Electron は Pepper(ペッパー) Flash プラグインをサポートしなくなりました。
+Chrome がサポートを終了したため、Electron は Pepper Flash プラグインをサポートしていません。
 
-詳細は [Chromium のフラッシュ ロードマップ](https://www.chromium.org/flash-roadmap) を参照してください。
+詳細は [Chromium の Flash ロードマップ](https://www.chromium.org/flash-roadmap) を参照してください。

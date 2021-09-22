@@ -1,3 +1,5 @@
+# Tray
+
 ## Classe : Tray
 
 > Ajoute des icônes et des menus contextuels à la zone de notification du système.
@@ -113,7 +115,7 @@ Retourne :
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `files` String[] - les chemins d’accès des fichiers déposés.
 
 Émis lorsque des fichiers sont glissés et déposés sur l’icône.
@@ -122,7 +124,7 @@ Retourne :
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `text` String - le texte déposé.
 
 Émis lorsqu'un texte est déposé sur l’icône.
@@ -215,7 +217,7 @@ Définit le texte au survol pour l'icône.
 #### `tray.setTitle(title[, options])` _macOS_
 
 * `title` String
-* `options` Object (optional)
+* `options` Object (facultatif)
   * `fontType` String (optional) - The font family variant to display, can be `monospaced` or `monospacedDigit`. `monospaced` is available in macOS 10.15+ and `monospacedDigit` is available in macOS 10.11+.  When left blank, the title uses the default system font.
 
 Définit le titre affiché à côté de l'icône de la barre d'état dans la barre d'état (couleurs support ANSI).
@@ -238,12 +240,12 @@ Retourne un `Boolean` - Si oui ou non les événènements de double clic seront 
 
 #### `tray.displayBalloon(options)` _Windows_
 
-* `options` Object
+* Objet `options`
   * `icon` ([NativeImage](native-image.md) | String) (optional) - Icon to use when `iconType` is `custom`.
-  * `iconType` String (optional) - Can be `none`, `info`, `warning`, `error` or `custom`. Default is `custom`.
+  * `iconType` String (optional) - Can be `none`, `info`, `warning`, `error` or `custom`. `custom` par défaut.
   * `title` String
   * `content` String
-  * `largeIcon` Boolean (optional) - The large version of the icon should be used. La valeur par défaut est `true`. Maps to [`NIIF_LARGE_ICON`][NIIF_LARGE_ICON].
+  * `largeIcon` Boolean (optional) - The large version of the icon should be used. La valeur par défaut est `vraie`. Maps to [`NIIF_LARGE_ICON`][NIIF_LARGE_ICON].
   * `noSound` Boolean (optional) - Do not play the associated sound. Par défaut la valeur est `false`. Maps to [`NIIF_NOSOUND`][NIIF_NOSOUND].
   * `respectQuietTime` Boolean (optional) - Do not display the balloon notification if the current user is in "quiet time". Par défaut la valeur est `false`. Maps to [`NIIF_RESPECT_QUIET_TIME`][NIIF_RESPECT_QUIET_TIME].
 

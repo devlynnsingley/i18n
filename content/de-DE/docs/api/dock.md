@@ -2,7 +2,7 @@
 
 > Steuern Sie Ihre App im MacOS-Dock
 
-Prozess: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 Das folgende Beispiel zeigt, wie Sie Ihr Icon auf dem Dock springen lassen.
 
@@ -11,7 +11,7 @@ const { app } = require('electron')
 app.dock.bounce()
 ```
 
-### Instanz Methoden
+### Beispiel Methoden
 
 #### `dock.bounce([type])` _macOS_
 

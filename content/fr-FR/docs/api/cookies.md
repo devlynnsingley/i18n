@@ -2,7 +2,7 @@
 
 > Interroger et modifier la session des cookies.
 
-Processus : [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 Les instances de la classe `Cookies` sont accessibles à l'aide de la propriété `cookies` d'une `Session`.
 
@@ -46,7 +46,7 @@ Les événements suivants sont disponibles pour les instances de `Cookies` :
 
 Retourne :
 
-* `event` Événement
+* `event` Event
 * `cookie` [Cookie](structures/cookie.md) - Le cookie qui a été changé.
 * `cause` String - The cause of the change with one of the following values:
   * `explicit` - Le cookie a été modifié directement par l'action du consommateur.
@@ -64,7 +64,7 @@ Les méthodes suivants sont disponibles pour les instances de `Cookies` :
 
 #### `cookies.get(filter)`
 
-* `filter` Object
+* Objet `filter`
   * `url` String (optional) - Retrieves cookies which are associated with `url`. Empty implies retrieving cookies of all URLs.
   * `name` String (facultatif) - Filtre les cookies par nom.
   * `domain` String (facultatif) - Récupère les cookies dont les domaines correspondent ou sont des sous-domaines de `domains`.
@@ -78,16 +78,16 @@ Envoie une demande pour obtenir tous les cookies correspondant à `filter`, et r
 
 #### `cookies.set(détails)`
 
-* `details` Object
+* Objet `details`
   * `url` String - The URL to associate the cookie with. The promise will be rejected if the URL is invalid.
   * `name` String (optional) - The name of the cookie. Empty by default if omitted.
   * `value` String (optional) - The value of the cookie. Empty by default if omitted.
   * `domain` String (facultatif) - Le nom de domaine du cookie; ce dernier sera normalisé par un point le précédent pour qu'il soit valide pour les sous-domaines. Empty by default if omitted.
   * `path` String (facultatif) - Le chemin du cookie. Empty by default if omitted.
-  * `secure` Boolean (optional) - Whether the cookie should be marked as Secure. false par défaut.
+  * `secure` Boolean (optional) - Whether the cookie should be marked as Secure. Defaults to false unless [Same Site=None](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite#samesitenone_requires_secure) attribute is used.
   * `httpOnly` Boolean (optional) - Whether the cookie should be marked as HTTP only. Par défaut, faux.
   * `expirationDate` Double (facultatif) - La date d'expiration du cookie en nombre de secondes depuis l'epoch UNIX. Si omis, le cookie devient alors un cookie de session et ne sera pas conservé entre deux sessions.
-  * `sameSite` String (optional) - The [Same Site](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#SameSite_cookies) policy to apply to this cookie.  Peut être `unspecified`, `no_restriction`, `lax` ou `strict`.  Default is `no_restriction`.
+  * `sameSite` String (optional) - The [Same Site](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#SameSite_cookies) policy to apply to this cookie.  Peut être `unspecified`, `no_restriction`, `lax` ou `strict`.  Par défaut la valeur est `no_restriction`.
 
 Retourne `Promise<void>` - Une promesse qui résout lorsque le cookie a été défini
 

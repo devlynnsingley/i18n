@@ -2,7 +2,7 @@
 
 > Chromeのリモートデバッグプロトコルに対する選択肢の1つ。
 
-プロセス: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 Chromeの開発者ツールは、ページと相互にやり取りをしたり、ページを調整したりすることのできるJavaScriptランタイムに[特別なバインディング][rdp]を持っています。
 
@@ -35,7 +35,7 @@ win.webContents.debugger.sendCommand('Network.enable')
 
 #### イベント: 'detach'
 
-戻り値:
+戻り値：
 
 * `event` Event
 * `reason` String - デバッガーがデタッチする理由。
@@ -44,7 +44,7 @@ win.webContents.debugger.sendCommand('Network.enable')
 
 #### イベント: 'message'
 
-戻り値:
+戻り値：
 
 * `event` Event
 * `method` String - メソッド名。

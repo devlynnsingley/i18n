@@ -37,24 +37,13 @@ Abre o arquivo fornecido na maneira padrão da área de trabalho.
 ### `shell.openExternal(url[, options])`
 
 * `url` String - Max 2081 characters on windows.
-* `options` Object (optional)
+* Objeto `options` (opcional)
   * `activate` Boolean (optional) _macOS_ - `true` to bring the opened application to the foreground. O padrão é `verdadeiro`.
   * `workingDirectory` String (optional) _Windows_ - The working directory.
 
-Returns `Promise<void>`
+Retorna `Promise<void>`
 
 Open the given external protocol URL in the desktop's default manner. (For example, mailto: URLs in the user's default mail agent).
-
-### `shell.moveItemToTrash(fullPath[, deleteOnFail])` _Deprecated_
-
-* `fullPath` String
-* `deleteOnFail` Boolean (optional) - Whether or not to unilaterally remove the item if the Trash is disabled or unsupported on the volume. _macOS_
-
-Returns `Boolean` - Whether the item was successfully moved to the trash or otherwise deleted.
-
-> NOTE: This method is deprecated. Use `shell.trashItem` instead.
-
-Move o arquivo fornecido para o lixo e retorna um boolean para o operação.
 
 ### `shell.trashItem(path)`
 

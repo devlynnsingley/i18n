@@ -1,12 +1,14 @@
+# ShareMenu
+
+The `ShareMenu` class creates [Share Menu][share-menu] on macOS, which can be used to share information from the current context to apps, social media accounts, and other services.
+
+For including the share menu as a submenu of other menus, please use the `shareMenu` role of [`MenuItem`](menu-item.md).
+
 ## Class: ShareMenu
 
 > Create share menu on macOS.
 
 Processus : [Main](../glossary.md#main-process)
-
-The `ShareMenu` class creates [Share Menu][share-menu] on macOS, which can be used to share information from the current context to apps, social media accounts, and other services.
-
-For including the share menu as a submenu of other menus, please use the `shareMenu` role of [`MenuItem`](menu-item.md).
 
 ### `new ShareMenu(sharingItem)`
 
@@ -16,7 +18,7 @@ Creates a new share menu.
 
 ### Méthodes d’instance
 
-The `shareMenu` object has the following instance methods:
+L’objet `shareMenu` dispose des méthodes d’instance suivantes :
 
 #### `shareMenu.popup([options])`
 

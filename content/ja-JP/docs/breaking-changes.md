@@ -14,11 +14,40 @@
 
 ## 予定されている破壊的なAPIの変更 (14.0)
 
-### API 変更: `window.(open)`
+### 削除: `remote` モジュール
+
+`remote` モジュールは Electron 12 で非推奨となりました。Electron 14 で削除される予定です。 これは [`@electron/remote`](https://github.com/electron/remote) モジュールに置き換えられます。
+
+```js
+// Electron 12では非推奨:
+const { BrowserWindow } = require('electron').remote
+```
+
+```js
+// こちらに置換:
+const { BrowserWindow } = require('@electron/remote')
+
+// メインプロセスでは:
+require('@electron/remote/main').initialize()
+```
+
+### 削除: `app.allowRendererProcessReuse`
+
+`app.allowRendererProcessReuse` プロパティは、セキュリティ、パフォーマンス、保守性のために Chromium のプロセスモデルとより密接に連携する計画の一環として削除されます。
+
+詳細は [#18397](https://github.com/electron/electron/issues/18397) を参照してください。
+
+### 削除: Browser Window の Affinity
+
+`BrowserWindow` を新規構築する際の `affinity` オプションは、セキュリティ、パフォーマンス、保守性のために Chromium のプロセスモデルとの共同連携計画の一環として削除されます。
+
+詳細は [#18397](https://github.com/electron/electron/issues/18397) を参照してください。
+
+### API 変更: `window.open()`
 
 任意引数 `frameName` は、ウィンドウのタイトルに設定されなくなります。 これにより、[ネイティブの document](https://developer.mozilla.org/en-US/docs/Web/API/Window/open#parameters) に対応するパラメータ `windowName` で説明されている仕様に従うことになりました。
 
-この引数でウィンドウのタイトルを設定していた場合は、代わりに [win.setTitle(title)](https://www.electronjs.org/docs/api/browser-window#winsettitletitle) を利用できます。
+この引数でウィンドウのタイトルを設定していた場合は、代わりに [win.setTitle(title)](api/browser-window.md#winsettitletitle) を利用できます。
 
 ### 削除: `worldSafeExecuteJavaScript`
 
@@ -26,6 +55,50 @@ Electron 14 では、 `worldSafeExecuteJavaScript` が削除されます。  代
 12.
 
 `webFrame.executeJavaScript` か `webFrame.executeJavaScriptInIsolatedWorld` のいずれかを使用している場合、この変更の影響を受けます。 これらのメソッドは同じ値渡しセマンティクスを使用しているため、[Context Bridge API](api/context-bridge.md#parameter--error--return-type-support) がサポートしている戻り値かどうかを確認する必要があります。
+
+### 省略値変更: `nativeWindowOpen` の省略値を `true` に
+
+Electron 14 より前の `window.open` は既定で `BrowserWindowProxy` を使用していました。 このため、`window.open('about:blank')` では同期的にスクリプトで操作可能な子ウィンドウを開くことができないなどといった、非互換性がありました。 `nativeWindowOpen` は実験的でなくなり、既定値になります。
+
+詳細については [Electron での window.open](api/window-open.md) をご参照ください
+
+### 削除: 親ウインドウからの BrowserWindowConstructorOptions の継承
+
+Electron 14 より前は、`window.open` で開いたウインドウは、親ウインドウから `transparent` や `resizable` などの BrowserWindow コンストラクタのオプションを継承していました。 Electron 14 以降ではこの動作は削除され、ウインドウは親から BrowserWindow コンストラクタのオプションを継承しません。
+
+代わりに、`setWindowOpenHandler` で以下のように新しいウインドウのオプションを明示的に設定してください。
+
+```js
+webContents.setWindowOpenHandler((details) => {
+  return {
+    action: 'allow',
+    overrideBrowserWindowOptions: {
+      // ...
+    }
+  }
+})
+```
+
+### 削除: `additionalFeatures`
+
+WebContents の `new-window` イベントと `did-create-window` イベントの、非推奨となっていた `additionalFeatures` プロパティは削除されました。 `new-window` は引数の順番があるのでこの引数はまだ残りますが、常に空の配列 `[]` になります。 (ただし注意として、`new-window` イベント自体は非推奨であり `setWindowOpenHandler` に置き換えられます。) ウインドウ機能のキーに値が無い場合は、オプションオブジェクトで `true` の値を持つキーとして表示されるようになりました。
+
+```js
+// Electron 14 で削除
+// window.open('...', '', 'my-key') で動く
+webContents.on('did-create-window', (window, details) => {
+  if (details.additionalFeatures.includes('my-key')) {
+    // ...
+  }
+})
+
+// こちらに置換
+webContents.on('did-create-window', (window, details) => {
+  if (details.options['my-key']) {
+    // ...
+  }
+})
+```
 
 ## 予定されている破壊的なAPIの変更 (13.0)
 
@@ -53,7 +126,7 @@ session.setPermissionCheckHandler((webContents, permission, requestingOrigin) =>
 
 ### 削除: `shell.moveItemToTrash()`
 
-非推奨の同期 `shell.moveItemToTrash()` API が削除されました。 代わりに の非同期 `shell.trashItem()` を使用してください。
+非推奨となっていた同期型の `shell.moveItemToTrash()` API が削除されました。 代わりに非同期の `shell.trashItem()` を使用してください。
 
 ```js
 // Electron 13 では削除されます。
@@ -134,11 +207,27 @@ systemPreferences.isHighContrastColorScheme()
 nativeTheme.shouldUseHighContrastColors
 ```
 
+### 非推奨: WebContents `new-window` イベント
+
+WebContents の `new-window` イベントは非推奨となりました。 これは [`webContents.setWindowOpenHandler()`](api/web-contents.md#contentssetwindowopenhandlerhandler) に置き換えられます。
+
+```js
+// Electron 13 で非推奨
+webContents.on('new-window', (event) => {
+  event.preventDefault()
+})
+
+// こちらに置換
+webContents.setWindowOpenHandler((details) => {
+  return { action: 'deny' }
+})
+```
+
 ## 予定されている破壊的なAPIの変更 (12.0)
 
-### 削除: Pepper(ペッパー)フラッシュ対応
+### 削除: Pepper Flash サポート
 
-ChromiumはFlashのサポートを削除しましたので、それに続く必要があります。 詳細については、Chromium の [Flash Roadmap](https://www.chromium.org/flash-roadmap) を参照してください。
+Chromium が Flash のサポートを削除したため、私たちもこれに従わなければなりません。 詳細については、Chromium の [Flash Roadmap](https://www.chromium.org/flash-roadmap) を参照してください。
 
 ### 省略値変更: `worldSafeExecuteJavaScript` の省略値を `true` に
 
@@ -148,13 +237,13 @@ Electron 12 からは `worldSafeExecuteJavaScript` が既定で有効です。  
 
 ### 省略値変更: `contextIsolation` の省略値を `true` に
 
-Electron 12 では、 `contextIsolation` がデフォルトで有効になります。  以前の動作を復元するには、 、 `contextIsolation: false` をWebPreferencesで指定する必要があります。
+Electron 12 からは `contextIsolation` が既定で有効です。  以前の動作に戻すには、WebPreferences で `contextIsolation: false` を指定する必要があります。
 
-[アプリケーションのセキュリティのためにコンテキスト分離を有効にする](https://github.com/electron/electron/blob/master/docs/tutorial/security.md#3-enable-context-isolation-for-remote-content) をお勧めします。
+アプリケーションのセキュリティのために、[contextIsolation の有効化を推奨します](tutorial/security.md#3-enable-context-isolation-for-remote-content)。
 
 これは、`nodeIntegration` が `true` かつ `contextIsolation` が `false` でない限り、`require()` がレンダラープロセスで使用できなくなるということでもあります。
 
-詳細は以下をご覧ください: https://github.com/electron/electron/issues/23506
+詳細はこちら: https://github.com/electron/electron/issues/23506
 
 ### 削除: `crashReporter.getCrashesDirectory()`
 
@@ -182,15 +271,15 @@ app.getPath('crashDumps')
 
 詳しくは [#23265](https://github.com/electron/electron/pull/23265) を参照してください。
 
-### デフォルトの変更: `crashReporter.start({ compress: true })`
+### 既定値の変更: `crashReporter.start({ compress: true })`
 
-`compress` オプションの `crashReporter.start` のデフォルト値が `false` から `true` に変更されました。 つまり、クラッシュのダンプは `Content-Encoding: gzip` ヘッダで、本文が圧縮されてクラッシュ収集サーバーにアップロードされます。
+`crashReporter.start` の `compress` オプションの既定値が `false` から `true` へ変更されました。 つまり、クラッシュのダンプは `Content-Encoding: gzip` ヘッダで、本文が圧縮されてクラッシュ収集サーバーにアップロードされます。
 
 クラッシュ収集サーバーが圧縮形式のペイロードをサポートしていない場合、クラッシュレポーターのオプションで `{ compress: false }` を指定すれば圧縮をオフにできます。
 
-### 非推奨: `リモート` モジュール
+### 非推奨: `remote` モジュール
 
-`リモート` モジュールは Electron 12 で非推奨で、 Electron 14 で削除されます。 [`@electron/remote`](https://github.com/electron/remote) モジュールに置き換えられます。
+`remote` モジュールは Electron 12 で非推奨となり、Electron 14 で削除される予定です。 これは [`@electron/remote`](https://github.com/electron/remote) モジュールに置き換えられます。
 
 ```js
 // Electron 12では非推奨:
@@ -198,16 +287,16 @@ const { BrowserWindow } = require('electron').remote
 ```
 
 ```js
-// 置換:
+// こちらに置換:
 const { BrowserWindow } = require('@electron/remote')
 
-// メインプロセスで:
+// メインプロセスでは:
 require('@electron/remote/main').initialize()
 ```
 
 ### 非推奨: `shell.moveItemToTrash()`
 
-同期 `shell.moveItemToTrash()` が新しい 非同期 `shell.trashItem()` に置き換えられました。
+同期的な `shell.moveItemToTrash()` は、新しく非同期的な `shell.trashItem()` に置き換えられました。
 
 ```js
 // Electron 12 では非推奨
@@ -269,12 +358,6 @@ app.getPath('crashDumps')
 ### 非推奨: `crashReporter.start({ compress: false })`
 
 `crashReporter.start` に `{ compress: false }` を指定することは非推奨です。 ほぼすべてのクラッシュ収集サーバーは gzip 圧縮をサポートしているためです。 このオプションは将来バージョンの Electron で削除されます。
-
-### 削除: Browser Window の Affinity
-
-`BrowserWindow` を新規構築する際の `affinity` オプションは、セキュリティ、パフォーマンス、保守性のために Chromium のプロセスモデルとの共同連携計画の一環として削除されます。
-
-詳細は [#18397](https://github.com/electron/electron/issues/18397) を参照してください。
 
 ### 省略値変更: `enableRemoteModule` の省略値を `false` に
 
@@ -579,7 +662,7 @@ powerMonitor.querySystemIdleState(threshold, callback)
 const idleState = powerMonitor.getSystemIdleState(threshold)
 ```
 
-### API 変更: `powerMonitor.querySystemIdleTime` が `powerMonitor.getSystemIdleTime` になりました
+### API 変更: `powerMonitor.querySystemIdleTime` は `powerMonitor.getSystemIdleTime` に
 
 ```js
 // Electron 7.0 で削除
@@ -638,7 +721,7 @@ Electron 7 では、以下のような `File` オブジェクトが入った `Fi
 /path/to/folder/file1
 ```
 
-`webkitdirectory` は、選択したフォルダーへのパスを公開しないことに注意してください。 フォルダーの内容ではなく選択したフォルダーへのパスが必要な場合は、`dialog.showOpenDialog` API ([リンク](https://github.com/electron/electron/blob/master/docs/api/dialog.md#dialogshowopendialogbrowserwindow-options)) を参照してください。
+`webkitdirectory` は、選択したフォルダーへのパスを公開しないことに注意してください。 フォルダーの内容ではなく選択したフォルダーへのパスが必要な場合は、`dialog.showOpenDialog` API ([リンク](api/dialog.md#dialogshowopendialogbrowserwindow-options)) を参照してください。
 
 ### API 変更: Promise ベースの API の Callback ベース版
 
@@ -991,7 +1074,7 @@ nativeImage.createFromBuffer(buffer, {
 })
 ```
 
-### `process`
+### `プロセス`
 
 ```js
 // 非推奨
@@ -1095,7 +1178,7 @@ webview.onkeyup = () => { /* handler */ }
 // 非推奨
 const optionsA = { titleBarStyle: 'hidden-inset' }
 const windowA = new BrowserWindow(optionsA)
-// 置換
+// こちらに置換
 const optionsB = { titleBarStyle: 'hiddenInset' }
 const windowB = new BrowserWindow(optionsB)
 ```
@@ -1123,7 +1206,7 @@ nativeImage.toJpeg()
 nativeImage.toJPEG()
 ```
 
-### `process`
+### `プロセス`
 
 * `process.versions.electron` と `process.version.chrome` は、Node によって定められた他の `process.versions` プロパティと一貫性を持つために読み取り専用プロパティになりました。
 
@@ -1158,7 +1241,7 @@ webview.setVisualZoomLevelLimits(1, 2)
 
 どの Electron リリースにも、`electron-v1.7.3-linux-arm.zip` や `electron-v1.7.3-linux-armv7l.zip` のような少しファイル名が異なる2つの同一な ARM ビルドが含まれます。 サポートされている ARM バージョンをユーザに明確にし、将来作成される armv6l および arm64 アセットらと明確にするために、`v7l` という接頭子を持つアセットが追加されました。
 
-_接頭子が付いていない_ファイルは、まだそれを使用している可能性がある設定を破壊しないようにするために公開されています。 2.0 からは、接頭子のないファイルは公開されなくなりました。
+_接頭子が付いていない_ ファイルは、まだそれを使用している可能性がある設定を破壊しないために公開しています。 2.0 からは、接頭子のないファイルは公開されなくなりました。
 
 詳細は、[6986](https://github.com/electron/electron/pull/6986) と [7189](https://github.com/electron/electron/pull/7189) を参照してください。
 

@@ -77,9 +77,9 @@ Antes de que una solicitud de pull pueda ser fusionada, **debe** tener un títul
 
 Ejemplos de mensajes de confirmación con prefijos semánticos:
 
-* `fix: no sobrescribir prevent_default si no se evitado el valor predeterminado`
-* `feat: agregar método app.isPackaged()`
-* `docs: app.isDefaultProtocolClient está disponible en Linux`
+* `fix: don't overwrite prevent_default if default wasn't prevented`
+* `feat: add app.isPackaged() method`
+* `docs: app.isDefaultProtocolClient is now available on Linux`
 
 Prefijos usuales:
 
@@ -92,7 +92,6 @@ Prefijos usuales:
 * perf: Un cambio en el código que mejora el rendimiento
 * refactor: Un cambio en el código que no corrige un error ni agrega una característica
 * style: Cambios que no afectan el significado del código (linting)
-* vendor: Cambiar una dependencia como libchromiumcontent o node
 
 Otras cosas para tener en mente cuando se escribe un mensaje de commit:
 
@@ -102,7 +101,7 @@ Otras cosas para tener en mente cuando se escribe un mensaje de commit:
 2. Mantén la segunda linea vacía.
 3. Ajuste todas las otras linea en 72 columnas.
 
-#### Cambios de última hora
+#### Restaurar archivos borrados
 
 Un commit que tiene el texto `BREAKING CHANGE:` al principio de su sección opcional de cuerpo o pie de página introduce un cambio de ruptura en el API (correlacionando con el Major en versionado semántico). Un cambio de ruptura puede ser parte de los commits de cualquier tipo. ejemplo, los tipos `fix:`, `feat:` & `chore:` serían válidos, ademas de cualquier otro tipo.
 
@@ -158,7 +157,7 @@ the requirements below.
 
 Bug fixes and new features should include tests and possibly benchmarks.
 
-Guía de colaboradores: https://github.com/electron/electron/blob/master/CONTRIBUTING.md
+Contributors guide: https://github.com/electron/electron/blob/master/CONTRIBUTING.md
 -->
 ```
 

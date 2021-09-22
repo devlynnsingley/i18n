@@ -52,14 +52,16 @@ Sets the maximum and minimum pinch-to-zoom level.
 > **NOTE**: Visual zoom is disabled by default in Electron. To re-enable it, call:
 > 
 > ```js
-webFrame.setVisualZoomLevelLimits(1, 3)
-```
+> webFrame.setVisualZoomLevelLimits(1, 3)
+> ```
+
+> **NOTE**: Visual zoom only applies to pinch-to-zoom behavior. Cmd+/-/0 zoom shortcuts are controlled by the 'zoomIn', 'zoomOut', and 'resetZoom' MenuItem roles in the application Menu. To disable shortcuts, manually [define the Menu](./menu.md#examples) and omit zoom roles from the definition.
 
 ### `webFrame.setSpellCheckProvider(language, provider)`
 
 * `language` String
-* `provider` Object
-  * `spellCheck` Function
+* Objeto `provider`
+  * `spellCheck` Função
     * `words` String[]
     * `callback` Function
       * `misspeltWords` String[]
@@ -120,7 +122,7 @@ Inserts `text` to the focused element.
 * `userGesture` Boolean (optional) - Default is `false`.
 * `callback` Function (optional) - Called after script has been executed. Unless the frame is suspended (e.g. showing a modal alert), execution will be synchronous and the callback will be invoked before the method returns. For compatibility with an older version of this method, the error parameter is second.
   * `result` Any
-  * `error` Error
+  * Erro `error`
 
 Returns `Promise<any>` - A promise that resolves with the result of the executed code or is rejected if execution throws or results in a rejected promise.
 
@@ -135,7 +137,7 @@ In the browser window some HTML APIs like `requestFullScreen` can only be invoke
 * `userGesture` Boolean (optional) - Default is `false`.
 * `callback` Function (optional) - Called after script has been executed. Unless the frame is suspended (e.g. showing a modal alert), execution will be synchronous and the callback will be invoked before the method returns.  For compatibility with an older version of this method, the error parameter is second.
   * `result` Any
-  * `error` Error
+  * Erro `error`
 
 Returns `Promise<any>` - A promise that resolves with the result of the executed code or is rejected if execution could not start.
 
@@ -146,7 +148,7 @@ Note that when the execution of script fails, the returned promise will not reje
 ### `webFrame.setIsolatedWorldInfo(worldId, info)`
 
 * `worldId` Integer - The ID of the world to run the javascript in, `0` is the default world, `999` is the world used by Electrons `contextIsolation` feature. Chrome extensions reserve the range of IDs in `[1 << 20, 1 << 29)`. You can provide any integer here.
-* `info` Object
+* Objeto `info`
   * `securityOrigin` String (optional) - Security origin for the isolated world.
   * `csp` String (optional) - Content Security Policy for the isolated world.
   * `name` String (optional) - Name for isolated world. Useful in devtools.

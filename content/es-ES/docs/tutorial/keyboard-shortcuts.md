@@ -10,7 +10,7 @@ Esta característica le permite configurar atajos de teclado loca y global para 
 
 Los atajos de teclado locales son activadas sólo cuando la aplicación está enfocada. Para configurar un atajo de teclado local, necesitas especificar una propiedad [`accelerator`][] al crear un [MenuItem][] dentro de módulo [Menu][].
 
-Starting with a working application from the [Quick Start Guide](quick-start.md), update the `main.js` file with the following lines:
+Comenzando con una aplicación funcionando desde [Guía de Inicio Rápido](quick-start.md), actualiza el archivo `main.js` con las siguiente lineas:
 
 ```javascript fiddle='docs/fiddles/features/keyboard-shortcuts/local'
 const { Menu, MenuItem } = require('electron')
@@ -34,13 +34,13 @@ Después de lanzar la aplicación Electron, deberías ver el menú de la aplicac
 
 ![Menú con un atajo local](../images/local-shortcut.png)
 
-If you click `Help` or press the defined accelerator and then open the terminal that you ran your Electron application from, you will see the message that was generated after triggering the `click` event: "Electron rocks!".
+Si haces click en `Help` o presionas el acelerador definido y luego abres la terminal con la que corriste tu Aplicación, veras el mensaje que fue generado después de llamar al evento del `click`: "Electron rocks!".
 
 ### Accesos directos globales
 
-To configure a global keyboard shortcut, you need to use the [globalShortcut][] module to detect keyboard events even when the application does not have keyboard focus.
+Para configurar un atajo de teclado global, necesita usar el módulo [globalShortcut][] para detecta los eventos del teclado cuando la aplicación no tiene el focus del teclado.
 
-Starting with a working application from the [Quick Start Guide](quick-start.md), update the `main.js` file with the following lines:
+Comenzando con una aplicación funcionando desde [Guía de Inicio Rápido](quick-start.md), actualiza el archivo `main.js` con las siguiente lineas:
 
 ```javascript fiddle='docs/fiddles/features/keyboard-shortcuts/global'
 const { app, globalShortcut } = require('electron')
@@ -54,33 +54,37 @@ app.whenReady().then(() => {
 
 > NOTA: En el código anterior, la combinación `CommandOrControl` usa `Command` en macOS y `Control` en Windows/Linux.
 
-After launching the Electron application, if you press the defined key combination then open the terminal that you ran your Electron application from, you will see that Electron loves global shortcuts!
+Después de lanzar la aplicación Electron, si presionas la combinación de teclas definida y luego abres la terminar desde la que corriste tu aplicación de Electron, ¡verás como Electron ama los atajos de teclado globales!
 
 ### Accesos directos en una ventana de buscador
 
 #### Usando APIs web
 
-If you want to handle keyboard shortcuts within a [BrowserWindow][], you can listen for the `keyup` and `keydown` [DOM events][dom-events] inside the renderer process using the [addEventListener() API][addEventListener-api].
+Si quieres manejar los atajos de teclado dentro de un [BrowserWindow][], puedes escuchar por los [Eventos DOM][dom-events] `keyup` y `keydown` dentro del renderer process usando la [API addEventListener()][addEventListener-api].
 
-```js
-window.addEventListener('keyup', doSomething, true)
+```javascript fiddle='docs/fiddles/features/keyboard-shortcuts/web-apis|focus=renderer.js'
+function handleKeyPress(event) {
+  // You can put code here to handle the keypress.
+  document.getElementById("last-keypress").innerText = event.key;
+  console.log(`You pressed ${event.key}`);
+}
+
+window.addEventListener('keyup', handleKeyPress, true);
 ```
 
-Note the third parameter `true` indicates that the listener will always receive key presses before other listeners so they can't have `stopPropagation()` called on them.
+> Note:  the third parameter `true` indicates that the listener will always receive key presses before other listeners so they can't have `stopPropagation()` called on them.
 
 #### Interceptando eventos en el main process
 
 El [`Evento antes de la entrada`](../api/web-contents.md#event-before-input-event) es emitido antes de enviar los eventos `flecha hacia arriba` y `flecha hacia abajo` en la página. Puede ser usado para capturar y manejar accesos directos personalizados que no son visibles en el menú.
 
-##### Ejemplo
-
-Starting with a working application from the [Quick Start Guide](quick-start.md), update the `main.js` file with the following lines:
+Comenzando con una aplicación funcionando desde [Guía de Inicio Rápido](quick-start.md), actualiza el archivo `main.js` con las siguiente lineas:
 
 ```javascript fiddle='docs/fiddles/features/keyboard-shortcuts/interception-from-main'
 const { app, BrowserWindow } = require('electron')
 
 app.whenReady().then(() => {
-  const win = new BrowserWindow({ width: 800, height: 600, webPreferences: { nodeIntegration: true } })
+  const win = new BrowserWindow({ width: 800, height: 600 })
 
   win.loadFile('index.html')
   win.webContents.on('before-input-event', (event, input) => {
@@ -92,34 +96,35 @@ app.whenReady().then(() => {
 })
 ```
 
-After launching the Electron application, if you open the terminal that you ran your Electron application from and press `Ctrl+I` key combination, you will see that this key combination was successfully intercepted.
+Después de correr tu aplicación, abres la terminal con la que corriste tu aplicación y presionas la combinación de teclas `Ctrl+I`, veras como ese atajo del teclado fue satisfactoriamente interceptado.
 
 #### Usando librerías de terceros
 
-If you don't want to do manual shortcut parsing, there are libraries that do advanced key detection, such as [mousetrap][]. A continuación se muestran ejemplos de uso de `mousetrap` corriendo en el Renderer process:
+Si no quiere hacer el análisis manual de los atajos hay librerías que hacen detección de teclas avanzadas, como [mousetrap][]. A continuación se muestran ejemplos de uso de `mousetrap` corriendo en el Renderer process:
 
 ```js
 Mousetrap.bind('4', () => { console.log('4') })
 Mousetrap.bind('?', () => { console.log('show shortcuts!') })
 Mousetrap.bind('esc', () => { console.log('escape') }, 'keyup')
 
-// combinaciones
+// combinations
 Mousetrap.bind('command+shift+k', () => { console.log('command shift k') })
 
-// mapea combinaciones múltiples al mismo callback
+// map multiple combinations to the same callback
 Mousetrap.bind(['command+k', 'ctrl+k'], () => {
   console.log('command k or control k')
 
-  // retorna falso para prevenir comportamientos predeterminados y detiene el evento del bubbling
+  // return false to prevent default behavior and stop event from bubbling
   return false
 })
 
-
 // gmail style sequences
 Mousetrap.bind('g i', () => { console.log('go to inbox') })
-Mousetrap.bind('* a', () => { console.log('select all') })!
+Mousetrap.bind('* a', () => { console.log('select all') })
+
+// konami code!
 Mousetrap.bind('up up down down left right left right b a enter', () => {
-  console.log('código konami')
+  console.log('konami code')
 })
 ```
 

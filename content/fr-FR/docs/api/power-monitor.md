@@ -8,11 +8,11 @@ Processus : [Main](../glossary.md#main-process)
 
 Le module `powerMonitor` émet les événements suivants :
 
-### Event: 'suspend' _macOS_ _Windows_
+### Événement : 'suspend'
 
 Émis lorsque le système est suspendu.
 
-### Event: 'resume' _macOS_ _Windows_
+### Événement : 'resume'
 
 Émis lorsque le système reprend.
 
@@ -52,7 +52,7 @@ Le module `powerMonitor` a les méthodes suivantes :
 
 * `idleThreshold` Entier
 
-Returns `String` - The system's current state. Can be `active`, `idle`, `locked` or `unknown`.
+Returns `String` - The system's current state. Peut être `active`, `idle`, `locked` ou `unknown`.
 
 Calculate the system idle state. `idleThreshold` is the amount of time (in seconds) before considered idle.  `locked` is available on supported systems only.
 
@@ -72,6 +72,6 @@ To monitor for changes in this property, use the `on-battery` and `on-ac` events
 
 ### `powerMonitor.onBatteryPower`
 
-A `Boolean` property. True if the system is on battery power.
+Une propriété `Boolean`. True if the system is on battery power.
 
 See [`powerMonitor.isOnBatteryPower()`](#powermonitorisonbatterypower).

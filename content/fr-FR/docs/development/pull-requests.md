@@ -73,9 +73,9 @@ Au final lorsqu'ils sont revus, de nombreux commit sont fusionnés.
 
 Un bon message de modification/commit doit décrire le changement et sa raison. The Electron project uses [semantic commit messages](https://conventionalcommits.org/) to streamline the release process.
 
-Avant qu’une demande de traction puisse être fusionnée, **doit** avoir un titre de demande de traction avec un préfixe sémantique.
+Before a pull request can be merged, it **must** have a pull request title with a semantic prefix.
 
-Examples of commit messages with semantic prefixes:
+Exemples de messages de commit avec préfixes sémantiques :
 
 * `fix: don't overwrite prevent_default if default wasn't prevented`
 * `feat: add app.isPackaged() method`
@@ -83,30 +83,29 @@ Examples of commit messages with semantic prefixes:
 
 Common prefixes:
 
-* correction: Un correctif de bogue
-* feat: Une nouvelle fonctionnalité
-* docs: Modifications de la documentation
-* test : Ajout de tests manquants ou correction des tests existants
-* build: Modifications qui affectent le système de construction
-* ci : Modifications apportées à nos fichiers et scripts de configuration CI
-* perf: Un changement de code qui améliore les performances
-* refactor: Un changement de code qui ne corrige pas un bogue ni ajoute une fonctionnalité
-* style: Changements qui n’affectent pas la signification du code (linting)
-* fournisseur: Bumping une dépendance comme libchromiumcontent ou nœud
+* fix: A bug fix
+* feat: A new feature
+* docs: Documentation changes
+* test: Adding missing tests or correcting existing tests
+* build: Changes that affect the build system
+* ci: Changes to our CI configuration files and scripts
+* perf: A code change that improves performance
+* refactor: A code change that neither fixes a bug nor adds a feature
+* style: Changes that do not affect the meaning of the code (linting)
 
-Other things to keep in mind when writing a commit message:
+Autres choses à garder à l'esprit lors de la rédaction d'un message de commit :
 
 1. La première ligne doit :
-   * contenir une courte description du changement (de préférence 50 caractères ou moins, et pas plus de 72 caractères)
+   * contain a short description of the change (preferably 50 characters or less, and no more than 72 characters)
    * être entièrement en minuscules à l’exception des noms propres, acronymes et les mots qui font référence au code, comme les noms de variable/fonction
 2. Garder vide la deuxième ligne.
 3. Ne pas dépasser 72 caractères pour les lignes suivantes.
 
-#### Breaking Changes
+#### Changements de rupture
 
 A commit that has the text `BREAKING CHANGE:` at the beginning of its optional body or footer section introduces a breaking API change (correlating with Major in semantic versioning). A breaking change can be part of commits of any type. e.g., a `fix:`, `feat:` & `chore:` types would all be valid, in addition to any other type.
 
-See [conventionalcommits.org](https://conventionalcommits.org) for more details.
+Voir [conventionalcommits.org](https://conventionalcommits.org) pour plus de détails.
 
 ### Étape 6 : Refonder - Rebase
 
@@ -164,7 +163,7 @@ Contributors guide: https://github.com/electron/electron/blob/master/CONTRIBUTIN
 
 ### Étape 10 : Examiner et mettre à jour
 
-You will probably get feedback or requests for changes to your pull request. This is a big part of the submission process so don't be discouraged! Some contributors may sign off on the pull request right away. Others may have detailed comments or feedback. This is a necessary part of the process in order to evaluate whether the changes are correct and necessary.
+You will probably get feedback or requests for changes to your pull request. Ceci est une grande partie du processus de soumission, donc ne soyez pas découragé ! Some contributors may sign off on the pull request right away. Others may have detailed comments or feedback. This is a necessary part of the process in order to evaluate whether the changes are correct and necessary.
 
 To make changes to an existing pull request, make the changes to your local branch, add a new commit with those changes, and push those to your fork. GitHub will automatically update the pull request.
 
@@ -180,15 +179,15 @@ Feel free to post a comment in the pull request to ping reviewers if you are awa
 
 #### Procédure de validation et de demandes d'évolutions
 
-All pull requests require approval from a [Code Owner](https://github.com/electron/electron/blob/master/.github/CODEOWNERS) of the area you modified in order to land. Whenever a maintainer reviews a pull request they may request changes. These may be small, such as fixing a typo, or may involve substantive changes. Ces demandes sont destinées à être utiles, mais les peuvent parfois être considérées comme abruptes ou inutiles, surtout si elles n’incluent pas de suggestions concrètes sur *la façon dont* les modifier.
+All pull requests require approval from a [Code Owner](https://github.com/electron/electron/blob/master/.github/CODEOWNERS) of the area you modified in order to land. Whenever a maintainer reviews a pull request they may request changes. These may be small, such as fixing a typo, or may involve substantive changes. Such requests are intended to be helpful, but at times may come across as abrupt or unhelpful, especially if they do not include concrete suggestions on *how* to change them.
 
-Try not to be discouraged. If you feel that a review is unfair, say so or seek the input of another project contributor. Often such comments are the result of a reviewer having taken insufficient time to review and are not ill-intended. Such difficulties can often be resolved with a bit of patience. Cela dit, il devrait s’attendre à ce que les examinateurs fournissent des commentaires utiles.
+Essayez de ne pas vous décourager. If you feel that a review is unfair, say so or seek the input of another project contributor. Often such comments are the result of a reviewer having taken insufficient time to review and are not ill-intended. Such difficulties can often be resolved with a bit of patience. That said, reviewers should be expected to provide helpful feedback.
 
 ### Étape 11 : Approbation
 
 In order to land, a pull request needs to be reviewed and approved by at least one Electron Code Owner and pass CI. After that, if there are no objections from other contributors, the pull request can be merged.
 
-Congratulations and thanks for your contribution!
+Félicitations et merci pour votre contribution !
 
 ### Tests en intégration continue
 

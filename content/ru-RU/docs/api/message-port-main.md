@@ -8,7 +8,9 @@ See the [Channel Messaging API][] documentation for more information on using ch
 
 ## Class: MessagePortMain
 
-Процесс: [Основной](../glossary.md#main-process)
+> Port interface for channel messaging in the main process.
+
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### Методы экземпляра
 

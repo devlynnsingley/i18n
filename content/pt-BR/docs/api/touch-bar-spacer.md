@@ -2,7 +2,7 @@
 
 > Create a spacer between two items in the touch bar for native macOS applications
 
-Processo: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### `new TouchBarSpacer(options)`
 
@@ -12,9 +12,9 @@ Processo: [Main](../glossary.md#main-process)
     * `large` - Large space between items. Maps to `NSTouchBarItemIdentifierFixedSpaceLarge`.
     * `flexible` - Take up all available space. Maps to `NSTouchBarItemIdentifierFlexibleSpace`.
 
-### Propriedades de Instância
+### Propriedades da Instância
 
-The following properties are available on instances of `TouchBarSpacer`:
+As seguintes propriedades estão disponíveis em instâncias de `TouchBarSpacer`:
 
 #### `touchBarSpacer.size`
 

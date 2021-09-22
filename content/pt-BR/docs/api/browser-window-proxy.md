@@ -2,13 +2,13 @@
 
 > Manipular a janela filha
 
-Processo: [Renderizador](../glossary.md#renderer-process)
+Process: [Renderer](../glossary.md#renderer-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 The `BrowserWindowProxy` object is returned from `window.open` and provides limited functionality with the child window.
 
 ### Métodos de Instância
 
-The `BrowserWindowProxy` object has the following instance methods:
+O objeto `BrowserWindowProxy` possui os seguintes métodos de instância:
 
 #### `win.blur()`
 
@@ -41,7 +41,7 @@ Sends a message to the child window with the specified origin or `*` for no orig
 
 In addition to these methods, the child window implements `window.opener` object with no properties and a single method.
 
-### Propriedades de Instância
+### Propriedades da Instância
 
 The `BrowserWindowProxy` object has the following instance properties:
 

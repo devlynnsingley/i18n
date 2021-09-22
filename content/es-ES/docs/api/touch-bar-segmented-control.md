@@ -2,41 +2,41 @@
 
 > Crea un control segmentado (un conjunto de botones) donde un botón tiene un estado seleccionado
 
-Proceso: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### `new TouchBarSegmentedControl(options)`
 
 * `options` Object
-  * `segmentStyle` String (optional) - Style of the segments:
+  * `segmentStyle` String (opcional) - Estilo de los segmentos:
     * `automatic` - Predeterminado. La apariencia del control segmentado es determinada de forma automática basados en el tipo de ventana en el cual el control es mostrado y la posición dentro de la ventana. Se mapea a `NSSegmentStyleAutomatic`.
-    * `rounded` - El control se muestra utilizando el estilo redondeado. Maps to `NSSegmentStyleRounded`.
-    * `textured-rounded` - El control se muestra utilizando el estilo de textura redondeado. Maps to `NSSegmentStyleTexturedRounded`.
-    * `round-rect` - Los controles se muestran utilizando el estilo rectángulo redondeado. Maps to `NSSegmentStyleRoundRect`.
-    * `textured-square` - El control se muestra utilizando el estilo de textura cuadrado. Maps to `NSSegmentStyleTexturedSquare`.
-    * `capsule` - El control se muestra utilizando el estilo de cápsula. Maps to `NSSegmentStyleCapsule`.
-    * `small-square` - El control se muestra utilizando el estilo de cuadrado pequeño. Maps to `NSSegmentStyleSmallSquare`.
-    * `separated` - Los segmentos en el control se muestran muy cerca del otro pero sin llegar a tocarse. Maps to `NSSegmentStyleSeparated`.
-  * `mode` String (optional) - The selection mode of the control:
-    * `single` - Default. One item selected at a time, selecting one deselects the previously selected item. Maps to `NSSegmentSwitchTrackingSelectOne`.
-    * `multiple` - Elementos múltiples pueden ser seleccionados a la vez. Maps to `NSSegmentSwitchTrackingSelectAny`.
-    * `buttons` - Hace que los segmentos actúen como botones. Cada segmento puede ser presionado y liberado pero nunca ser marcado como activo. Maps to `NSSegmentSwitchTrackingMomentary`.
+    * `rounded` - El control se muestra utilizando el estilo redondeado. Mapea a `NSSegmentStyleRounded`.
+    * `textured-rounded` - El control se muestra utilizando el estilo de textura redondeado. Mapea a `NSSegmentStyleTexturedRounded`.
+    * `round-rect` - Los controles se muestran utilizando el estilo rectángulo redondeado. Mapea a `NSSegmentStyleRoundRect`.
+    * `textured-square` - El control se muestra utilizando el estilo de textura cuadrado. Mapea a `NSSegmentStyleTexturedSquare`.
+    * `capsule` - El control se muestra utilizando el estilo de cápsula. Mapea a `NSSegmentStyleCapsule`.
+    * `small-square` - El control se muestra utilizando el estilo de cuadrado pequeño. Mapea a `NSSegmentStyleSmallSquare`.
+    * `separated` - Los segmentos en el control se muestran muy cerca del otro pero sin llegar a tocarse. Mapea a `NSSegmentStyleSeparated`.
+  * `mode` String (opcional) - El modo de selección del control:
+    * `single` - Predeterminado. Un elemento seleccionado a la vez, seleccionando uno deselecciona el elemento seleccionado anteriormente. Mapea a `NSSegmentSwitchTrackingSelectOne`.
+    * `multiple` - Elementos múltiples pueden ser seleccionados a la vez. Mapea a `NSSegmentSwitchTrackingSelectAny`.
+    * `buttons` - Hace que los segmentos actúen como botones. Cada segmento puede ser presionado y liberado pero nunca ser marcado como activo. Mapea a `NSSegmentSwitchTrackingMomentary`.
   * `segments` [SegmentedControlSegment[]](structures/segmented-control-segment.md) - Un arreglo de elementos para colocar en este control.
   * `selectedIndex` Integer (opcional) - El índice del segmento actual seleccionado, se actualizará automáticamente con la interacción del usuario. Cuando el modo es `multiple` será el último elemento seleccionado.
   * `change` Function (optional) - Called when the user selects a new segment.
     * `selectedIndex` Integer - El índice del elemento seleccionado por el usuario.
     * `isSelected` Boolean - Si el elemento es seleccionado o no como resultado de la selección del usuario.
 
-### Propiedades de Instancia
+### Propiedades de la instancia
 
 Las siguientes propiedades están disponibles en instancias de `TouchBarSegmentedControl`:
 
 #### `touchBarSegmentedControl.segmentStyle`
 
-A `String` representing the controls current segment style. Updating this value immediately updates the control in the touch bar.
+Un `String` que representa el estilo del segmento actual de los controles. Actualizar este valor inmediatamente actualiza el control en la barra de herramientas.
 
 #### `touchBarSegmentedControl.segments`
 
-Un arreglo `SegmentedControlSegment[]` que representa los segmentos en este control. Actualizar este valor actualiza inmediatamente el control en la barra táctil. Mientras se actualicen propiedades profundas en este arreglo **no actualice la barra táctil**.
+Un arreglo `SegmentedControlSegment[]` que representa los segmentos en este control. Actualiza este valor inmediatamente actualiza el control de la barra táctil. Mientras se actualicen las propiedades profundas dentro de este arreglo **no se actualiza la barra táctil**.
 
 #### `touchBarSegmentedControl.selectedIndex`
 
@@ -44,4 +44,4 @@ Un `entero` que representa el segmento seleccionado actual. Cambiar este valor a
 
 #### `touchBarSegmentedControl.mode`
 
-A `String` representing the current selection mode of the control.  Can be `single`, `multiple` or `buttons`.
+A `String` representing the current selection mode of the control.  Puede ser `single`, `multiple` o `buttons`.

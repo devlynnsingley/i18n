@@ -2,7 +2,7 @@
 
 > Crea un seleccionador de color en la barra táctil para aplicaciones nativas de macOS
 
-Proceso: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### `new TouchBarColorPicker(options)`
 
@@ -12,13 +12,13 @@ Proceso: [Main](../glossary.md#main-process)
   * `change` Function (optional) - Function to call when a color is selected.
     * `color` Cadena - El color que el usuario seleccionó de entre las opciones.
 
-### Propiedades de Instancia
+### Propiedades de la instancia
 
 Las siguientes propiedades están disponibles en instancias de `Seleccionador de color de la barra táctil`:
 
 #### `touchBarColorPicker.availableColors`
 
-A `String[]` array representing the color picker's available colors to select. Changing this value immediately updates the color picker in the touch bar.
+Un `String[]` array que representa los colores disponibles del selector de color para seleccionar. Changing this value immediately updates the color picker in the touch bar.
 
 #### `touchBarColorPicker.selectedColor`
 

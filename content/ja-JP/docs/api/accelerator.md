@@ -28,7 +28,7 @@ Linux と Windows の場合、`Command` キーは効果がありません。Acce
 
 `Option` ではなく `Alt` を使用してください。 `Option` キーは macOS にしか存在しませんが、`Alt` キーは全てのプラットフォームで利用可能です。
 
-`Super` キーは、WindowsとLinuxの場合は `Windows` キー、macOSの場合は `Cmd` にマッピングされます。
+`Super` (または `Meta`) キーは、WindowsとLinuxの場合は `Windows` キー、macOSの場合は `Cmd` にマッピングされます。
 
 ## 利用可能な修飾キー
 
@@ -40,6 +40,7 @@ Linux と Windows の場合、`Command` キーは効果がありません。Acce
 * `AltGr`
 * `Shift`
 * `Super`
+* `メタ情報`
 
 ## 利用可能なキーコード
 
@@ -52,9 +53,9 @@ Linux と Windows の場合、`Command` キーは効果がありません。Acce
 * `Tab`
 * `Capslock`
 * `Numlock`
-* `Scrolllock`
+* `スクロールロック`
 * `Backspace`
-* `Delete`
+* `削除`
 * `Insert`
 * `Return` (またはエイリアスとして `Enter`)
 * `Up` と `Down`、 `Left`、 `Right`

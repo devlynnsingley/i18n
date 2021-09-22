@@ -5,7 +5,7 @@
 Electron's `webview` tag is based on [Chromium's `webview`][chrome-webview], which
 is undergoing dramatic architectural changes. This impacts the stability of `webviews`,
 including rendering, navigation, and event routing. We currently recommend to not
-use the `webview` tag and to consider alternatives, like `iframe`, Electron's `BrowserView`,
+use the `webview` tag and to consider alternatives, like `iframe`, [Electron's `BrowserView`](browser-view.md),
 or an architecture that avoids embedded content altogether.
 
 ## Enabling
@@ -18,7 +18,8 @@ more information see the [BrowserWindow constructor docs](browser-window.md).
 
 > Display external web content in an isolated frame and process.
 
-Process: [Renderer](../glossary.md#renderer-process)
+Process: [Renderer](../glossary.md#renderer-process)<br />
+_This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 Use the `webview` tag to embed 'guest' content (such as web pages) in your
 Electron app. The guest content is contained within the `webview` container.
@@ -130,15 +131,6 @@ inside the `webview`. All your preloads will load for every iframe, you can
 use `process.isMainFrame` to determine if you are in the main frame or not.
 This option is disabled by default in the guest page.
 
-### `enableremotemodule`
-
-```html
-<webview src="http://www.google.com/" enableremotemodule="false"></webview>
-```
-
-A `Boolean`. When this attribute is `false` the guest page in `webview` will not have access
-to the [`remote`](remote.md) module. The remote module is unavailable by default.
-
 ### `plugins`
 
 ```html
@@ -151,12 +143,16 @@ browser plugins. Plugins are disabled by default.
 ### `preload`
 
 ```html
+<!-- from a file -->
 <webview src="https://www.github.com/" preload="./test.js"></webview>
+<!-- or if you want to load from an asar archive -->
+<webview src="https://www.github.com/" preload="./app.asar/test.js"></webview>
 ```
 
 A `String` that specifies a script that will be loaded before other scripts run in the guest
-page. The protocol of script's URL must be either `file:` or `asar:`, because it
-will be loaded by `require` in guest page under the hood.
+page. The protocol of script's URL must be `file:` (even when using `asar:` archives) because
+it will be loaded by Node's `require` under the hood, which treats `asar:` archives as virtual
+directories.
 
 When the guest page doesn't have node integration this script will still have
 access to all Node APIs, but global objects injected by Node will be deleted
@@ -274,7 +270,7 @@ webview.addEventListener('dom-ready', () => {
   * `httpReferrer` (String | [Referrer](structures/referrer.md)) (optional) - An HTTP Referrer url.
   * `userAgent` String (optional) - A user agent originating the request.
   * `extraHeaders` String (optional) - Extra headers separated by "\n"
-  * `postData` ([UploadRawData[]](structures/upload-raw-data.md) | [UploadFile[]](structures/upload-file.md)) (optional)
+  * `postData` ([UploadRawData](structures/upload-raw-data.md) | [UploadFile](structures/upload-file.md))[] (optional)
   * `baseURLForDataURL` String (optional) - Base url (with trailing path separator) for files to be loaded by the data url. This is needed only if the specified `url` is a data url and needs to load other files.
 
 Returns `Promise<void>` - The promise will resolve when the page has finished loading
@@ -515,8 +511,7 @@ Inserts `text` to the focused element.
 * `text` String - Content to be searched, must not be empty.
 * `options` Object (optional)
   * `forward` Boolean (optional) - Whether to search forward or backward, defaults to `true`.
-  * `findNext` Boolean (optional) - Whether the operation is first request or a follow up,
-    defaults to `false`.
+  * `findNext` Boolean (optional) - Whether to begin a new text finding session with this request. Should be `true` for initial requests, and `false` for follow-up requests. Defaults to `false`.
   * `matchCase` Boolean (optional) - Whether search should be case-sensitive,
     defaults to `false`.
 
@@ -613,6 +608,21 @@ send arbitrary arguments. The renderer process can handle the message by
 listening to the `channel` event with the [`ipcRenderer`](ipc-renderer.md) module.
 
 See [webContents.send](web-contents.md#contentssendchannel-args) for
+examples.
+
+### `<webview>.sendToFrame(frameId, channel, ...args)`
+
+* `frameId` [number, number] - `[processId, frameId]`
+* `channel` String
+* `...args` any[]
+
+Returns `Promise<void>`
+
+Send an asynchronous message to renderer process via `channel`, you can also
+send arbitrary arguments. The renderer process can handle the message by
+listening to the `channel` event with the [`ipcRenderer`](ipc-renderer.md) module.
+
+See [webContents.sendToFrame](web-contents.md#contentssendtoframeframeid-channel-args) for
 examples.
 
 ### `<webview>.sendInputEvent(event)`
@@ -718,6 +728,10 @@ Corresponds to the points in time when the spinner of the tab starts spinning.
 ### Event: 'did-stop-loading'
 
 Corresponds to the points in time when the spinner of the tab stops spinning.
+
+### Event: 'did-attach'
+
+Fired when attached to the embedder web contents.
 
 ### Event: 'dom-ready'
 
@@ -839,6 +853,32 @@ this purpose.
 
 Calling `event.preventDefault()` does __NOT__ have any effect.
 
+### Event: 'did-start-navigation'
+
+Returns:
+
+* `url` String
+* `isInPlace` Boolean
+* `isMainFrame` Boolean
+* `frameProcessId` Integer
+* `frameRoutingId` Integer
+
+Emitted when any frame (including main) starts navigating. `isInPlace` will be
+`true` for in-page navigations.
+
+### Event: 'did-redirect-navigation'
+
+Returns:
+
+* `url` String
+* `isInPlace` Boolean
+* `isMainFrame` Boolean
+* `frameProcessId` Integer
+* `frameRoutingId` Integer
+
+Emitted after a server side redirect occurs during navigation. For example a 302
+redirect.
+
 ### Event: 'did-navigate'
 
 Returns:
@@ -846,6 +886,23 @@ Returns:
 * `url` String
 
 Emitted when a navigation is done.
+
+This event is not emitted for in-page navigations, such as clicking anchor links
+or updating the `window.location.hash`. Use `did-navigate-in-page` event for
+this purpose.
+
+### Event: 'did-frame-navigate'
+
+Returns:
+
+* `url` String
+* `httpResponseCode` Integer - -1 for non HTTP navigations
+* `httpStatusText` String - empty for non HTTP navigations,
+* `isMainFrame` Boolean
+* `frameProcessId` Integer
+* `frameRoutingId` Integer
+
+Emitted when any frame navigation is done.
 
 This event is not emitted for in-page navigations, such as clicking anchor links
 or updating the `window.location.hash`. Use `did-navigate-in-page` event for
@@ -882,6 +939,7 @@ webview.addEventListener('close', () => {
 
 Returns:
 
+* `frameId` [number, number] - pair of `[processId, frameId]`.
 * `channel` String
 * `args` any[]
 

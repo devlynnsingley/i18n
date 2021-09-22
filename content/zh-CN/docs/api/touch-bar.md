@@ -1,3 +1,5 @@
+# 触控板
+
 ## 类: TouchBar
 
 > 为原生macOS应用创建TouchBar布局
@@ -12,9 +14,9 @@
 
 Creates a new touch bar with the specified items. Use `BrowserWindow.setTouchBar` to add the `TouchBar` to a window.
 
-**注意:** TouchBar API目前为实验性质，以后的Electron版本可能会更改或删除。
+**注意:** TouchBar API目前为实验性质，可能会更改或删除。
 
-**提示：**如果您没有带Touch Bar的MacBook，则可以使用[ Touch Bar Simulator ](https://github.com/sindresorhus/touch-bar-simulator)来测试应用中的Touch Bar使用情况。
+**Tip:** If you don't have a MacBook with Touch Bar, you can use [Touch Bar Simulator](https://github.com/sindresorhus/touch-bar-simulator) to test Touch Bar usage in your app.
 
 ### Static Properties
 

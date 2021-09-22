@@ -50,7 +50,7 @@ console.log(systemPreferences.isDarkMode())
 
 返回`Boolean`，表示系统是否处于Dark模式
 
-**Deprecated:** Should use the new [`nativeTheme.shouldUseDarkColors`](native-theme.md#nativethemeshouldusedarkcolors-readonly) API.
+**已废弃：** 请使用新的 [`nativeTheme.shouldUseDarkColors`](native-theme.md#nativethemeshouldusedarkcolors-readonly) API。
 
 ### `systemPreferences.isSwipeTrackingFromScrollEventsEnabled()` _macOS_
 
@@ -86,7 +86,7 @@ Posts `event` as native notifications of macOS. The `userInfo` is an Object that
   * `userInfo` Record<String, unknown>
   * `object` String
 
-返回 `Number` - 该订阅的 ID
+返回 `Number` - 此订阅的 ID
 
 订阅macOS的原生通知，当通信的 `event</ 0>发生时，将调用 <code>callback(event, userInfo)` 。 ` userInfo `是一个Object，它包含随通知一起发送的用户信息字典。 The `object` is the sender of the notification, and only supports `NSString` values for now.
 
@@ -107,9 +107,9 @@ Posts `event` as native notifications of macOS. The `userInfo` is an Object that
   * `userInfo` Record<String, unknown>
   * `object` String
 
-返回 `Number` - 该订阅的 ID
+返回 `Number` - 此订阅的 ID
 
-Same as `subscribeNotification`, but uses `NSNotificationCenter` for local defaults. This is necessary for events such as `NSUserDefaultsDidChangeNotification`.
+Same as `subscribeNotification`, but uses `NSNotificationCenter` for local defaults. 这对事件 `NSUserDefaultsDidChangeNotification` 是必需的。
 
 ### `systemPreferences.subscribeWorkspaceNotification(event, callback)` _macOS_
 
@@ -118,6 +118,8 @@ Same as `subscribeNotification`, but uses `NSNotificationCenter` for local defau
   * `event` String
   * `userInfo` Record<String, unknown>
   * `object` String
+
+返回 `Number` - 此订阅的 ID
 
 与 `subscribeNotification`一样, 但使用`NSWorkspace.sharedWorkspace.notificationCenter`。 这对事件 `NSWorkspaceDidActivateApplicationNotification` 是必需的。
 
@@ -145,12 +147,12 @@ Same as `subscribeNotification`, but uses `NSNotificationCenter` for local defau
 
 在应用的`NSUserDefaults`配置项中添加其它默认设置。
 
-### `systemPreferences.getUserDefault(key, type)` _macOS_
+### `systemPreferences.getUserDefault<Type extends keyof UserDefaultTypes>(key, type)` _macOS_
 
 * `key` String
-* `type` String - 可以为 `string`, `boolean`, `integer`, `float`, `double`, `url`, `array` 或 `dictionary`.
+* `type` Type - Can be `string`, `boolean`, `integer`, `float`, `double`, `url`, `array` or `dictionary`.
 
-返回 `any` - `NSUserDefaults` 中 `key` 的值.
+Returns [`UserDefaultTypes[Type]`](structures/user-default-types.md) - The value of `key` in `NSUserDefaults`.
 
 常用的 `key` 和 `type` 的类型为:
 
@@ -170,7 +172,7 @@ Same as `subscribeNotification`, but uses `NSNotificationCenter` for local defau
 
 设置 `NSUserDefaults` 中 `key` 的值.
 
-Note that `type` should match actual type of `value`. An exception is thrown if they don't.
+请注意， `type` 应匹配实际类型的 `value`。 如果他们没有，就会抛出一个异常。
 
 常用的 `key` 和 `type` 的类型为:
 
@@ -180,7 +182,7 @@ Note that `type` should match actual type of `value`. An exception is thrown if 
 
 * `key` String
 
-Removes the `key` in `NSUserDefaults`. This can be used to restore the default or global value of a `key` previously set with `setUserDefault`.
+删除 `NSUserDefaults`中的 `key` 。 可以用来恢复默认值或之前用 `setUserDefault` 为一个 `key` 设置的全局变量。
 
 ### `systemPreferences.isAeroGlassEnabled()` _Windows_
 
@@ -222,7 +224,7 @@ const blue = color.substr(4, 2) // "cc"
 const alpha = color.substr(6, 2) // "dd"
 ```
 
-This API is only available on macOS 10.14 Mojave or newer.
+此 API 仅在 macOS 10.14 Mojave 或更高版本上可用。
 
 ### `systemPreferences.getColor(color)` _Windows_ _macOS_
 
@@ -259,7 +261,7 @@ This API is only available on macOS 10.14 Mojave or newer.
     * `window-frame` - 窗口框.
     * `window-text` - 窗口的文字。
   * On **macOS**
-    * `alternate-selected-control-text` - The text on a selected surface in a list or table. _deprecated_
+    * `alternate-selected-control-text` - The text on a selected surface in a list or table. _已废弃_
     * `control-background` - The background of a large interface element, such as a browser or table.
     * `control` - The surface of a control.
     * `control-text` -The text of a control that isn’t disabled.
@@ -293,9 +295,9 @@ This API is only available on macOS 10.14 Mojave or newer.
     * `window-background` - The background of a window.
     * `window-frame-text` - The text in the window's titlebar area.
 
-返回 `String` -系统颜色设置为RGB十六进制格式 (`#ABCDEF`). See the [Windows docs][windows-colors] and the [macOS docs][macos-colors] for more details.
+返回 `String` -系统颜色设置为RGB十六进制格式 (`#ABCDEF`). 更多详细信息请参阅 [Windows docs][windows-colors] 和 [macOS 文档][macos-colors]。
 
-The following colors are only available on macOS 10.14: `find-highlight`, `selected-content-background`, `separator`, `unemphasized-selected-content-background`, `unemphasized-selected-text-background`, and `unemphasized-selected-text`.
+以下颜色仅在 macOS 10.14 上可用：`find-hightlight`, `selected-content-background`, `separator`, `unemphasized-selected-content-background`, `unemphasized-selected-text-background`, 和 `unemphasized-selected-text`
 
 ### `systemPreferences.getSystemColor(color)` _macOS_
 
@@ -310,21 +312,21 @@ The following colors are only available on macOS 10.14: `find-highlight`, `selec
   * `red`
   * `yellow`
 
-Returns `String` - The standard system color formatted as `#RRGGBBAA`.
+返回 `String` - 标准系统颜色，格式为 `#RRGGBBAA`。
 
-Returns one of several standard system colors that automatically adapt to vibrancy and changes in accessibility settings like 'Increase contrast' and 'Reduce transparency'. See [Apple Documentation](https://developer.apple.com/design/human-interface-guidelines/macos/visual-design/color#system-colors) for  more details.
+返回几个标准系统颜色之一，这些颜色可自动适应鲜艳度的变化并更改辅助功能设置，如"增加对比度"和"降低透明度"。 有关更多详细信息，请参阅[ apple 文档 ](https://developer.apple.com/design/human-interface-guidelines/macos/visual-design/color#system-colors)。
 
 ### `systemPreferences.isInvertedColorScheme()` _Windows_ _Deprecated_
 
-Returns `Boolean` - `true` if an inverted color scheme (a high contrast color scheme with light text and dark backgrounds) is active, `false` otherwise.
+返回 `Boolean` - 如果使用反转颜色方案(亮文字暗背景的高对比度主题) 则为`true`，否则为`false`。
 
-**Deprecated:** Should use the new [`nativeTheme.shouldUseInvertedColorScheme`](native-theme.md#nativethemeshoulduseinvertedcolorscheme-macos-windows-readonly) API.
+**已废弃：** 请使用新的 [`nativeTheme.shouldUseInvertedColorScheme`](native-theme.md#nativethemeshoulduseinvertedcolorscheme-macos-windows-readonly) API。
 
 ### `systemPreferences.isHighContrastColorScheme()` _macOS_ _Windows_ _Deprecated_
 
-Returns `Boolean` - `true` if a high contrast theme is active, `false` otherwise.
+返回 `Boolean` - 如果启用了高对比度主题为`true`，否则为`false`。
 
-**Deprecated:** Should use the new [`nativeTheme.shouldUseHighContrastColors`](native-theme.md#nativethemeshouldusehighcontrastcolors-macos-windows-readonly) API.
+**已废弃：** 请使用新的 [`nativeTheme.shouldUseHighContrastColors`](native-theme.md#nativethemeshouldusehighcontrastcolors-macos-windows-readonly) API。
 
 ### `systemPreferences.getEffectiveAppearance()` _macOS_
 
@@ -336,7 +338,7 @@ Returns `Boolean` - `true` if a high contrast theme is active, `false` otherwise
 
 返回 `String` | `null` - 其值可能为 `dark`、`light` 或 `unknown`。
 
-Gets the macOS appearance setting that you have declared you want for your application, maps to [NSApplication.appearance](https://developer.apple.com/documentation/appkit/nsapplication/2967170-appearance?language=objc). 您可以使用 `setAppLevelAppearance` API 来设置此值。
+获取您在macOS上为您的应用程序设置的外观，映射到[NSApplication.appearance](https://developer.apple.com/documentation/appkit/nsapplication/2967170-appearance?language=objc)。 您可以使用 `setAppLevelAppearance` API 来设置此值。
 
 ### `systemPreferences.setAppLevelAppearance(appearance)` _macOS_ _Deprecated_
 
@@ -346,15 +348,15 @@ Gets the macOS appearance setting that you have declared you want for your appli
 
 ### `systemPreferences.canPromptTouchID()` _macOS_
 
-Returns `Boolean` - whether or not this device has the ability to use Touch ID.
+返回 `Boolean` - 此设备是否有能力使用 Touch ID。
 
-**NOTE:** This API will return `false` on macOS systems older than Sierra 10.12.2.
+**注意：**在 macOS 系统的版本低于 Sierra 10.12.2时，此 API 将返回 `false` 。
 
 ### `systemPreferences.promptTouchID(reason)` _macOS_
 
 * `reason` String - The reason you are asking for Touch ID authentication
 
-Returns `Promise<void>` - resolves if the user has successfully authenticated with Touch ID.
+返回 `Promise<void>` - resolve如果用户已成功通过Touch ID授权。
 
 ```javascript
 const { systemPreferences } = require('electron')
@@ -366,25 +368,25 @@ systemPreferences.promptTouchID('To get consent for a Security-Gated Thing').the
 })
 ```
 
-This API itself will not protect your user data; rather, it is a mechanism to allow you to do so. Native apps will need to set [Access Control Constants](https://developer.apple.com/documentation/security/secaccesscontrolcreateflags?language=objc) like [`kSecAccessControlUserPresence`](https://developer.apple.com/documentation/security/secaccesscontrolcreateflags/ksecaccesscontroluserpresence?language=objc) on their keychain entry so that reading it would auto-prompt for Touch ID biometric consent. This could be done with [`node-keytar`](https://github.com/atom/node-keytar), such that one would store an encryption key with `node-keytar` and only fetch it if `promptTouchID()` resolves.
+此 API 本身不会保护您的用户数据；相反，这是一个机制，让你这样做。 原生应用需要在其密钥链入口设置 [访问控制常量](https://developer.apple.com/documentation/security/secaccesscontrolcreateflags?language=objc) ，如 [`kSecAccessControlUserPresence`](https://developer.apple.com/documentation/security/secaccesscontrolcreateflags/ksecaccesscontroluserpresence?language=objc) ，当应用读取到后将自动提示 Touch ID 生物识别许可。 该操作可以通过 [`node-keytar`](https://github.com/atom/node-keytar)完成，这样，应用就会用 `node-keytar` 存储加密密钥，并且只有在 `promptTouchID()` resolve时才能取出。
 
-**NOTE:** This API will return a rejected Promise on macOS systems older than Sierra 10.12.2.
+**注意：**在 macOS 系统的版本低于 Sierra 10.12.2时，此 API 返回的Promise将reject 。
 
 ### `systemPreferences.isTrustedAccessibilityClient(prompt)` _macOS_
 
 * `prompt` Boolean - whether or not the user will be informed via prompt if the current process is untrusted.
 
-Returns `Boolean` - `true` if the current process is a trusted accessibility client and `false` if it is not.
+返回 `Boolean` - 如果当前进程是受信任的无障碍客户端，则为`true`，否则为 `false` 。
 
 ### `systemPreferences.getMediaAccessStatus(mediaType)` _Windows_ _macOS_
 
-* `mediaType` String - Can be `microphone`, `camera` or `screen`.
+* `mediaType` String - 可以是 `microphone`, `camera` 或 `screen`.
 
-Returns `String` - Can be `not-determined`, `granted`, `denied`, `restricted` or `unknown`.
+返回 `String` - 值可以是 `not-determined`， `granted`， `denied`， `restricted` 或 `unknown`。
 
-This user consent was not required on macOS 10.13 High Sierra or lower so this method will always return `granted`. macOS 10.14 Mojave or higher requires consent for `microphone` and `camera` access. macOS 10.15 Catalina or higher requires consent for `screen` access.
+在 macOS 10.13 High Sierra 或更低版本上不需要用户授权，因此此方法总是返回 `granted`。 macOS 10.14 Mojave 或更高版本需要授权访问 `麦克风` 和 `摄像头`。 macOS 10.15 Catalina 或更高版本需要授权访问 `屏幕`。
 
-Windows 10 has a global setting controlling `microphone` and `camera` access for all win32 applications. It will always return `granted` for `screen` and for all media types on older versions of Windows.
+Windows 10的全局设置控制了所有win32 应用程序对 `麦克风` 和 `摄像头`的访问权限。 It will always return `granted` for `screen` and for all media types on older versions of Windows.
 
 ### `systemPreferences.askForMediaAccess(mediaType)` _macOS_
 
@@ -392,7 +394,7 @@ Windows 10 has a global setting controlling `microphone` and `camera` access for
 
 Returns `Promise<Boolean>` - A promise that resolves with `true` if consent was granted and `false` if it was denied. If an invalid `mediaType` is passed, the promise will be rejected. If an access request was denied and later is changed through the System Preferences pane, a restart of the app will be required for the new permissions to take effect. If access has already been requested and denied, it _must_ be changed through the preference pane; an alert will not pop up and the promise will resolve with the existing access status.
 
-**Important:** In order to properly leverage this API, you [must set](https://developer.apple.com/documentation/avfoundation/cameras_and_media_capture/requesting_authorization_for_media_capture_on_macos?language=objc) the `NSMicrophoneUsageDescription` and `NSCameraUsageDescription` strings in your app's `Info.plist` file. The values for these keys will be used to populate the permission dialogs so that the user will be properly informed as to the purpose of the permission request. See [Electron Application Distribution](https://electronjs.org/docs/tutorial/application-distribution#macos) for more information about how to set these in the context of Electron.
+**Important:** In order to properly leverage this API, you [must set](https://developer.apple.com/documentation/avfoundation/cameras_and_media_capture/requesting_authorization_for_media_capture_on_macos?language=objc) the `NSMicrophoneUsageDescription` and `NSCameraUsageDescription` strings in your app's `Info.plist` file. The values for these keys will be used to populate the permission dialogs so that the user will be properly informed as to the purpose of the permission request. See [Electron Application Distribution](../tutorial/application-distribution.md#macos) for more information about how to set these in the context of Electron.
 
 This user consent was not required until macOS 10.14 Mojave, so this method will always return `true` if your system is running 10.13 High Sierra or lower.
 
@@ -406,19 +408,19 @@ This user consent was not required until macOS 10.14 Mojave, so this method will
 
 Returns an object with system animation settings.
 
-## Properties
+## 属性
 
 ### `systemPreferences.appLevelAppearance` _macOS_
 
-A `String` property that can be `dark`, `light` or `unknown`. It determines the macOS appearance setting for your application. This maps to values in: [NSApplication.appearance](https://developer.apple.com/documentation/appkit/nsapplication/2967170-appearance?language=objc). Setting this will override the system default as well as the value of `getEffectiveAppearance`.
+一个类型为`String`的属性，此属性可能的值为：`dark`, `light` or `unknown`. It determines the macOS appearance setting for your application. This maps to values in: [NSApplication.appearance](https://developer.apple.com/documentation/appkit/nsapplication/2967170-appearance?language=objc). Setting this will override the system default as well as the value of `getEffectiveAppearance`.
 
 Possible values that can be set are `dark` and `light`, and possible return values are `dark`, `light`, and `unknown`.
 
 This property is only available on macOS 10.14 Mojave or newer.
 
-### `systemPreferences.effectiveAppearance` _macOS_ _Readonly_
+### `systemPreferences.effectiveAppearance` _macOS_ _只读_
 
-A `String` property that can be `dark`, `light` or `unknown`.
+一个类型为`String`的属性，此属性可能的值为：`dark`, `light` or `unknown`.
 
 Returns the macOS appearance setting that is currently applied to your application, maps to [NSApplication.effectiveAppearance](https://developer.apple.com/documentation/appkit/nsapplication/2967171-effectiveappearance?language=objc)
 

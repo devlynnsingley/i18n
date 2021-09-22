@@ -1,8 +1,8 @@
-# red
+# net
 
 > Emitir solicitudes HTTP/HTTPS usando la biblioteca de red nativa de Chromium
 
-Proceso: [Main](../glossary.md#main-process)
+Proceso: [principal](../glossary.md#main-process)</0>
 
 El módulo `net` es un lado del cliente API para tratar pedidos HTTP(S). Si es similar a los módulos [HTTP](https://nodejs.org/api/http.html) y [HTTPS](https://nodejs.org/api/https.html) de Node.js pero usa la biblioteca de la red nativa de Chromium en vez de las aplicaciones Node.js, ofreciendo un mejor soporte a los proxies de la web. It also supports checking network status.
 
@@ -15,7 +15,7 @@ La siguiente es una lista no completa de por qué debería considerar usar el m�
 
 Los componentes API (incluyendo clases, métodos, propiedades y nombres de eventos) son similares a esos usados en Node.js.
 
-Ejemlo de uso:
+Ejemplo de uso:
 
 ```javascript
 const { app } = require('electron')
@@ -36,7 +36,7 @@ app.whenReady().then(() => {
 })
 ```
 
-The `net` API can be used only after the application emits the `ready` event. Trying to use the module before the `ready` event will throw an error.
+La API `net` puede ser utilizada solo después que la aplicación emita el evento `ready`. Intentar usar el módulo antes del evento `ready` lanzará un error.
 
 ## Métodos
 
@@ -58,7 +58,7 @@ A return value of `false` is a pretty strong indicator that the user won't be ab
 
 ## Propiedades
 
-### `net.online` _Readonly_
+### `net.online` _SoloLectura_
 
 Una propiedad `Boolean`. Whether there is currently internet connection.
 

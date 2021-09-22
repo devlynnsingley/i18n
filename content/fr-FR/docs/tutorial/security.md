@@ -12,17 +12,17 @@ Pour plus d’informations sur la façon de communiquer correctement une vulnér
 
 ## Problèmes de sécurité et mises à jour de Chromium
 
-Electron se tient à jour avec les versions alternatives de Chromium. Pour plus d'informations, voir le blog [Electron Release Cadence](https://electronjs.org/blog/12-week-cadence).
+Electron keeps up to date with alternating Chromium releases. For more information, see the [Electron Release Cadence blog post](https://electronjs.org/blog/12-week-cadence).
 
 ## La sécurité est la responsabilité de tous
 
 Il est important de se rappeler que la sécurité de votre application Electron dépend de la sécurité globalement de la fondation du framework (*Chromium*, *Node.js*), Electron lui-même, toutes les dépendances NPM et votre code. Ainsi, il est de votre responsabilité de suivre quelques pratiques essentielles de test :
 
-* **Gardez votre application à jour avec la dernière version de framework Electron. /0> Lorsque vous libérez votre produit, vous expédiez également un paquet composé d'Electron, bibliothèque partagée Chromium et Node.js. Les vulnérabilités affectant ces composants peuvent affecter la sécurité de votre application. En mettant à jour Electron vers la dernière version vous vous assurez que les vulnérabilités critiques (telles que *nodeIntegration bypasses*) sont déjà corrigées et ne peuvent pas être exploitées dans votre application. Pour plus d'informations, voir "[Utiliser une version actuelle d'Electron](#15-use-a-current-version-of-electron)".</p></li>
+* **Gardez votre application à jour avec la dernière version de framework Electron. ** Lorsque vous libérez votre produit, vous expédiez également un paquet composé d'Electron, bibliothèque partagée Chromium et Node.js. Les vulnérabilités affectant ces composants peuvent affecter la sécurité de votre application. En mettant à jour Electron vers la dernière version vous vous assurez que les vulnérabilités critiques (telles que *nodeIntegration bypasses*) sont déjà corrigées et ne peuvent pas être exploitées dans votre application. Pour plus d'informations, voir "[Utiliser une version actuelle d'Electron](#16-use-a-current-version-of-electron)".
 
 * **Évaluez vos dépendances.** Alors que NPM fournit un demi-million de paquets réutilisables, il est de votre responsabilité de choisir des bibliothèques de tiers de confiance. Si vous utilisez des bibliothèques obsolètes affectées par des vulnérabilités connues ou si vous êtes dépendants d'un code mal géré, la sécurité de votre application pourrait être compromise.
 
-* **Adoptez des pratiques de codage sécurisées.** La première ligne de défense pour votre application est votre propre code. Des vulnérabilités web courantes, telles que le cross-site scripting (XSS), ont un impact de sécurité plus élevé sur les applications Electron, c'est pourquoi il est fortement recommandé d'adopter des meilleures pratiques de développement de logiciel sécurisé et d'effectuer des tests de sécurité.</ul>
+* **Adoptez des pratiques de codage sécurisées.** La première ligne de défense pour votre application est votre propre code. Des vulnérabilités web courantes, telles que le cross-site scripting (XSS), ont un impact de sécurité plus élevé sur les applications Electron, c'est pourquoi il est fortement recommandé d'adopter des meilleures pratiques de développement de logiciel sécurisé et d'effectuer des tests de sécurité.
 
 ## Isolation pour les contenus non approuvés
 
@@ -43,18 +43,19 @@ Vous devriez au moins suivre ces étapes pour améliorer la sécurité de votre 
 1. [Charger uniquement du contenu sécurisé](#1-only-load-secure-content)
 2. [Désactiver l'intégration de Node.js dans tous les moteurs de rendu qui affichent du contenu distant](#2-do-not-enable-nodejs-integration-for-remote-content)
 3. [Activer l'isolement du contexte dans tous les moteurs de rendu qui affichent le contenu distant](#3-enable-context-isolation-for-remote-content)
-4. [Utiliser `ses.setPermissionRequestHandler()` dans toutes les sessions qui se chargent de contenu distant](#4-handle-session-permission-requests-from-remote-content)
-5. [Ne pas désactiver `webSecurity`](#5-do-not-disable-websecurity)
-6. [Définissez une `Content-Security-Policy`](#6-define-a-content-security-policy) et utilisez des règles restrictives (c.-à-d. `script-src 'self'`)
-7. [Ne pas définir `allowRunningInsecureContent` à `true`](#7-do-not-set-allowrunninginsecurecontent-to-true)
-8. [Ne pas activer les fonctionnalités expérimentales](#8-do-not-enable-experimental-features)
-9. [Ne pas utiliser `enableBlinkFeatures`](#9-do-not-use-enableblinkfeatures)
-10. [`<webview>` : N'utilisez pas `allowpopups`](#10-do-not-use-allowpopups)
-11. [`<webview>`: Vérifier les options et les paramètres](#11-verify-webview-options-before-creation)
-12. [Désactiver ou limiter la navigation](#12-disable-or-limit-navigation)
-13. [Désactiver ou limiter la création de nouvelles fenêtres](#13-disable-or-limit-creation-of-new-windows)
-14. [Ne pas utiliser `openExternal` avec un contenu non fiable](#14-do-not-use-openexternal-with-untrusted-content)
-15. [Utiliser une version actuelle d'Electron](#15-use-a-current-version-of-electron)
+4. [Activer le bac à sable](#4-enable-sandboxing)
+5. [Utiliser `ses.setPermissionRequestHandler()` dans toutes les sessions qui se chargent de contenu distant](#5-handle-session-permission-requests-from-remote-content)
+6. [Ne pas désactiver `webSecurity`](#6-do-not-disable-websecurity)
+7. [Définissez une `Content-Security-Policy`](#7-define-a-content-security-policy) et utilisez des règles restrictives (c.-à-d. `script-src 'self'`)
+8. [Ne pas définir `allowRunningInsecureContent` à `true`](#8-do-not-set-allowrunninginsecurecontent-to-true)
+9. [Ne pas activer les fonctionnalités expérimentales](#9-do-not-enable-experimental-features)
+10. [Ne pas utiliser `enableBlinkFeatures`](#10-do-not-use-enableblinkfeatures)
+11. [`<webview>` : N'utilisez pas `allowpopups`](#11-do-not-use-allowpopups)
+12. [`<webview>`: Vérifier les options et les paramètres](#12-verify-webview-options-before-creation)
+13. [Désactiver ou limiter la navigation](#13-disable-or-limit-navigation)
+14. [Désactiver ou limiter la création de nouvelles fenêtres](#14-disable-or-limit-creation-of-new-windows)
+15. [Ne pas utiliser `openExternal` avec un contenu non fiable](#15-do-not-use-openexternal-with-untrusted-content)
+16. [Utiliser une version actuelle d'Electron](#16-use-a-current-version-of-electron)
 
 Pour automatiser la détection de mauvaises configurations et de patrons non sécurisés, il est possible d'utiliser [electronegativity](https://github.com/doyensec/electronegativity). Pour plus de détails sur les faiblesses potentielles et les bogues d'implémentation lorsque développant des applications utilisant Electron, veuillez vous référer à ce [guide pour développeurs et auditeurs](https://doyensec.com/resources/us-17-Carettoni-Electronegativity-A-Study-Of-Electron-Security-wp.pdf)
 
@@ -78,8 +79,13 @@ browserWindow.loadURL('http://example.com')
 browserWindow.loadURL('https://example.com')
 ```
 
-```html<!-- Incorrect --><script crossorigin src="http://example.com/react.js"></script>
-<link rel="stylesheet" href="http://example.com/style.css"><!-- Correct --><script crossorigin src="https://example.com/react.js"></script>
+```html
+<!-- Incorrect -->
+<script crossorigin src="http://example.com/react.js"></script>
+<link rel="stylesheet" href="http://example.com/style.css">
+
+<!-- Correct -->
+<script crossorigin src="https://example.com/react.js"></script>
 <link rel="stylesheet" href="https://example.com/style.css">
 ```
 
@@ -120,7 +126,12 @@ const mainWindow = new BrowserWindow({
 mainWindow.loadURL('https://example.com')
 ```
 
-```html<!-- Incorrect --><webview nodeIntegration src="page.html"></webview><!-- Correct --><webview src="page.html"></webview>
+```html
+<!-- Incorrect -->
+<webview nodeIntegration src="page.html"></webview>
+
+<!-- Correct -->
+<webview src="page.html"></webview>
 ```
 
 Lors de la désactivation de l'intégration de Node.js, vous pouvez toujours exposer des API à votre site web qui consomment des modules ou des fonctionnalités de Node.js. Les scripts de préchargement continuent d'avoir accès à `require` et aux autres fonctionnalités de Node.js, permettant aux développeurs d'exposer une API personnalisée au contenu chargé à distance.
@@ -142,13 +153,29 @@ L'isolement du contexte est une fonctionnalité d'Electron qui permet aux dével
 
 L'électron utilise la même technologie que le chrome [Content Scripts](https://developer.chrome.com/extensions/content_scripts#execution-environment) pour permettre ce comportement.
 
-Even when `nodeIntegration: false` is used, to truly enforce strong isolation and prevent the use of Node primitives `contextIsolation` **must** also be used.
+Même lorsque `nodeIntegration: false` est utilisé, pour vraiment appliquer une isolation forte et empêcher l'utilisation de Node primitives `contextIsolation` **doivent** également être utilisées.
 
 ### Pourquoi & Comment ?
 
-Pour plus d'informations sur ce qu'est `contextIsolation` et comment l'activer, veuillez voir notre document dédié [Isolation de contexte](context-isolation.md).
+For more information on what `contextIsolation` is and how to enable it please see our dedicated [Context Isolation](context-isolation.md) document.
 
-## 4) Gérer les demandes d'autorisation de session à partir du contenu distant
+## Activer le bac à sable
+
+[Sandboxing](sandbox.md) est une fonctionnalité de Chromium qui utilise le système d’exploitation pour limiter considérablement ce à quoi les processus de rendu ont accès. Vous devez activer le bac à sable dans tous les moteurs de rendu. Charger, lire ou traiter tout contenu non fiable dans un processus non protégé par le bac à sable, y compris le processus principal, n'est pas conseillé.
+
+### Comment ?
+
+Lors de la création d'une fenêtre, passez l'option `sandbox : true` dans `webPreferences`:
+
+```js
+const win = new BrowserWindow({
+  webPreferences: {
+    sandbox: true
+  }
+})
+```
+
+## 5) Gérer les demandes d'autorisation de session à partir du contenu distant
 
 Vous avez peut-être vu des demandes d'autorisation lors de l'utilisation de Chrome : elles apparaissent chaque fois que le site Web tente d'utiliser une fonctionnalité que l'utilisateur doit approuver manuellement ( comme les notifications).
 
@@ -181,11 +208,11 @@ session
   })
 ```
 
-## 5) Ne pas désactiver WebSecurity
+## 6) Ne pas désactiver WebSecurity
 
 _Cette recommandation est appliquée par défaut sur Electron_
 
-Vous avez peut-être déjà deviné que la désactivation de la propriété `webSecurity` sur un processus de rendu ([`BrowserWindow`][browser-window], [`BrowserView`][browser-view], ou [`<webview>`][webview-tag]<4></code></a>) désactive les fonctionnalités de sécurité cruciales .
+Vous avez peut-être déjà deviné que la désactivation de la propriété `webSecurity` sur un processus de rendu ([`BrowserWindow`][browser-window], [`BrowserView`][browser-view], ou [`<webview>`][webview-tag]) désactive les fonctionnalités de sécurité cruciales. .
 
 Ne pas désactiver `webSecurity` dans les applications de production.
 
@@ -209,10 +236,15 @@ const mainWindow = new BrowserWindow({
 const mainWindow = new BrowserWindow()
 ```
 
-```html<!-- Incorrect --><webview disablewebsecurity src="page.html"></webview><!-- Correct --><webview src="page.html"></webview>
+```html
+<!-- Incorrect -->
+<webview disablewebsecurity src="page.html"></webview>
+
+<!-- Correct -->
+<webview src="page.html"></webview>
 ```
 
-## 6) Définir une politique de sécurité de contenu
+## 7) Définir une politique de sécurité de contenu
 
 Une politique de sécurité de contenu (CSP) est une couche supplémentaire de protection contre des attaques cross-site-scripting et des attaques d'injection de données. Nous recommandons qu'ils soient activés par n'importe quel site Web que vous chargez dans Electron.
 
@@ -255,7 +287,7 @@ Le mécanisme de livraison préféré de CSP est un en-tête HTTP, cependant il 
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'">
 ```
 
-## 7) Ne pas définir `allowRunningInsecureContent` à `true`
+## 8) Ne pas définir `allowRunningInsecureContent` à `true`
 
 _Cette recommandation est appliquée par défaut sur Electron_
 
@@ -283,7 +315,7 @@ const mainWindow = new BrowserWindow({
 const mainWindow = new BrowserWindow({})
 ```
 
-## 8) N'autorisez pas de fonctionnalités expérimentales
+## 9) N'autorisez pas de fonctionnalités expérimentales
 
 _Cette recommandation est appliquée par défaut sur Electron_
 
@@ -291,7 +323,7 @@ Les utilisateurs avancés d'Electron peuvent activer les fonctionnalités expér
 
 ### Pourquoi ?
 
-Les fonctionnalités expérimentales sont, comme le nom le suggère, expérimentales et n'ont pas été activées pour tous les utilisateurs de Chromium. De plus, leur impact sur Electron dans son ensemble n'a probablement pas été testé.
+Experimental features are, as the name suggests, experimental and have not been enabled for all Chromium users. Furthermore, their impact on Electron as a whole has likely not been tested.
 
 Il est parfois légitime de les implémenter, mais à moins que vous sachiez vraiment ce que vous faites, vous ne devriez pas autoriser ces fonctionnalités.
 
@@ -311,7 +343,7 @@ const mainWindow = new BrowserWindow({
 const mainWindow = new BrowserWindow({})
 ```
 
-## 9) N'utilisez pas `enableBlinkFeatures`
+## 10) N'utilisez pas `enableBlinkFeatures`
 
 _Cette recommandation est appliquée par défaut sur Electron_
 
@@ -337,11 +369,11 @@ const mainWindow = new BrowserWindow({
 const mainWindow = new BrowserWindow()
 ```
 
-## 10) Ne pas utiliser `allowpopups`
+## 11) Ne pas utiliser `allowpopups`
 
 _Cette recommandation est appliquée par défaut sur Electron_
 
-Si vous utilisez [`<webview>`][webview-tag]`<webview>`</0>, vous aurez peut-être besoin des pages et des scripts chargés dans votre balise <2> pour ouvrir de nouvelles fenêtres. L'attribut `allowpopups` leur permet de créer un nouveau [`BrowserWindows`][browser-window] en utilisant la méthode `window.open()`. Les balises `<webview>` ne sont pas autorisées à créer de nouvelles fenêtres .
+Si vous utilisez [`<webview>`][webview-tag], vous aurez peut-être besoin des pages et des scripts chargés dans votre balise `<webview>` pour ouvrir de nouvelles fenêtres. L'attribut `allowpopups` leur permet de créer un nouveau [`BrowserWindows`][browser-window] en utilisant la méthode `window.open()`. Les balises `<webview>` ne sont pas autorisées à créer de nouvelles fenêtres .
 
 ### Pourquoi ?
 
@@ -349,10 +381,15 @@ Si vous n'avez pas besoin de popups, il vaut mieux ne pas autoriser la création
 
 ### Comment ?
 
-```html<!-- Incorrect --><webview allowpopups src="page.html"></webview><!-- Correct --><webview src="page.html"></webview>
+```html
+<!-- Incorrect -->
+<webview allowpopups src="page.html"></webview>
+
+<!-- Correct -->
+<webview src="page.html"></webview>
 ```
 
-## 11) Vérifiez les options de WebView avant la création
+## 12) Vérifiez les options de WebView avant la création
 
 Un WebView créé dans un processus de rendu qui n'a pas d'intégration Node.js activé ne sera pas en mesure d'activer l'intégration elle-même. Cependant, un WebView créera toujours un processus de rendu indépendant avec ses propres `webPreferences`.
 
@@ -388,9 +425,9 @@ app.on('web-contents-created', (event, contents) => {
 })
 ```
 
-Encore une fois, cette liste ne fait que minimiser le risque, elle ne le supprime pas. Si votre objectif est d'afficher un site web, un navigateur sera une option plus sûre.
+Again, this list merely minimizes the risk, it does not remove it. If your goal is to display a website, a browser will be a more secure option.
 
-## 12) Désactiver ou limiter la navigation
+## 13) Désactiver ou limiter la navigation
 
 Si votre application n'a pas besoin de naviguer ou a seulement besoin de naviguer vers des pages connues, c'est une bonne idée de limiter la navigation directement à cette portée connue, interdire tout autre type de navigation.
 
@@ -420,7 +457,7 @@ app.on('web-contents-created', (event, contents) => {
 })
 ```
 
-## 13) Désactiver ou limiter la création de nouvelles fenêtres
+## 14) Désactiver ou limiter la création de nouvelles fenêtres
 
 Si vous avez un ensemble connu de fenêtres, il est bon de limiter la création de fenêtres supplémentaires dans votre application.
 
@@ -455,7 +492,7 @@ app.on('web-contents-created', (event, contents) => {
 })
 ```
 
-## 14) N'utilisez pas `openExternal` avec du contenu non fiable
+## 15) N'utilisez pas `openExternal` avec du contenu non fiable
 
 Le [`openExternal`][open-external] de Shell permet d'ouvrir un URI de protocole donné avec les utilitaires natifs du bureau. Sur macOS, par exemple, cette fonction est similaire à l'utilitaire de commande terminal `open` et ouvrira l'application spécifique basée sur l'URI et l'association de type fichier.
 
@@ -477,7 +514,7 @@ const { shell } = require('electron')
 shell.openExternal('https://example.com/index.html')
 ```
 
-## 15) Utiliser une version actuelle d'Electron
+## 16) Utiliser une version actuelle d'Electron
 
 Vous devriez toujours vous efforcer d'utiliser la dernière version disponible d'Electron. Chaque fois qu'une nouvelle version majeure est publiée, vous devriez essayer de mettre à jour votre application le plus rapidement possible.
 
@@ -485,7 +522,7 @@ Vous devriez toujours vous efforcer d'utiliser la dernière version disponible d
 
 Une application construite avec une ancienne version d'Electron, de Chromium ou de Node.js est une cible plus facile qu'une application qui utilise des versions plus récentes de ces composants. De manière générale, les problèmes de sécurité et les exploitation de failles pour les anciennes versions de Chromium et de Node.js sont plus fréquentes.
 
-Chromium et Node.js représentent des prouesses impressionnantes d'ingénierie produites par des milliers de développeurs talentueux. Compte tenu de leur popularité, leur sécurité est soigneusement testée et analysée par des chercheurs en sécurité tout aussi compétents. Many of those researchers [disclose vulnerabilities responsibly][responsible-disclosure], which generally means that researchers will give Chromium and Node.js some time to fix issues before publishing them. Votre application sera plus sécurisée si elle exécute une version récente d'Electron (et donc Chromium et Node.js) dont les problèmes de sécurité potentiels ne sont pas aussi connus.
+Chromium et Node.js représentent des prouesses impressionnantes d'ingénierie produites par des milliers de développeurs talentueux. Compte tenu de leur popularité, leur sécurité est soigneusement testée et analysée par des chercheurs en sécurité tout aussi compétents. Beaucoup de ces chercheurs [révèlent des vulnérabilités de manière responsable][responsible-disclosure], ce qui signifie généralement que les chercheurs donnent de leur temps à Chromium et Node.js pour résoudre les problèmes avant de les publier. Votre application sera plus sécurisée si elle exécute une version récente d'Electron (et donc Chromium et Node.js) dont les problèmes de sécurité potentiels ne sont pas aussi connus.
 
 [browser-window]: ../api/browser-window.md
 

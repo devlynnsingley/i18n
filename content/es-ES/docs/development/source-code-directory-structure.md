@@ -1,4 +1,4 @@
-# Estructura de directorios del código fuente
+# Estructura del directorio de código fuente
 
 El código fuente de Electron está separado en unas pocas partes, la mayoría siguiendo a Chromium en las convenciones de separación.
 
@@ -32,8 +32,8 @@ Electron
 |   |   ├── api/ - Implementación de la API para los módulos del proceso renderer.
 |   |   ├── extension/ - Código relacionado con el uso de las Extenciones de Chrome
 |   |   |                en el proceso renderer de Electron.
-|   |   ├── remote/ - Lógica que controla el uso del módulo remoto
-|   |   |             en el proceso principal.
+|   |   ├── remote/ - Logic that handles use of the remote module in
+|   |   |             the main process.
 |   |   └── web-view/ - Lógica que maneja el uso de los webviews en el 
 |   |                   proceso renderer.
 |   ├── sandboxed_renderer/ - Lógica que maneja la creación de procesos 
@@ -49,25 +49,26 @@ Electron
 |   ├── node/ - Parches aplicados encima de Node.js.
 |   └── v8/ - Parches aplicados encima del motor V8 de Google.
 ├── shell/ - Código fuente C++.
-|   ├── app/ - Código de entrada al sistema.
-|   ├── browser/ - El frontend incluyendo la ventana principal, la interfaz de usuario y todo lo relacionado al
-|   |   |          proceso main. Esto habla con el renderizador para manejar páginas web.
-|   |   ├── ui/ - Implementación de la cosas de  interfaz de usuario para las diferentes plataformas.
-|   |   |   ├── cocoa/ - Código fuente específico de Cocoa.
-|   |   |   ├── win/ - Código fuente específico de Windows GUI.
-|   |   |   └── x/ - Código fuente especifico de X11.
-|   |   ├── api/ - La implementación de las APIs del proceso principal.
-|   |   ├── net/ - Código relacionado con la red.
-|   |   ├── mac/ - Código fuente especifico Mac  Objective-C.
+|   ├── app/ - System entry code.
+|   ├── browser/ - The frontend including the main window, UI, and all of the
+|   |   |          main process things. This talks to the renderer to manage web
+|   |   |          pages.
+|   |   ├── ui/ - Implementation of UI stuff for different platforms.
+|   |   |   ├── cocoa/ - Cocoa specific source code.
+|   |   |   ├── win/ - Windows GUI specific source code.
+|   |   |   └── x/ - X11 specific source code.
+|   |   ├── api/ - The implementation of the main process APIs.
+|   |   ├── net/ - Network related code.
+|   |   ├── mac/ - Mac specific Objective-C source code.
 |   |   └── resources/ - Icons, platform-dependent files, etc.
 |   ├── renderer/ - Code that runs in renderer process.
-|   |   └── api/ - La implementación de las APIs del proceso renderizador.
+|   |   └── api/ - The implementation of renderer process APIs.
 |   └── common/ - Código que se usa por ambos procesos, main y el renderer, incluye algunos funciones útiles
 |       |         y código para integrar el bucle de mensaje de node dentro de bucle de mensaje de Chromium.
 |       └── api/ - La implementación de las APIs comunes y las bases de los módulos integrados de Electron.
 ├── spec/ - Componentes de la suite de pruebas de Electron se ejecutan en el proceso de renderizado.
 ├── spec-main/ - Componentes de la suite de pruebas de Electron se ejecutan en el proceso main.
-└── BUILD.gn - Reglas de construcción de Electron.
+└── BUILD.gn - Building rules of Electron.
 ```
 
 ## Estructura de otros directorios
@@ -75,7 +76,6 @@ Electron
 * **.circleci** - Archivo de configuración para CI con CircleCI.
 * **.github** - Archivos de configuración específicos de GitHub, incluyendo plantillas de problemas y CODEOWNERS.
 * **dist** - Directorio temporal creado por el comando `script/create-dist.py` cuando se crea una distribución.
-* **external_binaries** - Binarios descargados de terceros los cuales no soportan la construcción con `gn`.
 * **Nodos de módulo** - Nodos de módulo de terceros usados para compilar.
 * **npm** - Lógica para la instalación de Electron via npm.
 * **afuera** - temporalmente afuera del directorio de `ninja`.
@@ -90,7 +90,4 @@ script/ - El conjunto de todo los scripts que Electron ejecuta para una variedad
     └── uploaders/ - Sube varios archivos relacionados con la nueva versión durante el lanzamiento.
 ```
 
-* **tools** - Scripts de ayuda utilizados por los archivos GN.
-  * Los Scripts puestos aquí nunca deberían ser invocados directamente por los usuarios, a diferencia de los de `script`.
 * **typings** - Tipos de TypeScript para el código interno de Electron.
-* **vendor** - Código fuente para algunas dependencias de terceros.

@@ -1,11 +1,13 @@
-# Uso de Módulos Nativos de Node
+# Native Node Modules
 
 Los módulos nativos de Node.js están soportados por Electron, pero dado que Electron tiene una diferente [interfaz binaria de aplicación (ABI)][abi] de un binario Node.js dado (debido a diferencias tales como usar BoringSSL de Chromium en lugar de OpenSSL), los módulos nativos que use necesitarán ser recompilados para Electron. De lo contrario, obtendrá la siguiente clase de error cuando intente ejecutar su aplicación:
 
 ```sh
-$XYZ$XYZ. Esta versión de Node.js requiere
-NODE_MODULE_VERSION $ABC. Por favor, intenta volver a compilar o reinstalar
-el módulo (por ejemplo, usando `npm rebuild` o `npm install`).
+Error: The module '/path/to/native/module.node'
+was compiled against a different Node.js version using
+NODE_MODULE_VERSION $XYZ. This version of Node.js requires
+NODE_MODULE_VERSION $ABC. Please try re-compiling or re-installing
+the module (for instance, using `npm rebuild` or `npm install`).
 ```
 
 ## ¿Cómo instalar módulos nativos?
@@ -21,10 +23,10 @@ Por ejemplo, para instalar la herramienta independiente `electron-rebuild` y rec
 ```sh
 npm install --save-dev electron-rebuild
 
-# Cada vez que ejecute "npm install", ejecute esto:
+# Every time you run "npm install", run this:
 ./node_modules/.bin/electron-rebuild
 
-# Si tienes problemas en Windows, intenta:
+# If you have trouble on Windows, try:
 .\node_modules\.bin\electron-rebuild.cmd
 ```
 
@@ -37,19 +39,19 @@ Al establecer algunas variables del entorno, puede usar `npm` para instalar mód
 Por ejemplo, para instalar todas las dependencias para Electron:
 
 ```sh
-# Versión de Electron.
+# Electron's version.
 export npm_config_target=1.2.3
-# La arquitectura de Electron, mire https://electronjs.org/docs/tutorial/support#supported-platforms
-# para arquitecturas soportadas.
+# The architecture of Electron, see https://electronjs.org/docs/tutorial/support#supported-platforms
+# for supported architectures.
 export npm_config_arch=x64
 export npm_config_target_arch=x64
-# Descargar encabezados para Electron.
+# Download headers for Electron.
 export npm_config_disturl=https://electronjs.org/headers
-# Informe a node-pre-gyp que estamos construyendo para Electron.
+# Tell node-pre-gyp that we are building for Electron.
 export npm_config_runtime=electron
-# Informe a node-pre-gyp que construya el módulo desde el código fuente.
+# Tell node-pre-gyp to build module from source code.
 export npm_config_build_from_source=true
-# Instale todas las dependencias y almacene el caché en ~/.electron-gyp.
+# Install all dependencies, and store cache to ~/.electron-gyp.
 HOME=~/.electron-gyp npm install
 ```
 
@@ -72,7 +74,7 @@ HOME=~/.electron-gyp node-gyp rebuild --target=1.2.3 --arch=x64 --dist-url=https
 Para compilar Módulos Nativos de Node contra una compilación personalizada de Electron que no coincide con una version pública, indique a `npm` que use la versión de Node que ha incluido en su versión personalizada.
 
 ```sh
-npm rebuild --nodedir=/path/to/electron/vendor/node
+npm rebuild --nodedir=/path/to/src/out/Default/gen/node_headers
 ```
 
 ## Problemas
@@ -98,9 +100,9 @@ no se pudo encontrar`, puede significar que el módulo que está intentando usar
 
 En particular, es importante que:
 
-* enlazas contra `node.lib` de _Electron_ y no Node. Si enlazas contra el `node.lib` incorrecto obtendrás errores de carga cuando necesites el módulo en Electron.
+* you link against `node.lib` from _Electron_ and not Node. If you link against the wrong `node.lib` you will get load-time errors when you require the module in Electron.
 * incluyas la bandera `/DELAYLOAD:node.exe`. Si el enlace a `node.exe` no se retrasa, el delay-load hook no tendra la oportunidad de disparar y el símbolo a node no será resulto correctamente.
-* `win_delay_load_hook.obj` está vinculado directamente a la DLL final. Si el gancho está configurado en una DLL dependiente, no se disparará en el momento adecuado.
+* `win_delay_load_hook.obj` is linked directly into the final DLL. If the hook is set up in a dependent DLL, it won't fire at the right time.
 
 Mire [`node-gyp`](https://github.com/nodejs/node-gyp/blob/e2401e1395bef1d3c8acec268b42dc5fb71c4a38/src/win_delay_load_hook.cc) para un ejemplo de delay-load si estas implementando el tuyo propio.
 

@@ -14,19 +14,21 @@ const win = new BrowserWindow({ width: 800, height: 600, frame: false })
 win.show()
 ```
 
-### Alternativas en macOS
+### Alternatives
 
-Hay una forma alternativa par especificar un ventana sin bordes (chromeless). En lugar de establecer `frame` a `false` lo que deshabilita ambos la barra de título y los controles de la ventana, usted puede querer tener la barra de título oculta y su contenido se extienda al tamaño completo de la ventana, aún conserva los controles de la ventana ("semáforos") para las acciones estándar de la ventana. Puede hacerse especificando la opción `titleBarStyle`:
+There's an alternative way to specify a chromeless window on macOS and Windows. Instead of setting `frame` to `false` which disables both the titlebar and window controls, you may want to have the title bar hidden and your content extend to the full window size, yet still preserve the window controls ("traffic lights" on macOS) for standard window actions. Puede hacerse especificando la opción `titleBarStyle`:
 
 #### `hidden`
 
-Es una barra de título oculta y una ventana de contenido de tamaño completo. Sin embargo, la barra de título mantiene los controles estándares de la ventana (“traffic lights”) en la parte superior izquierda.
+Results in a hidden title bar and a full size content window. On macOS, the title bar still has the standard window controls (“traffic lights”) in the top left.
 
 ```javascript
 const { BrowserWindow } = require('electron')
 const win = new BrowserWindow({ titleBarStyle: 'hidden' })
 win.show()
 ```
+
+### Alternativas en macOS
 
 #### `hiddenInset`
 
@@ -48,6 +50,33 @@ const win = new BrowserWindow({ titleBarStyle: 'customButtonsOnHover', frame: fa
 win.show()
 ```
 
+## Windows Control Overlay
+
+When using a frameless window in conjuction with `win.setWindowButtonVisibility(true)` on macOS, using one of the `titleBarStyle`s as described above so that the traffic lights are visible, or using `titleBarStyle: hidden` on Windows, you can access the Window Controls Overlay [JavaScript APIs][overlay-javascript-apis] and [CSS Environment Variables][overlay-css-env-vars] by setting the `titleBarOverlay` option to true. Specifying `true` will result in an overlay with default system colors.
+
+On Windows, you can also specify the color of the overlay and its symbols by setting `titleBarOverlay` to an object with the options `color` and `symbolColor`. If an option is not specified, the color will default to its system color for the window control buttons:
+
+```javascript
+const { BrowserWindow } = require('electron')
+const win = new BrowserWindow({
+  titleBarStyle: 'hidden',
+  titleBarOverlay: true
+})
+win.show()
+```
+
+```javascript
+const { BrowserWindow } = require('electron')
+const win = new BrowserWindow({
+  titleBarStyle: 'hidden',
+  titleBarOverlay: {
+    color: '#2f3241',
+    symbolColor: '#74b1be'
+  }
+})
+win.show()
+```
+
 ## Ventana transparente
 
 Al configurar la opción `transparent` a `true`, se puede hacer transparente la ventana sin bordes:
@@ -63,7 +92,10 @@ win.show()
 * No se puede hacer clic a través del área transparente. Vamos a introducir una API para configurar la forma de la ventana para solucionar esto. Consulte [our issue](https://github.com/electron/electron/issues/1335) para mas detalles.
 * Las ventanas transparentes no son redimencionables. Establecer `resizable` a `true` puede hacer que una ventana transparente deje de funcionar en algunas plataformas.
 * El filtro `blur` solo aplica a la página web, por lo que no hay manera de aplicar el efecto blur al contenido debajo de la ventana (por ejemplo, otras aplicaciones abiertas en el sistema del usuario).
-* En los sistemas operativos Windows, las ventanas transparentes no funcionarán cuando DWM está deshabilitado.
+* La ventana no será transparente cuando DevTools este abierta.
+* On Windows operating systems,
+  * transparent windows will not work when DWM is disabled.
+  * transparent windows can not be maximized using the Windows system menu or by double clicking the title bar. The reasoning behind this can be seen on [this pull request](https://github.com/electron/electron/pull/28207).
 * En Linux, los usuarios tienen que poner `--enable-transparent-visuals --disable-gpu` en la línea de comandos para deshabilitar el GPU y permitir ARGB para hacer transparente la ventana, esto es causado por un bug ascendente donde [el canal alfa no funciona en algunos controladores NVidia](https://bugs.chromium.org/p/chromium/issues/detail?id=369209) en Linux.
 * En Mac, la sombra nativa no se mostrará en una ventana transparente.
 
@@ -139,3 +171,5 @@ En una ventana sin marco el comportamiento de arrastrar puede causar conflicto c
 En algunas plataformas, el área desplazable puede ser considerada como un borde que no forma parte del cliente, de esta manera cuando se haga clic sobre él, aparecerá un menú del sistema. Para que el menú de contexto se comporte correctamente en todas las plataformas, nunca debe usarse un menú de contexto personalizado en áreas desplazables.
 
 [ignore-mouse-events]: browser-window.md#winsetignoremouseeventsignore-options
+[overlay-javascript-apis]: https://github.com/WICG/window-controls-overlay/blob/main/explainer.md#javascript-apis
+[overlay-css-env-vars]: https://github.com/WICG/window-controls-overlay/blob/main/explainer.md#css-environment-variables

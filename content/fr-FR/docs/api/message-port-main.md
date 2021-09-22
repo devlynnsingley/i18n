@@ -2,13 +2,15 @@
 
 `MessagePortMain` est l’équivalent de [`MessagePort`][] du DOM mais coté processus principal. Il se comporte de la même manière que la version DOM, sauf qu'il utilise le système d'événements de Node.js `EventEmitter` au lieu du système `EventTarget` du DOM. Cela signifie que vous devrez utiliser `port.on('message', ...)` pour écouter les événements, au lieu de `port. nmessage = ...` ou `port.addEventListener('message', ...)`
 
-Pour plus d'informations sur l'utilisation de la messagerie de canal, consultez la documentation de [Channel Messaging API][].
+Pour plus d'informations sur son utilisation consultez la documentation de [Channel Messaging API][].
 
 `MessagePortMain` est un \[EventEmitter\]\[event-emitter\].
 
 ## Classe: MessagePortMain
 
-Processus : [Main](../glossary.md#main-process)
+> Port interface for channel messaging in the main process.
+
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### Méthodes d’instance
 
@@ -33,7 +35,7 @@ Déconnecte le port qui ne sera donc plus actif.
 
 Retourne :
 
-* `messageEvent` Object
+* Objet `messageEvent`
   * `data` {any}
   * `ports` MessagePortMain[]
 

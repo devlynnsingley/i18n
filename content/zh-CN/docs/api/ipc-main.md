@@ -12,7 +12,7 @@
 
 * 发送消息时，事件名称为`channel `。
 * 回复同步信息时，需要设置`event.returnValue`。
-* 可以使用`event.reply(...)`将异步消息发送回发送者。  This helper method will automatically handle messages coming from frames that aren't the main frame (e.g. iframes) whereas `event.sender.send(...)` will always send to the main frame.
+* 可以使用`event.reply(...)`将异步消息发送回发送者。  此方法将自动处理从非主 frame 发送的消息(比如： iframes)。相应的发送方法是: `event.sender.send(...)` 它将总是把消息发送到主 frame
 
 下面是在渲染和主进程之间发送和处理消息的一个例子：
 
@@ -32,6 +32,8 @@ ipcMain.on('synchronous-message', (event, arg) => {
 
 ```javascript
 //在渲染器进程 (网页) 中。
+// NB. Electron APIs are only accessible from preload, unless contextIsolation is disabled.
+// See https://www.electronjs.org/docs/tutorial/process-model#preload-scripts for more details.
 const { ipcRenderer } = require('electron')
 console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
 
@@ -52,7 +54,7 @@ IpcMain模块有以下方法来侦听事件：
   * `event` IpcMainEvent
   * `...args` any[]
 
-监听 `channel`，当接收到新的消息时 `listener` 会以 `listener(event, args...)` 的形式被调用。
+监听 channel, 当新消息到达，将通过 listener(event, args...) 调用 listener。
 
 ### `ipcMain.once(channel, listener)`
 
@@ -69,13 +71,13 @@ IpcMain模块有以下方法来侦听事件：
 * `listener` Function
   * `...args` any[]
 
-从监听器数组中移除监听 `channel` 的指定 `listener`。
+为特定的 channel 从监听队列中删除特定的 listener 监听者.
 
 ### `ipcMain.removeAllListeners([channel])`
 
 * `channel` String (optional)
 
-删除所有监听者，或特指的 channel 的所有监听者.
+移除所有指定 channel 的监听器； 若未指定 channel，则移除所有监听器。
 
 ### `ipcMain.handle(channel, listener)`
 
@@ -84,25 +86,27 @@ IpcMain模块有以下方法来侦听事件：
   * `event` IpcMainInvokeEvent
   * `...args` any[]
 
-为一个 `invoke`able IPC 添加一个处理器。 每当一个渲染进程调用 `ipcRenderer.invoke(channel, ...args)` 时这个处理器就会被调用。
+为一个 `invokeable`的IPC 添加一个handler。 每当一个渲染进程调用 `ipcRenderer.invoke(channel, ...args)` 时这个处理器就会被调用。
 
-If `listener` returns a Promise, the eventual result of the promise will be returned as a reply to the remote caller. Otherwise, the return value of the listener will be used as the value of the reply.
+如果 `listener` 返回一个 Promise，那么 Promise 的最终结果就是远程调用的返回值。 否则， 监听器的返回值将被用来作为应答值。
 
 ```js
-// Main process
+// 主进程
 ipcMain.handle('my-invokable-ipc', async (event, ...args) => {
   const result = await somePromise(...args)
   return result
 })
 
-// Renderer process
+// 渲染进程
 async () => {
   const result = await ipcRenderer.invoke('my-invokable-ipc', arg1, arg2)
   // ...
 }
 ```
 
-The `event` that is passed as the first argument to the handler is the same as that passed to a regular event listener. It includes information about which WebContents is the source of the invoke request.
+传递给处理器的第一个参数的 `event` 与传递给常规事件侦听器的相同。 里面包含了哪些 WebContents 是调用请求的来源
+
+通过`handle`在主线程抛出的异常并不易读，那是因为他们已经被序列化了。只有原始错误中的 `message` 属性可提供给渲染进程。 详情请参阅 [#24427](https://github.com/electron/electron/issues/24427)
 
 ### `ipcMain.handleOnce(channel, listener)`
 
@@ -111,21 +115,21 @@ The `event` that is passed as the first argument to the handler is the same as t
   * `event` IpcMainInvokeEvent
   * `...args` any[]
 
-Handles a single `invoke`able IPC message, then removes the listener. See `ipcMain.handle(channel, listener)`.
+处理单个 `invoke`able 可触发的 IPC 消息，然后移除侦听器。 详见 `ipcMain.handle(channel, listener)`
 
 ### `ipcMain.removeHandler(channel)`
 
 * `channel` String
 
-Removes any handler for `channel`, if present.
+移除 `channel`的所有处理程序，若存在。
 
 ## IpcMainEvent object
 
-The documentation for the `event` object passed to the `callback` can be found in the [`ipc-main-event`](structures/ipc-main-event.md) structure docs.
+`callback` 的参数 `event` 对象文档可以在 [`ipc-main-event`](structures/ipc-main-event.md) 一节找到。
 
 ## IpcMainInvokeEvent object
 
-The documentation for the `event` object passed to `handle` callbacks can be found in the [`ipc-main-invoke-event`](structures/ipc-main-invoke-event.md) structure docs.
+`handle`回调参数`event`对象文档可以在[`ipc-main-invoke-event`](structures/ipc-main-invoke-event.md)一节找到
 
 [event-emitter]: https://nodejs.org/api/events.html#events_class_eventemitter
 [web-contents-send]: web-contents.md#contentssendchannel-args

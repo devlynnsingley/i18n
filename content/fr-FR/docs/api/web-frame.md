@@ -2,7 +2,7 @@
 
 > Personnaliser le rendu de la page web actuelle.
 
-Processus : [Rendu](../glossary.md#renderer-process)
+Processus : [Renderer](../glossary.md#renderer-process)
 
 `webFrame` export of the Electron module is an instance of the `WebFrame` class representing the top frame of the current `BrowserWindow`. Sub-frames can be retrieved by certain properties and methods (e.g. `webFrame.firstChild`).
 
@@ -24,7 +24,7 @@ The `WebFrame` class has the following instance methods:
 
 Modifie le facteur de zoom en utilisant le facteur spécifié. Le Zoom factor est égal à la valeur du zoom exprimée en pourcent divisée par 100, donc 300% = 3.0.
 
-The factor must be greater than 0.0.
+Le rapport doit être supérieur à 0.0.
 
 ### `webFrame.getZoomFactor()`
 
@@ -52,13 +52,15 @@ Définit le niveau maximum et minimum le niveau pinch-to-zoom.
 > **NOTE**: Le zoom visuel est désactivé par défaut dans Electron. To re-enable it, call:
 > 
 > ```js
-webFrame.setVisualZoomLevelLimits(1, 3)
-```
+> webFrame.setVisualZoomLevelLimits(1, 3)
+> ```
+
+> **NOTE**: Le zoom visuel s'applique uniquement au comportement pinch-to-zoom. Les raccourcis de zoom Cmd+/-/0 sont contrôlés par les rôles des MenuItem 'zoomIn', 'zoomOut' et 'resetZoom' dans le menu de l'application. Pour désactiver les raccourcis, [définissez manuellement le Menu](./menu.md#examples) et omettez les rôles de zoom de la définition.
 
 ### `webFrame.setSpellCheckProvider(language, provider)`
 
 * `language` String
-* `provider` Object
+* Objet `provider`
   * `spellCheck` Function
     * `words` String[]
     * `callback` Function
@@ -100,7 +102,7 @@ webFrame.setSpellCheckProvider('en-US', {
 
 Returns `String` - A key for the inserted CSS that can later be used to remove the CSS via `webFrame.removeInsertedCSS(key)`.
 
-Injects CSS into the current web page and returns a unique key for the inserted stylesheet.
+Injecte du CSS dans la page Web actuelle et renvoie une clé unique pour la feuille de style insérée .
 
 ### `webFrame.removeInsertedCSS(key)`
 
@@ -146,7 +148,7 @@ Note that when the execution of script fails, the returned promise will not reje
 ### `webFrame.setIsolatedWorldInfo(worldId, info)`
 
 * `worldId` Integer - The ID of the world to run the javascript in, `0` is the default world, `999` is the world used by Electrons `contextIsolation` feature. Chrome extensions reserve the range of IDs in `[1 << 20, 1 << 29)`. You can provide any integer here.
-* `info` Object
+* Objet `info`
   * `securityOrigin` String (optional) - Security origin for the isolated world.
   * `csp` String (optional) - Content Security Policy for the isolated world.
   * `name` String (optional) - Name for isolated world. Useful in devtools.
@@ -225,27 +227,27 @@ Returns `String[]` - A list of suggested words for a given word. If the word is 
 
 ## Propriétés
 
-### `webFrame.top` _Readonly_
+### `webFrame.top` _Lecture seule_
 
 A `WebFrame | null` representing top frame in frame hierarchy to which `webFrame` belongs, the property would be `null` if top frame is not in the current renderer process.
 
-### `webFrame.opener` _Readonly_
+### `webFrame.opener` _Lecture seule_
 
 A `WebFrame | null` representing the frame which opened `webFrame`, the property would be `null` if there's no opener or opener is not in the current renderer process.
 
-### `webFrame.parent` _Readonly_
+### `webFrame.parent` _Lecture seule_
 
 A `WebFrame | null` representing parent frame of `webFrame`, the property would be `null` if `webFrame` is top or parent is not in the current renderer process.
 
-### `webFrame.firstChild` _Readonly_
+### `webFrame.firstChild` _Lecture seule_
 
 A `WebFrame | null` representing the first child frame of `webFrame`, the property would be `null` if `webFrame` has no children or if first child is not in the current renderer process.
 
-### `webFrame.nextSibling` _Readonly_
+### `webFrame.nextSibling` _Lecture seule_
 
 A `WebFrame | null` representing next sibling frame, the property would be `null` if `webFrame` is the last frame in its parent or if the next sibling is not in the current renderer process.
 
-### `webFrame.routingId` _Readonly_
+### `webFrame.routingId` _Lecture seule_
 
 An `Integer` representing the unique frame id in the current renderer process. Distinct WebFrame instances that refer to the same underlying frame will have the same `routingId`.
 

@@ -2,7 +2,7 @@
 
 > システムのクリップボードでコピーやペーストの操作を行います。
 
-プロセス: [Main](../glossary.md#main-process), [Renderer](../glossary.md#renderer-process)
+プロセス: [メイン](../glossary.md#main-process), [レンダラー](../glossary.md#renderer-process)
 
 Linux には、 `selection` クリップボードも存在します。 これを操作するには、各メソッドに `selection` を渡す必要があります。
 
@@ -193,7 +193,7 @@ const { clipboard } = require('electron')
 
 const hasFormat = clipboard.has('<p>selection</p>')
 console.log(hasFormat)
-// 'true' か 'false
+// 'true' か 'false'
 ```
 
 ### `clipboard.read(format)` _実験的_
@@ -201,6 +201,8 @@ console.log(hasFormat)
 * `format` String
 
 戻り値 `String` - クリップボードから `format` 形式で読み出します。
+
+`format` は有効な ASCII 文字を含み、`/` で区切られている必要があります。 `a/c`, `a/bc` は有効ですが、`/abc`, `abc/`, `a/`, `/a`, `a` は無効です。
 
 ### `clipboard.readBuffer(format)` _実験的_
 
@@ -212,9 +214,9 @@ console.log(hasFormat)
 const { clipboard } = require('electron')
 
 const buffer = Buffer.from('this is binary', 'utf8')
-clipboard.writeBuffer('public.utf8-plain-text', buffer)
+clipboard.writeBuffer('public/utf8-plain-text', buffer)
 
-const ret = clipboard.readBuffer('public.utf8-plain-text')
+const ret = clipboard.readBuffer('public/utf8-plain-text')
 
 console.log(buffer.equals(out))
 // true
@@ -232,7 +234,7 @@ console.log(buffer.equals(out))
 const { clipboard } = require('electron')
 
 const buffer = Buffer.from('writeBuffer', 'utf8')
-clipboard.writeBuffer('public.utf8-plain-text', buffer)
+clipboard.writeBuffer('public/utf8-plain-text', buffer)
 ```
 
 ### `clipboard.write(data[, type])`

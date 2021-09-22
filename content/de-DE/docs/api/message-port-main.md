@@ -8,9 +8,11 @@ See the [Channel Messaging API][] documentation for more information on using ch
 
 ## Class: MessagePortMain
 
-Prozess: [Main](../glossary.md#main-process)
+> Port interface for channel messaging in the main process.
 
-### Instanz Methoden
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
+
+### Beispiel Methoden
 
 #### `port.postMessage(message, [transfer])`
 
@@ -27,11 +29,11 @@ Starts the sending of messages queued on the port. Messages will be queued until
 
 Disconnects the port, so it is no longer active.
 
-### Instanz Events
+### Instanz-Ereignisse
 
 #### Event: 'message'
 
-Rückgabewert:
+Kehrt zurück:
 
 * `messageEvent` Object
   * `data` any

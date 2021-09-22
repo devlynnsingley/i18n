@@ -12,7 +12,7 @@ A lista abaixo contém um número de passos razoavelmente diretos e fáceis de i
 
 Dia após dia nós temos visto que a estratégia mais bem sucedida para construir aplicações Electron com bom desempenho é analisar o código rodando, encontrar a parte que mais precisa de recursos e otimizá-la. Repetir esse processo incansavelmente, de novo e de novo vai aumentar drasticamente a performance da sua aplicação. Experiências trabalhando com aplicativos maiores como o Visual Studio Code ou o Slack tem mostrado que essa prática é de longe a estratégia mais confiável para aumentar a performance.
 
-Para aprender mais sobre como analisar o código da sua aplicação se familiarize com as Ferramentas de Desenvolvedor do Chrome. Para uma análise avançada olhando para vários processos de uma vez, considere a ferramenta [Chrome Tracing](https://www.chromium.org/developers/how-tos/trace-event-profiling-tool).
+Para aprender mais sobre como analisar o código da sua aplicação se familiarize com as Ferramentas de Desenvolvedor do Chrome. For advanced analysis looking at multiple processes at once, consider the [Chrome Tracing](https://www.chromium.org/developers/how-tos/trace-event-profiling-tool) tool.
 
 ### Leituras Recomendadas
 
@@ -61,9 +61,9 @@ node --cpu-prof --heap-prof -e "require('request')"
 
 Executando esse comando temos um arquivo `.cpuprofile` e um arquivo `.heapprofile` no diretório em que você executou. Ambos os arquivos podem ser analisados usando a Ferramenta de Desenvolvedor do Chrome, usando as seções `Performance` e `Memory` respectivamente.
 
-![performance-cpu-prof][]
+![Performance CPU Profile](../images/performance-cpu-prof.png)
 
-![performance-heap-prof][]
+![Performance Heap Memory Profile](../images/performance-heap-prof.png)
 
 Nesse exemplo, na máquina do autor, nós vimos que o `request` levou quase meio segundo, enquanto o `node-fetch` levou drasticamente menos memória e menos que 50ms.
 
@@ -207,7 +207,7 @@ Evite buscar raramente recursos da internet se eles podem facilmente ser empacot
 
 ### Por que?
 
-Muitos usuários do Electron começam com um aplicativo inteiramente baseado na web que estão transformando em uma aplicação desktop. Como desenvolvedores web, estamos acostumados a carregar recursos de uma variedade de redes de conteúdo. Agora que você está enviando uma aplicação desktop adequada, tente "cortar o corte" quando possível e evite deixar seus usuários esperar por recursos que nunca mudam e podem ser facilmente incluídos em seu aplicativo.
+Muitos usuários do Electron começam com um aplicativo inteiramente baseado na web que estão transformando em uma aplicação desktop. Como desenvolvedores web, estamos acostumados a carregar recursos de uma variedade de redes de conteúdo. Now that you are shipping a proper desktop application, attempt to "cut the cord" where possible and avoid letting your users wait for resources that never change and could easily be included  in your app.
 
 Um típico exemplo é o Google Fonts. Muitos desenvolvedores usam a incrível coleção de fontes gratuitas do Google, que vem com um rede de entrega de conteúdo. O tom é direto: Inclua algumas linhas de CSS e o Google cuidará do resto.
 
@@ -240,8 +240,6 @@ Tem vários compressores de JavaScript lá fora e nós sabemos que melhor que ir
 A partir da escrita deste artigo, as escolhas populares incluem [Webpack][webpack], [Parcel][parcel], e [rollup.js][rollup].
 
 [security]: ./security.md
-[performance-cpu-prof]: ../images/performance-cpu-prof.png
-[performance-heap-prof]: ../images/performance-heap-prof.png
 [chrome-devtools-tutorial]: https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/
 [worker-threads]: https://nodejs.org/api/worker_threads.html
 [web-workers]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers

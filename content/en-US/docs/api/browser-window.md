@@ -14,7 +14,7 @@ const win = new BrowserWindow({ width: 800, height: 600 })
 win.loadURL('https://github.com')
 
 // Or load a local HTML file
-win.loadURL(`file://${__dirname}/app/index.html`)
+win.loadFile('index.html')
 ```
 
 ## Frameless window
@@ -22,12 +22,13 @@ win.loadURL(`file://${__dirname}/app/index.html`)
 To create a window without chrome, or a transparent window in arbitrary shape,
 you can use the [Frameless Window](frameless-window.md) API.
 
-## Showing window gracefully
+## Showing the window gracefully
 
-When loading a page in the window directly, users may see the page load incrementally, which is not a good experience for a native app. To make the window display
-without visual flash, there are two solutions for different situations.
+When loading a page in the window directly, users may see the page load incrementally,
+which is not a good experience for a native app. To make the window display
+without a visual flash, there are two solutions for different situations.
 
-## Using `ready-to-show` event
+### Using the `ready-to-show` event
 
 While loading the page, the `ready-to-show` event will be emitted when the renderer
 process has rendered the page for the first time if the window has not been shown yet. Showing
@@ -48,7 +49,7 @@ event.
 Please note that using this event implies that the renderer will be considered "visible" and
 paint even though `show` is false.  This event will never fire if you use `paintWhenInitiallyHidden: false`
 
-## Setting `backgroundColor`
+### Setting the `backgroundColor` property
 
 For a complex app, the `ready-to-show` event could be emitted too late, making
 the app feel slow. In this case, it is recommended to show the window
@@ -187,9 +188,9 @@ It creates a new `BrowserWindow` with native properties as set by the `options`.
   * `parent` BrowserWindow (optional) - Specify parent window. Default is `null`.
   * `modal` Boolean (optional) - Whether this is a modal window. This only works when the
     window is a child window. Default is `false`.
-  * `acceptFirstMouse` Boolean (optional) - Whether the web view accepts a single
-    mouse-down event that simultaneously activates the window. Default is
-    `false`.
+  * `acceptFirstMouse` Boolean (optional) - Whether clicking an inactive window will also
+  click through to the web contents. Default is `false` on macOS. This option is not
+  configurable on other platforms.
   * `disableAutoHideCursor` Boolean (optional) - Whether to hide cursor when typing.
     Default is `false`.
   * `autoHideMenuBar` Boolean (optional) - Auto hide the menu bar unless the `Alt`
@@ -213,30 +214,29 @@ It creates a new `BrowserWindow` with native properties as set by the `options`.
     * `followWindow` - The backdrop should automatically appear active when the window is active, and inactive when it is not. This is the default.
     * `active` - The backdrop should always appear active.
     * `inactive` - The backdrop should always appear inactive.
-  * `titleBarStyle` String (optional) - The style of window title bar.
+  * `titleBarStyle` String (optional) _macOS_ _Windows_ - The style of window title bar.
     Default is `default`. Possible values are:
-    * `default` - Results in the standard gray opaque Mac title
-      bar.
-    * `hidden` - Results in a hidden title bar and a full size content window, yet
-      the title bar still has the standard window controls ("traffic lights") in
-      the top left.
-    * `hiddenInset` - Results in a hidden title bar with an alternative look
+    * `default` - Results in the standard title bar for macOS or Windows respectively.
+    * `hidden` - Results in a hidden title bar and a full size content window. On macOS, the window still has the standard window controls (“traffic lights”) in the top left. On Windows, when combined with `titleBarOverlay: true` it will activate the Window Controls Overlay (see `titleBarOverlay` for more information), otherwise no window controls will be shown.
+    * `hiddenInset` - Only on macOS, results in a hidden title bar with an alternative look
       where the traffic light buttons are slightly more inset from the window edge.
-    * `customButtonsOnHover` Boolean (optional) - Draw custom close,
-      and minimize buttons on macOS frameless windows. These buttons will not display
-      unless hovered over in the top left of the window. These custom buttons prevent
-      issues with mouse events that occur with the standard window toolbar buttons.
-      **Note:** This option is currently experimental.
-  * `trafficLightPosition` [Point](structures/point.md) (optional) - Set a custom position for the traffic light buttons. Can only be used with `titleBarStyle` set to `hidden`
-  * `fullscreenWindowTitle` Boolean (optional) - Shows the title in the
-    title bar in full screen mode on macOS for all `titleBarStyle` options.
+    * `customButtonsOnHover` - Only on macOS, results in a hidden title bar and a full size
+      content window, the traffic light buttons will display when being hovered
+      over in the top left of the window.  **Note:** This option is currently
+      experimental.
+  * `trafficLightPosition` [Point](structures/point.md) (optional) - Set a
+    custom position for the traffic light buttons in frameless windows.
+  * `roundedCorners` Boolean (optional) - Whether frameless window should have
+    rounded corners on macOS. Default is `true`.
+  * `fullscreenWindowTitle` Boolean (optional) _Deprecated_ - Shows the title in
+    the title bar in full screen mode on macOS for `hiddenInset` titleBarStyle.
     Default is `false`.
   * `thickFrame` Boolean (optional) - Use `WS_THICKFRAME` style for frameless windows on
     Windows, which adds standard window frame. Setting it to `false` will remove
     window shadow and window animations. Default is `true`.
   * `vibrancy` String (optional) - Add a type of vibrancy effect to the window, only on
     macOS. Can be `appearance-based`, `light`, `dark`, `titlebar`, `selection`,
-    `menu`, `popover`, `sidebar`, `medium-light`, `ultra-dark`, `header`, `sheet`, `window`, `hud`, `fullscreen-ui`, `tooltip`, `content`, `under-window`, or `under-page`.  Please note that using `frame: false` in combination with a vibrancy value requires that you use a non-default `titleBarStyle` as well. Also note that `appearance-based`, `light`, `dark`, `medium-light`, and `ultra-dark` have been deprecated and will be removed in an upcoming version of macOS.
+    `menu`, `popover`, `sidebar`, `medium-light`, `ultra-dark`, `header`, `sheet`, `window`, `hud`, `fullscreen-ui`, `tooltip`, `content`, `under-window`, or `under-page`. Please note that `appearance-based`, `light`, `dark`, `medium-light`, and `ultra-dark` are deprecated and have been removed in macOS Catalina (10.15).
   * `zoomToPageWidth` Boolean (optional) - Controls the behavior on macOS when
     option-clicking the green stoplight button on the toolbar or by clicking the
     Window > Zoom menu item. If `true`, the window will grow to the preferred
@@ -270,9 +270,7 @@ It creates a new `BrowserWindow` with native properties as set by the `options`.
       associated with the window, making it compatible with the Chromium
       OS-level sandbox and disabling the Node.js engine. This is not the same as
       the `nodeIntegration` option and the APIs available to the preload script
-      are more limited. Read more about the option [here](sandbox-option.md).
-    * `enableRemoteModule` Boolean (optional) - Whether to enable the [`remote`](remote.md) module.
-      Default is `false`.
+      are more limited. Read more about the option [here](../tutorial/sandbox.md).
     * `session` [Session](session.md#class-session) (optional) - Sets the session used by the
       page. Instead of passing the Session object directly, you can also choose to
       use the `partition` option instead, which accepts a partition string. When
@@ -284,13 +282,6 @@ It creates a new `BrowserWindow` with native properties as set by the `options`.
       same `partition`. If there is no `persist:` prefix, the page will use an
       in-memory session. By assigning the same `partition`, multiple pages can share
       the same session. Default is the default session.
-    * `affinity` String (optional) - When specified, web pages with the same
-      `affinity` will run in the same renderer process. Note that due to reusing
-      the renderer process, certain `webPreferences` options will also be shared
-      between the web pages even when you specified different values for them,
-      including but not limited to `preload`, `sandbox` and `nodeIntegration`.
-      So it is suggested to use exact same `webPreferences` for web pages with
-      the same `affinity`. _Deprecated_
     * `zoomFactor` Number (optional) - The default zoom factor of the page, `3.0` represents
       `300%`. Default is `1.0`.
     * `javascript` Boolean (optional) - Enables JavaScript support. Default is `true`.
@@ -301,6 +292,7 @@ It creates a new `BrowserWindow` with native properties as set by the `options`.
     * `allowRunningInsecureContent` Boolean (optional) - Allow an https page to run
       JavaScript, CSS or plugins from http URLs. Default is `false`.
     * `images` Boolean (optional) - Enables image support. Default is `true`.
+    * `imageAnimationPolicy` String (optional) - Specifies how to run image animations (E.g. GIFs).  Can be `animate`, `animateOnce` or `noAnimation`.  Default is `animate`.
     * `textAreasAreResizable` Boolean (optional) - Make TextArea elements resizable. Default
       is `true`.
     * `webgl` Boolean (optional) - Enables WebGL support. Default is `true`.
@@ -348,12 +340,9 @@ It creates a new `BrowserWindow` with native properties as set by the `options`.
       [Chrome Content Scripts][chrome-content-scripts].  You can access this
       context in the dev tools by selecting the 'Electron Isolated Context'
       entry in the combo box at the top of the Console tab.
-    * `worldSafeExecuteJavaScript` Boolean (optional) - If true, values returned from `webFrame.executeJavaScript` will be sanitized to ensure JS values
-      can't unsafely cross between worlds when using `contextIsolation`. Defaults to `true`. _Deprecated_
     * `nativeWindowOpen` Boolean (optional) - Whether to use native
-      `window.open()`. Defaults to `false`. Child windows will always have node
-      integration disabled unless `nodeIntegrationInSubFrames` is true. **Note:** This option is currently
-      experimental.
+      `window.open()`. Defaults to `true`. Child windows will always have node
+      integration disabled unless `nodeIntegrationInSubFrames` is true.
     * `webviewTag` Boolean (optional) - Whether to enable the [`<webview>` tag](webview-tag.md).
       Defaults to `false`. **Note:** The
       `preload` script configured for the `<webview>` will have node integration
@@ -401,6 +390,9 @@ It creates a new `BrowserWindow` with native properties as set by the `options`.
       contain the layout of the document—without requiring scrolling. Enabling
       this will cause the `preferred-size-changed` event to be emitted on the
       `WebContents` when the preferred size changes. Default is `false`.
+  * `titleBarOverlay` Object | Boolean (optional) -  When using a frameless window in conjuction with `win.setWindowButtonVisibility(true)` on macOS or using a `titleBarStyle` so that the standard window controls ("traffic lights" on macOS) are visible, this property enables the Window Controls Overlay [JavaScript APIs][overlay-javascript-apis] and [CSS Environment Variables][overlay-css-env-vars]. Specifying `true` will result in an overlay with default system colors. Default is `false`.
+    * `color` String (optional) _Windows_ - The CSS color of the Window Controls Overlay when enabled. Default is the system color.
+    * `symbolColor` String (optional) _Windows_ - The CSS color of the symbols on the Window Controls Overlay when enabled. Default is the system color.
 
 When setting minimum or maximum window size with `minWidth`/`maxWidth`/
 `minHeight`/`maxHeight`, it only constrains the users. It won't prevent you from
@@ -533,10 +525,19 @@ Returns:
 
 * `event` Event
 * `newBounds` [Rectangle](structures/rectangle.md) - Size the window is being resized to.
+* `details` Object
+  * `edge` (String) - The edge of the window being dragged for resizing. Can be `bottom`, `left`, `right`, `top-left`, `top-right`, `bottom-left` or `bottom-right`.
 
 Emitted before the window is resized. Calling `event.preventDefault()` will prevent the window from being resized.
 
 Note that this is only emitted when the window is being resized manually. Resizing the window with `setBounds`/`setSize` will not emit this event.
+
+The possible values and behaviors of the `edge` option are platform dependent. Possible values are:
+
+* On Windows, possible values are `bottom`, `top`, `left`, `right`, `top-left`, `top-right`, `bottom-left`, `bottom-right`.
+* On macOS, possible values are `bottom` and `right`.
+  * The value `bottom` is used to denote vertical resizing.
+  * The value `right` is used to denote horizontal resizing.
 
 #### Event: 'resize'
 
@@ -722,94 +723,6 @@ Returns `BrowserWindow | null` - The window that owns the given `browserView`. I
 
 Returns `BrowserWindow | null` - The window with the given `id`.
 
-#### `BrowserWindow.addExtension(path)` _Deprecated_
-
-* `path` String
-
-Adds Chrome extension located at `path`, and returns extension's name.
-
-The method will also not return if the extension's manifest is missing or incomplete.
-
-**Note:** This API cannot be called before the `ready` event of the `app` module
-is emitted.
-
-**Note:** This method is deprecated. Instead, use
-[`ses.loadExtension(path)`](session.md#sesloadextensionpath-options).
-
-#### `BrowserWindow.removeExtension(name)` _Deprecated_
-
-* `name` String
-
-Remove a Chrome extension by name.
-
-**Note:** This API cannot be called before the `ready` event of the `app` module
-is emitted.
-
-**Note:** This method is deprecated. Instead, use
-[`ses.removeExtension(extension_id)`](session.md#sesremoveextensionextensionid).
-
-#### `BrowserWindow.getExtensions()` _Deprecated_
-
-Returns `Record<String, ExtensionInfo>` - The keys are the extension names and each value is
-an Object containing `name` and `version` properties.
-
-**Note:** This API cannot be called before the `ready` event of the `app` module
-is emitted.
-
-**Note:** This method is deprecated. Instead, use
-[`ses.getAllExtensions()`](session.md#sesgetallextensions).
-
-#### `BrowserWindow.addDevToolsExtension(path)` _Deprecated_
-
-* `path` String
-
-Adds DevTools extension located at `path`, and returns extension's name.
-
-The extension will be remembered so you only need to call this API once, this
-API is not for programming use. If you try to add an extension that has already
-been loaded, this method will not return and instead log a warning to the
-console.
-
-The method will also not return if the extension's manifest is missing or incomplete.
-
-**Note:** This API cannot be called before the `ready` event of the `app` module
-is emitted.
-
-**Note:** This method is deprecated. Instead, use
-[`ses.loadExtension(path)`](session.md#sesloadextensionpath-options).
-
-#### `BrowserWindow.removeDevToolsExtension(name)` _Deprecated_
-
-* `name` String
-
-Remove a DevTools extension by name.
-
-**Note:** This API cannot be called before the `ready` event of the `app` module
-is emitted.
-
-**Note:** This method is deprecated. Instead, use
-[`ses.removeExtension(extension_id)`](session.md#sesremoveextensionextensionid).
-
-#### `BrowserWindow.getDevToolsExtensions()` _Deprecated_
-
-Returns `Record<string, ExtensionInfo>` - The keys are the extension names and each value is
-an Object containing `name` and `version` properties.
-
-To check if a DevTools extension is installed you can run the following:
-
-```javascript
-const { BrowserWindow } = require('electron')
-
-const installed = 'devtron' in BrowserWindow.getDevToolsExtensions()
-console.log(installed)
-```
-
-**Note:** This API cannot be called before the `ready` event of the `app` module
-is emitted.
-
-**Note:** This method is deprecated. Instead, use
-[`ses.getAllExtensions()`](session.md#sesgetallextensions).
-
 ### Instance Properties
 
 Objects created with `new BrowserWindow` have the following properties:
@@ -847,6 +760,10 @@ A `Boolean` property that determines whether the window is in simple (pre-Lion) 
 #### `win.fullScreen`
 
 A `Boolean` property that determines whether the window is in fullscreen mode.
+
+#### `win.focusable` _Windows_ _macOS_
+
+A `Boolean` property that determines whether the window is focusable.
 
 #### `win.visibleOnAllWorkspaces`
 
@@ -1386,7 +1303,7 @@ can be be used to listen to changes to tablet mode.
 
 #### `win.getMediaSourceId()`
 
-Returns `String` - Window id in the format of DesktopCapturerSource's id. For example "window:1234:0".
+Returns `String` - Window id in the format of DesktopCapturerSource's id. For example "window:1324:0".
 
 More precisely the format is `window:id:other_id` where `id` is `HWND` on
 Windows, `CGWindowID` (`uint64_t`) on macOS and `Window` (`unsigned long`) on
@@ -1467,7 +1384,7 @@ Captures a snapshot of the page within `rect`. Omitting `rect` will capture the 
   * `httpReferrer` (String | [Referrer](structures/referrer.md)) (optional) - An HTTP Referrer URL.
   * `userAgent` String (optional) - A user agent originating the request.
   * `extraHeaders` String (optional) - Extra headers separated by "\n"
-  * `postData` ([UploadRawData[]](structures/upload-raw-data.md) | [UploadFile[]](structures/upload-file.md)) (optional)
+  * `postData` ([UploadRawData](structures/upload-raw-data.md) | [UploadFile](structures/upload-file.md))[] (optional)
   * `baseURLForDataURL` String (optional) - Base URL (with trailing path separator) for files to be loaded by the data URL. This is needed only if the specified `url` is a data URL and needs to load other files.
 
 Returns `Promise<void>` - the promise will resolve when the page has finished loading
@@ -1685,8 +1602,6 @@ Changes window icon.
 
 Sets whether the window traffic light buttons should be visible.
 
-This cannot be called when `titleBarStyle` is set to `customButtonsOnHover`.
-
 #### `win.setAutoHideMenuBar(hide)`
 
 * `hide` Boolean
@@ -1715,7 +1630,14 @@ Returns `Boolean` - Whether the menu bar is visible.
 * `visible` Boolean
 * `options` Object (optional)
   * `visibleOnFullScreen` Boolean (optional) _macOS_ - Sets whether
-    the window should be visible above fullscreen windows
+    the window should be visible above fullscreen windows.
+  * `skipTransformProcessType` Boolean (optional) _macOS_ - Calling
+    setVisibleOnAllWorkspaces will by default transform the process
+    type between UIElementApplication and ForegroundApplication to
+    ensure the correct behavior. However, this will hide the window
+    and dock for a short time every time it is called. If your window
+    is already of type UIElementApplication, you can bypass this
+    transformation by passing true to skipTransformProcessType.
 
 Sets whether the window should be visible on all workspaces.
 
@@ -1760,6 +1682,10 @@ older Windows versions behave as if `WDA_MONITOR` is applied capturing a black w
 Changes whether the window can be focused.
 
 On macOS it does not remove the focus from the window.
+
+#### `win.isFocusable()` _macOS_ _Windows_
+
+Returns whether the window can be focused.
 
 #### `win.setParentWindow(parent)`
 
@@ -1829,12 +1755,12 @@ deprecated and will be removed in an upcoming version of macOS.
 
 * `position` [Point](structures/point.md)
 
-Set a custom position for the traffic light buttons. Can only be used with `titleBarStyle` set to `hidden`.
+Set a custom position for the traffic light buttons in frameless window.
 
 #### `win.getTrafficLightPosition()` _macOS_
 
-Returns `Point` - The current position for the traffic light buttons. Can only be used with `titleBarStyle`
-set to `hidden`.
+Returns `Point` - The custom position for the traffic light buttons in
+frameless window.
 
 #### `win.setTouchBar(touchBar)` _macOS_
 
@@ -1890,3 +1816,5 @@ removed in future Electron releases.
 [window-levels]: https://developer.apple.com/documentation/appkit/nswindow/level
 [chrome-content-scripts]: https://developer.chrome.com/extensions/content_scripts#execution-environment
 [event-emitter]: https://nodejs.org/api/events.html#events_class_eventemitter
+[overlay-javascript-apis]: https://github.com/WICG/window-controls-overlay/blob/main/explainer.md#javascript-apis
+[overlay-css-env-vars]: https://github.com/WICG/window-controls-overlay/blob/main/explainer.md#css-environment-variables

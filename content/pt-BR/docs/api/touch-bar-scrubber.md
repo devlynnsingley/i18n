@@ -2,7 +2,7 @@
 
 > Create a scrubber (a scrollable selector)
 
-Processo: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### `new TouchBarScrubber(options)`
 
@@ -12,15 +12,15 @@ Processo: [Main](../glossary.md#main-process)
     * `selectedIndex` Integer - The index of the item the user selected.
   * `highlight` Function (optional) - Called when the user taps any item.
     * `highlightedIndex` Integer - The index of the item the user touched.
-  * `selectedStyle` String (optional) - Selected item style. Can be `background`, `outline` or `none`. Defaults to `none`.
-  * `overlayStyle` String (optional) - Selected overlay item style. Can be `background`, `outline` or `none`. Defaults to `none`.
-  * `showArrowButtons` Boolean (optional) - Defaults to `false`.
-  * `mode` String (optional) - Can be `fixed` or `free`. The default is `free`.
+  * `selectedStyle` String (optional) - Selected item style. Can be `background`, `outline` or `none`. O padrão é `none`.
+  * `overlayStyle` String (optional) - Selected overlay item style. Can be `background`, `outline` or `none`. O padrão é `none`.
+  * `showArrowButtons` Boolean (optional) - Whether to show arrow buttons. Defaults to `false` and is only shown if `items` is non-empty.
+  * `mode` String (optional) - Can be `fixed` or `free`. O padrão é `free`.
   * `continuous` Boolean (optional) - Defaults to `true`.
 
-### Propriedades de Instância
+### Propriedades da Instância
 
-The following properties are available on instances of `TouchBarScrubber`:
+As seguintes propriedades estão disponíveis em instâncias de `TouchBarScrubber`:
 
 #### `touchBarScrubber.items`
 

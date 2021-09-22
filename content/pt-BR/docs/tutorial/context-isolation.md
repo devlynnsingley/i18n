@@ -1,42 +1,41 @@
-# Isolamento de contexto
+# Context Isolation
 
-## O que é isso?
+## What is it?
 
 Isolamento de Contexto é um recurso que garante que tanto os seus `scripts do preload` quanto a lógica interna do Electron sejam executados em um contexto separado para a pagina que você carregar em um [`webContent`](../api/web-contents.md).  Isso é importante por questões de segurança, pois ajuda a impedir que a pagina web acesse os módulos internos do Electron ou aos privelégios de APIs que seu script de preload tem acesso.
 
-Isto significa que o objeto `window` ao qual seu script de preload tem acesso seja realmente um objeto **diferente** do qual a sua pagina web teria acesso.  Por exemplo, se você definir `window.hello = 'wave'` em seu script de preload e o contextIsolation esteja habilitado na janela `window.hello` será undefined se a pagina web tentar acessa-la.
+Isto significa que o objeto `window` ao qual seu script de preload tem acesso seja realmente um objeto **diferente** do qual a sua pagina web teria acesso.  For example, if you set `window.hello = 'wave'` in your preload script and context isolation is enabled, `window.hello` will be undefined if the website tries to access it.
 
-Cada aplicação deve ter o contextIsolation habilitado a partir da versão 12 do Electron, esse parâmetro estará habilitado por padrão.
-
-## Como faço para habilitá-lo?
-
-Do Electron 12, será ativado por padrão. Para versões mais baixas, é uma opção na opção `WebPreferences` ao construir `nova janela de navegação`.
-
-```javascript
-const mainWindow = new BrowserWindow({
-  webPreferences: {
-    contextIsolation: true
-  }
-})
-```
+Context isolation has been enabled by default since Electron 12, and it is a recommended security setting for _all applications_.
 
 ## Migração
 
-> Costumava fornecer APIs do meu script de pré-carregamento usando `window.X = apiObject` agora, o que?
+> Without context isolation, I used to provide APIs from my preload script using `window.X = apiObject`. Now what?
 
-Expor APIs do seu script de pré-carga para o site carregado é um usecase comum e há um módulo dedicado no Electron para ajudá-lo a fazer isso de uma maneira indolor.
+### Before: context isolation disabled
 
-**Antes: Com o isolamento de contexto desativado**
+Exposing APIs from your preload script to a loaded website in the renderer process is a common use-case. With context isolation disabled, your preload script would share a common global `window` object with the renderer. You could then attach arbitrary properties to a preload script:
 
-```javascript
+```javascript title='preload.js'
+// preload with contextIsolation disabled
 window.myAPI = {
   doAThing: () => {}
 }
 ```
 
-**Depois: Com o isolamento de contexto habilitado**
+The `doAThing()` function could then be used directly in the renderer process:
 
-```javascript
+```javascript title='renderer.js'
+// use the exposed API in the renderer
+window.myAPI.doAThing()
+```
+
+### After: context isolation enabled
+
+There is a dedicated module in Electron to help you do this in a painless way. The [`contextBridge`](../api/context-bridge.md) module can be used to **safely** expose APIs from your preload script's isolated context to the context the website is running in. The API will also be accessible from the website on `window.myAPI` just like it was before.
+
+```javascript title='preload.js'
+// preload with contextIsolation enabled
 const { contextBridge } = require('electron')
 
 contextBridge.exposeInMainWorld('myAPI', {
@@ -44,26 +43,63 @@ contextBridge.exposeInMainWorld('myAPI', {
 })
 ```
 
-O módulo [`contextBridge`](../api/context-bridge.md) pode ser usado para **expor as APIs com segurança** do contexto isolado no qual seu script de pré-carga é executado para o contexto no qual o site está sendo executado. A API também estará acessível no site `window.myAPI` como antes.
+```javascript title='renderer.js'
+// use the exposed API in the renderer
+window.myAPI.doAThing()
+```
 
-Você deve ler a documentação `contextBridge` ligada acima para entender completamente suas limitações.  Por exemplo, você não pode enviar protótipos ou símbolos personalizados para a ponte.
+Please read the `contextBridge` documentation linked above to fully understand its limitations. For instance, you can't send custom prototypes or symbols over the bridge.
 
-## Considerações de segurança
+## Security considerations
 
-Apenas habilitar `contextIsolação` e usar `contextBridge` não significa automaticamente que tudo o que você faz é seguro.  Por exemplo, esse código é **inseguro**.
+Just enabling `contextIsolation` and using `contextBridge` does not automatically mean that everything you do is safe. For instance, this code is **unsafe**.
 
-```javascript
-// ❌ Código inválido
+```javascript title='preload.js'
+// ❌ Bad code
 contextBridge.exposeInMainWorld('myAPI', {
   send: ipcRenderer.send
 })
 ```
 
-Ele expõe diretamente uma API poderosa sem qualquer tipo de filtragem de argumento. Isso permitirá que qualquer site envie mensagens IPC arbitrárias que você não quer que sejam possíveis. A maneira correta de expor APIs baseadas em IPC seria fornecendo um método por mensagem IPC.
+It directly exposes a powerful API without any kind of argument filtering. This would allow any website to send arbitrary IPC messages, which you do not want to be possible. The correct way to expose IPC-based APIs would instead be to provide one method per IPC message.
 
-```javascript
-// ✅ Um bom código
+```javascript title='preload.js'
+// ✅ Good code
 contextBridge.exposeInMainWorld('myAPI', {
   loadPreferences: () => ipcRenderer.invoke('load-prefs')
 })
 ```
+
+## Usage with TypeScript
+
+If you're building your Electron app with TypeScript, you'll want to add types to your APIs exposed over the context bridge. The renderer's `window` object won't have the correct typings unless you extend the types with a [declaration file][].
+
+For example, given this `preload.ts` script:
+
+```typescript title='preload.ts'
+contextBridge.exposeInMainWorld('electronAPI', {
+  loadPreferences: () => ipcRenderer.invoke('load-prefs')
+})
+```
+
+You can create a `renderer.d.ts` declaration file and globally augment the `Window` interface:
+
+```typescript title='renderer.d.ts'
+export interface IElectronAPI {
+  loadPreferences: () => Promise<void>,
+}
+
+declare global {
+  interface Window {
+    electronAPI: IElectronAPI
+  }
+}
+```
+
+Doing so will ensure that the TypeScript compiler will know about the `electronAPI` property on your global `window` object when writing scripts in your renderer process:
+
+```typescript title='renderer.ts'
+window.electronAPI.loadPreferences()
+```
+
+[declaration file]: https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html

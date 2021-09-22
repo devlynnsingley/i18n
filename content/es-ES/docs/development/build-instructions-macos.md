@@ -1,8 +1,8 @@
-# Instrucciones para compilación (macOS)
+# Instrucciones de compilación (macOS)
 
-Siga las pautas a continuación para construir Electron en macOS.
+Follow the guidelines below for building **Electron itself** on macOS, for the purposes of creating custom Electron binaries. For bundling and distributing your app code with the prebuilt Electron binaries, see the [application distribution][application-distribution] guide.
 
-## Prerequisitos
+## Prerequisites
 
 * macOS >= 10.11.6
 * [Xcode](https://developer.apple.com/technologies/tools/) >= 9.0.0
@@ -42,3 +42,5 @@ Las compilaciones oficiales de Electron son construidas con [Xcode 12.2](https:/
 ## Construyendo Electron
 
 Ver [Build Instructions: GN](build-instructions-gn.md).
+
+[application-distribution]: ../tutorial/application-distribution.md

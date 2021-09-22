@@ -1,10 +1,12 @@
+# BrowserView
+
+Eine `Browseransicht` kann verwendet werden, um zusätzliche Webinhalte in ein [`BrowserWindow`](browser-window.md) einzubetten. Es ist wie ein untergeordnetes Fenster, mit der Ausnahme, dass es relativ zu dem übergeordneten Fenster positioniert ist. Es ist als Alternative zum `Webview` Tag gedacht.
+
 ## Klasse: BrowserView
 
 > Erstelle und kontrolliere Ansichten.
 
-Prozess: [Main](../glossary.md#main-process)
-
-A `BrowserView` can be used to embed additional web content into a [`BrowserWindow`](browser-window.md). It is like a child window, except that it is positioned relative to its owning window. It is meant to be an alternative to the `webview` tag.
+Prozess: [Haupt](../glossary.md#main-process)
 
 ### Beispiel
 
@@ -33,30 +35,30 @@ Objekte, die mit `new BrowserView` erstellt wurden, haben folgende Eigenschaften
 
 A [`WebContents`](web-contents.md) object owned by this view.
 
-### Instanz Methoden
+### Beispiel Methoden
 
 Objekte, die mit `new BrowserView` erstellt wurden, haben folgende Instanzmethoden:
 
-#### `view.setAutoResize(options)` _Experimentell_
+#### `view.setAutoResize(options)` _Experimental_
 
-* `options` Object
-  * `width` Boolean (optional) - If `true`, the view's width will grow and shrink together with the window. `false` by default.
-  * `height` Boolean (optional) - If `true`, the view's height will grow and shrink together with the window. `false` by default.
-  * `horizontal` Boolean (optional) - If `true`, the view's x position and width will grow and shrink proportionally with the window. `false` by default.
-  * `vertical` Boolean (optional) - If `true`, the view's y position and height will grow and shrink proportionally with the window. `false` by default.
+* `options` Objekt
+  * `width` Boolean (optional) - Wenn `true`, wächst und schrumpft die Breite der Ansicht zusammen mit dem übergeordneten Fenster. Automatisch `false`.
+  * `height` Boolean (optional) - Wenn `true`, wächst und schrumpft die Höhe der Ansicht zusammen mit dem übergeordneten Fenster. Automatisch `false`.
+  * `horizontal` Boolean (optional) - Wenn `true`, ändert sich sowohl die X-Position als auch die Breite der Ansicht zusammen mit dem übergeordneten Fenster. Automatisch `false`.
+  * `vertical` Boolean (optional) - Wenn `true`, ändert sich sowohl die Y-Position als auch die Höhe der Ansicht zusammen mit dem übergeordneten Fenster. Automatisch `false`.
 
-#### `view.setBounds(bounds)` _Experimentell_
+#### `view.setBounds(bounds)` _Experimental_
 
-* `bounds` [Rectangle](structures/rectangle.md) Boundings des Displays
+* `bounds` [Rectangle](structures/rectangle.md) Die Grenzen der Ansicht als Rechteck
 
-Resizes and moves the view to the supplied bounds relative to the window.
+Passt die Ansicht an die Dimensionen und die Ausrichtung des Rechteckes relativ zum übergeordneten Fenster an.
 
 #### `view.getBounds()` _Experimental_
 
-Returns [`Rectangle`](structures/rectangle.md)
+Gibt [`Rectangle`](structures/rectangle.md) zurück
 
-The `bounds` of this BrowserView instance as `Object`.
+Die `bounds` dieser BrowserView-Instanz als `Object`.
 
-#### `view.setBackgroundColor(color)` _Experimentell_
+#### `view.setBackgroundColor(color)` _Experimental_
 
-* `color` String - Color in `#aarrggbb` or `#argb` form. The alpha channel is optional.
+* `color` String - Farbe in `#aarrggbb` oder `#argb` Form. Der Alpha-Kanal ist optional.

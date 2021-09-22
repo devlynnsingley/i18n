@@ -1,14 +1,16 @@
-# MessagePortMain
+# Título 1 Xpath:/h 1
 
 `MessagePortMain` is the main-process-side equivalent of the DOM [`MessagePort`][] object. It behaves similarly to the DOM version, with the exception that it uses the Node.js `EventEmitter` event system, instead of the DOM `EventTarget` system. This means you should use `port.on('message', ...)` to listen for events, instead of `port.onmessage = ...` or `port.addEventListener('message', ...)`
 
-See the [Channel Messaging API][] documentation for more information on using channel messaging.
+Ve la documentacion de [Channel Messaging API][] para mas información sobre el uso de channel messaging.
 
 `MessagePortMain` is an \[EventEmitter\]\[event-emitter\].
 
 ## Clase: MessagePortMain
 
-Proceso: [Main](../glossary.md#main-process)
+> Interfaz del puerto para la mensajería de canales del proceso principal.
+
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### Métodos de Instancia
 

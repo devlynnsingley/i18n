@@ -1,4 +1,4 @@
-# contextBridge
+# kontextBridge
 
 > Create a safe, bi-directional, synchronous bridge across isolated contexts
 
@@ -32,13 +32,13 @@ The "Main World" is the JavaScript context that your main renderer code runs in.
 
 ### Isolated World
 
-When `contextIsolation` is enabled in your `webPreferences`, your `preload` scripts run in an "Isolated World".  You can read more about context isolation and what it affects in the [security](../tutorial/security.md#3-enable-context-isolation-for-remote-content) docs.
+When `contextIsolation` is enabled in your `webPreferences` (this is the default behavior since Electron 12.0.0), your `preload` scripts run in an "Isolated World".  You can read more about context isolation and what it affects in the [security](../tutorial/security.md#3-enable-context-isolation-for-remote-content) docs.
 
 ## Methoden
 
-The `contextBridge` module has the following methods:
+Das `contextBridge` Modul hat folgende Methoden:
 
-### `contextBridge.exposeInMainWorld(apiKey, api)` _Experimental_
+### `contextBridge.exposeInMainWorld(apiKey, api)`
 
 * `apiKey` String - The key to inject the API onto `window` with.  The API will be accessible on `window[apiKey]`.
 * `api` any - Your API, more information on what this API can be and how it works is available below.
@@ -47,7 +47,7 @@ The `contextBridge` module has the following methods:
 
 ### API
 
-The `api` provided to [`exposeInMainWorld`](#contextbridgeexposeinmainworldapikey-api-experimental) must be a `Function`, `String`, `Number`, `Array`, `Boolean`, or an object whose keys are strings and values are a `Function`, `String`, `Number`, `Array`, `Boolean`, or another nested object that meets the same conditions.
+The `api` provided to [`exposeInMainWorld`](#contextbridgeexposeinmainworldapikey-api) must be a `Function`, `String`, `Number`, `Array`, `Boolean`, or an object whose keys are strings and values are a `Function`, `String`, `Number`, `Array`, `Boolean`, or another nested object that meets the same conditions.
 
 `Function` values are proxied to the other context and all other values are **copied** and **frozen**. Any data / primitives sent in the API become immutable and updates on either side of the bridge do not result in an update on the other side.
 
@@ -98,6 +98,24 @@ Because parameters, errors and return values are **copied** when they are sent o
 | `Promise`                                                                                                      | Complex    | ✅                 | ✅                    | Promises are only proxied if they are the return value or exact parameter.  Promises nested in arrays or objects will be dropped.                                                                              |
 | `Funktion`                                                                                                     | Complex    | ✅                 | ✅                    | Prototype modifications are dropped.  Sending classes or constructors will not work.                                                                                                                           |
 | [Cloneable Types](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm) | Simple     | ✅                 | ✅                    | See the linked document on cloneable types                                                                                                                                                                     |
+| `Element`                                                                                                      | Complex    | ✅                 | ✅                    | Prototype modifications are dropped.  Sending custom elements will not work.                                                                                                                                   |
+| `Blob`                                                                                                         | Complex    | ✅                 | ✅                    | N/A                                                                                                                                                                                                            |
 | `Symbol`                                                                                                       | N/A        | ❌                 | ❌                    | Symbols cannot be copied across contexts so they are dropped                                                                                                                                                   |
 
 If the type you care about is not in the above table, it is probably not supported.
+
+### Exposing Node Global Symbols
+
+The `contextBridge` can be used by the preload script to give your renderer access to Node APIs. The table of supported types described above also applies to Node APIs that you expose through `contextBridge`. Please note that many Node APIs grant access to local system resources. Be very cautious about which globals and APIs you expose to untrusted remote content.
+
+```javascript
+const { contextBridge } = require('electron')
+const crypto = require('crypto')
+contextBridge.exposeInMainWorld('nodeCrypto', {
+  sha256sum (data) {
+    const hash = crypto.createHash('sha256')
+    hash.update(data)
+    return hash.digest('hex')
+  }
+})
+```

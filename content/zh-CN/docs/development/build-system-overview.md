@@ -6,8 +6,8 @@ Electron 使用 [GN](https://gn.googlesource.com/gn) 生成项目，并用 [Ninj
 
 The following `gn` files contain the main rules for building Electron:
 
-* `BUILD.gn` defines how Electron itself is built and includes the default configurations for linking with Chromium.
-* `build/args/{debug,release,all}.gn` contain the default build arguments for building Electron.
+* `BUILD.gn` 指明了如何构建 Electron，还包括与 Chromium 相关的默认配置。
+* `build/args/{debug,release,all}.gn` 包含 Electron 的默认构建参数。
 
 ## 分块构建
 
@@ -17,7 +17,7 @@ Electron 也继承了 Chromium 这一构建方式。 在 `Debug` 模式下构建
 
 ## 测试
 
-**NB** _this section is out of date and contains information that is no longer relevant to the GN-built electron._
+**注意：**_此内容已经过时，部分信息对于使用 GN 构建的 Electron 已不再适用。</p>
 
 使用以下方式测试你的修改符合项目编码风格：
 

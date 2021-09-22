@@ -1,20 +1,20 @@
-# Instrucciones para compilación (Windows)
+# Instrucciones de compilación (Windows)
 
-Siga las indicaciones a continuación para compilar Electron en Windows.
+Follow the guidelines below for building **Electron itself** on Windows, for the purposes of creating custom Electron binaries. For bundling and distributing your app code with the prebuilt Electron binaries, see the [application distribution][application-distribution] guide.
 
-## Prerequisitos
+## Prerequisites
 
 * Windows 10 / Server 2012 R2 o superior
 * Visual Studio 2017 15.7.2 o posterior - [descargue de manera gratuita de VS 2019 Community Edition](https://www.visualstudio.com/vs/)
   * Vea [the Chromium build documentation](https://chromium.googlesource.com/chromium/src/+/master/docs/windows_build_instructions.md#visual-studio) para mas detalles sobre cuales componentes de Visual Studio son requeridos.
   * Si tu Visual Studio está instalado en un directorio diferente que el predeterminado, necesitarás establecer unas pocas variables de entorno para apuntar las toolchains a tu ruta de instalación.
     * `vs2019_install = DRIVE:\path\to\Microsoft Visual Studio\2019\Community`, sustituyendo `2019` y `Comunidad` por sus versiones instaladas y sustituyendo `DRIVE:` por la unidad en la que Visual Studio está activada. A menudo, esto será `C:`.
-    * `WINDOWSSDKDIR = DRIVE:\path\to\Windows Kits\10`, reemplazar `DRIVE:` con la unidad en la que están los kits de Windows. A menudo, esto será `C:`.
+    * `WINDOWSSDKDIR = DRIVE:\path\to\Windows Kits\10`, replacing `DRIVE:` with the drive that Windows Kits is on. A menudo, esto será `C:`.
   * También se necesita la [extensión de Python para Windows (pywin32)](https://pypi.org/project/pywin32/#files) para ejecutar el proceso de compilación.
 * [Node.js](https://nodejs.org/download/)
 * [Git](https://git-scm.com)
 * Debugging Tools for Windows of Windows SDK 10.0.15063.468 if you plan on creating a full distribution since `symstore.exe` is used for creating a symbol store from `.pdb` files.
-  * Diferentes versiones del SDK se pueden instalar juntas. Para instalar el SDK, abre Visual Studio Installer, selecciona `Cambiar` → `Componentes Individuales`, desplázate hacia abajo y selecciona el SDK apropiado para Windows para instalar. Otra opción sería mirar el [Windows SDK y el archivo emulador](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive) y descargar la versión independiente del SDK respectivamente.
+  * Diferentes versiones del SDK se pueden instalar juntas. To install the SDK, open Visual Studio Installer, select `Modify` → `Individual Components`, scroll down and select the appropriate Windows SDK to install. Otra opción sería mirar el [Windows SDK y el archivo emulador](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive) y descargar la versión independiente del SDK respectivamente.
   * Las herramientas de depuración de SDK también deben ser instaladas.https://crowdin.com/translate/electron/13/en-es#246828 Si el SDK de Windows 10 fue instalado a través del instalador de Visual Studio, entonces se puede instalar yendo a: `Panel de Control` → `Programas ` → `Programas y Características` → Seleccione "Windows Software Development Kit" → `Change` → `Change` → Check "Debugging Tools For Windows" → `Change`. O puede descargar el instalador independiente del SDK y usarlo para instalar el Debugging Tools.
 
 Si actualmente no tiene una instalación de Windows, [dev.microsoftedge.com](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/) tiene versiones temporales de Windows que usted puede usar para construir Electron.
@@ -23,13 +23,13 @@ Electron se construye casi completamente con script de comandos de linea y no pu
 
 **Nota:** A pesar de que Visual Studio no es usado para construir, todavía se **requiere** debido a que necesitamos las herramientas que provee para construir.
 
-## Excluir el árbol de origen de la seguridad de Windows
+## Exclude source tree from Windows Security
 
-La seguridad de Windows no le gusta uno de los archivos en el código fuente de Chromium (consulta https://crbug.com/441184), por lo que lo eliminará constantemente, lo que provoca problemas de `gclient sync` . Puedes excluir el árbol de origen de ser supervisado por seguridad de Windows al [siguiendo estas instrucciones](https://support.microsoft.com/en-us/windows/add-an-exclusion-to-windows-security-811816c0-4dfd-af4a-47e4-c301afe13b26).
+Windows Security doesn't like one of the files in the Chromium source code (see https://crbug.com/441184), so it will constantly delete it, causing `gclient sync` issues. You can exclude the source tree from being monitored by Windows Security by [following these instructions](https://support.microsoft.com/en-us/windows/add-an-exclusion-to-windows-security-811816c0-4dfd-af4a-47e4-c301afe13b26).
 
 ## Compilando
 
-Ver [Build Instructions: GN](build-instructions-gn.md)
+See [Build Instructions: GN](build-instructions-gn.md)
 
 ## Arquitectura 32bit
 
@@ -46,7 +46,7 @@ El resto de los pasos son exactamente los mismos.
 Para generar un project de Visual Studio, puede pasar el parametro `--ide=vs2017` a `gn gen`:
 
 ```powershell
-$ gn gen out/Debug --ide=vs2017
+$ gn gen out/Testing --ide=vs2017
 ```
 
 ## Problemas
@@ -94,3 +94,5 @@ Asegúrese de haber instalado `pywin32` con `pip install pywin32`.
 ### Los scripts de compilacion se bloquean haste que se presione una tecla
 
 Este error es una "característica" del intérprete de comandos de Windows. Ocurre cuando se pulsa dentro de la ventana prompt con `QuickEdit` habilitado y está destinado a permitir seleccionar y copiar el texto de la salida fácilmente. Dado que cada click accidental pausará el proceso de compilación, puede que quiera desactivar esta característica en la propiedades del símbolo del sistema.
+
+[application-distribution]: ../tutorial/application-distribution.md

@@ -61,9 +61,9 @@ node --cpu-prof --heap-prof -e "require('request')"
 
 执行此命令将在您执行的目录下生成一个`.cpuprofile`和一个`.heapprofile` 文件。 这两个文件都可以使用 Chrome 开发者工具进行分析，分别使用 `Performance` 和 `Memory` 标签 进行分析。
 
-![performance-cpu-prof][]
+![Performance CPU Profile](../images/performance-cpu-prof.png)
 
-![performance-heap-prof][]
+![Performance Heap Memory Profile](../images/performance-heap-prof.png)
 
 在这个例子里，我们看到在作者的机器上加载`request` 大概用了半秒钟，其中 `node-fetch`明显占用了极少的内存并且加载用时少于 50ms。
 
@@ -113,8 +113,8 @@ const fs = require('fs')
 class Parser {
   async getFiles () {
     // Touch the disk as soon as `getFiles` is called, not sooner.
-    // 另外，请确保我们不会使用
-    // 异步版本来阻止其他操作。
+    // Also, ensure that we're not blocking other operations by using
+    // the asynchronous version.
     this.files = this.files || await fs.readdir('.')
 
     return this.files
@@ -123,20 +123,20 @@ class Parser {
   async getParsedFiles () {
     // Our fictitious foo-parser is a big and expensive module to load, so
     // defer that work until we actually need to parse files.
-    // 既然`require()` 里有一个模块缓存， `require()`调用
-    // 只会花费一次——其后的 `getParsedFiles()`
-    // 将会更快。
+    // Since `require()` comes with a module cache, the `require()` call
+    // will only be expensive once - subsequent calls of `getParsedFiles()`
+    // will be faster.
     const fooParser = require('foo-parser')
-    const files = required this.getFiles()
+    const files = await this.getFiles()
 
-    return fooParser。 arse(files)
+    return fooParser.parse(files)
   }
 }
 
-// 此操作现在比我们以前的示例
-const 解析器 = 新的 Parser()
+// This operation is now a lot cheaper than in our previous example
+const parser = new Parser()
 
-模块便宜得多。 xports = { parser }
+module.exports = { parser }
 ```
 
 简而言之，只有当需要的时候才分配资源，而不是在你的应用启动时分配所有。
@@ -161,7 +161,7 @@ Electron强大的多进程架构随时准备帮助你完成你的长期任务，
 
 2) 尽可能避免使用同步IPC 和 `remote` 模块。 虽然有合法的使用案例，但使用`remote`模块的时候非常容易不知情地阻塞 UI线程。
 
-3) 避免在主进程中使用阻止I/O操作。 简而言之，每当Node.js的核心模块 (如`fs` 或 `child_process`) 提供一个同步版本或 异步版本，你更应该使用异步和非阻塞式的变量。
+3) Avoid using blocking I/O operations in the main process. 简而言之，每当Node.js的核心模块 (如`fs` 或 `child_process`) 提供一个同步版本或 异步版本，你更应该使用异步和非阻塞式的变量。
 
 ## 4) 阻塞渲染进程
 
@@ -240,8 +240,6 @@ Electron的一大好处是，你准确地知道哪个引擎将解析你的 JavaS
 在撰写这篇文章时，受欢迎的选择包括[Webpack][webpack], [Parcel][parcel]和[rollup.js][rollup]。
 
 [security]: ./security.md
-[performance-cpu-prof]: ../images/performance-cpu-prof.png
-[performance-heap-prof]: ../images/performance-heap-prof.png
 [chrome-devtools-tutorial]: https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/
 [worker-threads]: https://nodejs.org/api/worker_threads.html
 [web-workers]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers

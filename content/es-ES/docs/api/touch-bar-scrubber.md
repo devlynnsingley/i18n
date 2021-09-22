@@ -2,7 +2,7 @@
 
 > Crear un depurador (un selector de desplazamiento)
 
-Proceso: [Main](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### `new TouchBarScrubber(options)`
 
@@ -12,23 +12,23 @@ Proceso: [Main](../glossary.md#main-process)
     * `seleccionar índice` Entero - El índice del elemento que el usuario seleccionó.
   * `highlight` Function (optional) - Called when the user taps any item.
     * `índice destacado` Entero - El índice del elemento que el usuario tocó.
-  * `selectedStyle` String (optional) - Selected item style. Can be `background`, `outline` or `none`. Defaults to `none`.
-  * `overlayStyle` String (optional) - Selected overlay item style. Can be `background`, `outline` or `none`. Defaults to `none`.
-  * `showArrowButtons` Boolean (opcional) - Por defecto a `false`.
-  * `mode` String (optional) - Can be `fixed` or `free`. The default is `free`.
+  * `selectedStyle` String (opcional) - Estilo de elemento seleccionado. Puede ser `background`, `outline` o `none`. Por defecto es `none`.
+  * `overlayStyle` String (opcional) - Estilo de elemento de superposición seleccionado. Puede ser `background`, `outline` o `none`. Por defecto es `none`.
+  * `showArrowButtons` Boolean (optional) - Whether to show arrow buttons. Defaults to `false` and is only shown if `items` is non-empty.
+  * `mode` String (opcional) - Puede ser `fixed` o `free`. Por defecto es `free`.
   * `continuous` Boolean (opcional) - Por defecto a `true`.
 
-### Propiedades de Instancia
+### Propiedades de la instancia
 
 Las siguientes propiedades está disponibles en instancias del `depurador de barra tactil`:
 
 #### `touchBarScrubber.items`
 
-Un array de `ScrubberItem[]` representando los elementos en este depurador. Actualizar este valor actualiza inmediatamente el control en la barra táctil. Mientras se actualicen propiedades profundas en este arreglo **no actualice la barra táctil**.
+Un array de `ScrubberItem[]` representando los elementos en este depurador. Actualiza este valor inmediatamente actualiza el control de la barra táctil. Mientras se actualicen las propiedades profundas dentro de este arreglo **no se actualiza la barra táctil**.
 
 #### `touchBarScrubber.selectedStyle`
 
-Una `Cadena` que representa el estilo que deben tener los elementos seleccionados por el depurador. Actualizar este valor actualiza inmediatamente el control en la barra táctil. Posibles valores:
+Una `Cadena` que representa el estilo que deben tener los elementos seleccionados por el depurador. Actualiza este valor inmediatamente actualiza el control de la barra táctil. Posibles valores:
 
 * `background` - Mapa a `[NSScrubberSelectionStyle roundedBackgroundStyle]`.
 * `outline` - Mapa a `[NSScrubberSelectionStyle outlineOverlayStyle]`.
@@ -44,15 +44,15 @@ Una `Cadena` que representa el estilo que deben tener los elementos seleccionado
 
 #### `touchBarScrubber.showArrowButtons`
 
-A `Boolean` representing whether to show the left / right selection arrows in this scrubber. Updating this value immediately updates the control in the touch bar.
+A `Boolean` representing whether to show the left / right selection arrows in this scrubber. Actualizar este valor inmediatamente actualiza el control en el touch bar.
 
 #### `touchBarScrubber.mode`
 
-A `String` representing the mode of this scrubber. Actualizar este valor actualiza inmediatamente el control en la barra táctil. Posibles valores:
+Un `String` que representa el modo de este depurador. Actualiza este valor inmediatamente actualiza el control de la barra táctil. Posibles valores:
 
 * `fijo` - Mapa a `NSScrubberModeFixed`.
 * `libre` - Mapa a `NSScrubberModeFree`.
 
 #### `touchBarScrubber.continuous`
 
-A `Boolean` representing whether this scrubber is continuous or not. Actualizar este valor actualiza inmediatamente el control en la barra táctil.
+Un `Boolean` que representa si este depurador es continuo o no. Actualiza este valor inmediatamente actualiza el control de la barra táctil.

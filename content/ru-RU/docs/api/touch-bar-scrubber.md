@@ -2,7 +2,7 @@
 
 > Create a scrubber (a scrollable selector)
 
-Процесс: [Основной](../glossary.md#main-process)
+Process: [Main](../glossary.md#main-process)<br /> _This class is not exported from the `'electron'` module. It is only available as a return value of other methods in the Electron API._
 
 ### `new TouchBarScrubber(options)`
 
@@ -14,9 +14,9 @@
     * `highlightedIndex` Integer - The index of the item the user touched.
   * `selectedStyle` String (optional) - Selected item style. Can be `background`, `outline` or `none`. Defaults to `none`.
   * `overlayStyle` String (optional) - Selected overlay item style. Can be `background`, `outline` or `none`. Defaults to `none`.
-  * `showArrowButtons` Boolean (optional) - Defaults to `false`.
-  * `mode` String (optional) - Can be `fixed` or `free`. The default is `free`.
-  * `continuous` Boolean (optional) - Defaults to `true`.
+  * `showArrowButtons` Boolean (опционально) - если нужно показать кнопки со стрелками. По умолчанию `false` и показывается только если `элемент` присутствует.
+  * `mode` String (опционально) - Может быть `fixed` или `free`. The default is `free`.
+  * `continuous` Boolean (опиционально) - по умолчанию `true`.
 
 ### Свойства экземпляра
 
